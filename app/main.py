@@ -1,13 +1,21 @@
+import os
 # will use this for compatibility
-# but more convinient syntax is already released: a | b
+# but more convenient syntax is already released: a | b
 from typing import Union
 
-from fastapi import FastAPI
-
-# data validation, serialisation
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+from databases import Database
+
+DATABASE_URL = os.getenv("DATABASE_URL")
+if DATABASE_URL is None:
+    raise EnvironmentError(f"env var '{DATABASE_URL}' not found.")
+database = Database(DATABASE_URL)
+print(f"Database URL: {DATABASE_URL}")
+
 
 app = FastAPI()
+
 
 class Item(BaseModel):
     name: str
@@ -15,14 +23,49 @@ class Item(BaseModel):
     is_offer: Union[bool, None] = None
 
 
-@app.get('/')
+@app.on_event("startup")
+async def startup():
+    await database.connect()
+
+
+@app.on_event("shutdown")
+async def shutdown():
+    await database.disconnect()
+
+
+@app.get("/")
 def read_root():
     return {"Hey": "Hey"}
 
-@app.get('/items/{item_id}')
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {'item_id': item_id, 'q': q}
 
-@app.put('/items/{item_id}')
-def update_item(item_id: int, item: Item):
-    return {'item_name': item.name, 'item_id': item_id}
+@app.get("/items/{item_id}")
+async def read_item(item_id: int, q: Union[str, None] = None):
+    query = "SELECT * FROM items WHERE id = :item_id"
+    item = await database.fetch_one(query, values={"item_id": item_id})
+
+    if item is None:
+        raise HTTPException(status_code=404, detail="Item not found")
+
+    return {"item": item, "q": q}
+
+
+@app.put("/items/{item_id}")
+async def update_item(item_id: int, item: Item):
+    query = """
+    UPDATE items
+    SET name = :name, price = :price, is_offer = :is_offer
+    WHERE id = :item_id
+    RETURNING id, name, price, is_offer
+    """
+    values = {
+        "name": item.name,
+        "price": item.price,
+        "is_offer": item.is_offer,
+        "item_id": item_id,
+    }
+    updated_item = await database.fetch_one(query, values)
+
+    if updated_item is None:
+        raise HTTPException(status_code=404, detail="Item not found")
+
+    return {"updated_item": updated_item}
