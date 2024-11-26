@@ -1,4 +1,3 @@
-import os
 # will use this for compatibility
 # but more convenient syntax is already released: a | b
 from typing import Union
@@ -6,15 +5,15 @@ from typing import Union
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from databases import Database
+from app.utils.helpers import get_env_variable
+from app.api.routers import router
 
-DATABASE_URL = os.getenv("DATABASE_URL")
-if DATABASE_URL is None:
-    raise EnvironmentError(f"env var '{DATABASE_URL}' not found.")
+DATABASE_URL = get_env_variable('DATABASE_URL')
 database = Database(DATABASE_URL)
-print(f"Database URL: {DATABASE_URL}")
-
 
 app = FastAPI()
+
+app.include_router(router)
 
 
 class Item(BaseModel):
