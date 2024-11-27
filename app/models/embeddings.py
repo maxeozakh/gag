@@ -5,7 +5,7 @@ from app.utils.helpers import get_env_variable
 openai.api_key = get_env_variable("OPENAI_API_KEY")
 
 
-async def get_embedding(query: str, model: str = "text-embedding-ada-002"):
+async def get_embedding(query: str, model: str = "text-embedding-3-small"):
     """
     Fetch vector embeddings for a given query using OpenAI API.
 

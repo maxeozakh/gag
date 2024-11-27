@@ -1,28 +1,25 @@
 -- Enable the pgvector extension
 CREATE EXTENSION IF NOT EXISTS vector;
 
--- Create the ig_data table
 CREATE TABLE ig_data (
     id SERIAL PRIMARY KEY,
-    username TEXT NOT NULL,  -- Renamed from "user"
+    username TEXT NOT NULL, 
     content TEXT NOT NULL,
     metadata JSONB,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Create the vectors table
-CREATE TABLE vectors (
-    id SERIAL PRIMARY KEY,
-    ig_data_id INT REFERENCES ig_data(id) ON DELETE CASCADE,
-    vector VECTOR(128),  -- Use the vector type
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
 
--- Seed the ig_data table with initial data
 INSERT INTO ig_data (username, content, metadata) VALUES
 ('test_user', 'Sample post 1', '{"likes": 100}'),
 ('test_user', 'Sample post 2', '{"likes": 200}');
 
+CREATE TABLE vectors (
+    id SERIAL PRIMARY KEY,
+    ig_data_id INT REFERENCES ig_data(id) ON DELETE CASCADE,
+    vector VECTOR(1536), 
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
 CREATE TABLE items (
     id SERIAL PRIMARY KEY,
