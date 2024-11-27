@@ -1559,4 +1559,4 @@ CREATE TABLE answers (
 
 -- Insert sample data into answers
 INSERT INTO answers (content, vector_id) VALUES
-('Sample post 1', '1');
+('Tsss... This is a huge secret but Ill tell you..', '1');
