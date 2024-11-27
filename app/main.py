@@ -1,22 +1,15 @@
-# will use this for compatibility
-# but more convenient syntax is already released: a | b
-from typing import Union
-
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.responses import HTMLResponse
+from fastapi.templating import Jinja2Templates
 
 from app.api.routers import router
 from app.models.database import connect_db, disconnect_db, database
 
+templates = Jinja2Templates(directory="app/templates")
+
 app = FastAPI()
 
 app.include_router(router)
-
-
-class Item(BaseModel):
-    name: str
-    price: float
-    is_offer: Union[bool, None] = None
 
 
 @app.on_event("startup")
@@ -29,20 +22,12 @@ async def shutdown():
     await disconnect_db()
 
 
-@app.get("/")
-def read_root():
-    return {"Hey": "Hey"}
-
-
-@app.get("/items/{item_id}")
-async def read_item(item_id: int, q: Union[str, None] = None):
-    query = "SELECT * FROM items WHERE id = :item_id"
-    item = await database.fetch_one(query, values={"item_id": item_id})
-
-    if item is None:
-        raise HTTPException(status_code=404, detail="Item not found")
-
-    return {"item": item, "q": q}
+@app.get("/", response_class=HTMLResponse)
+async def read_root(request: Request):
+    """
+    Render the index.html page.
+    """
+    return templates.TemplateResponse("index.html", {"request": request, "title": "Home"})
 
 
 @app.get("/vectors/{vector_id}")
@@ -54,25 +39,3 @@ async def read_vector(vector_id: int):
         raise HTTPException(status_code=404, detail="Vector not found")
 
     return {"vector": vector}
-
-
-@app.put("/items/{item_id}")
-async def update_item(item_id: int, item: Item):
-    query = """
-    UPDATE items
-    SET name = :name, price = :price, is_offer = :is_offer
-    WHERE id = :item_id
-    RETURNING id, name, price, is_offer
-    """
-    values = {
-        "name": item.name,
-        "price": item.price,
-        "is_offer": item.is_offer,
-        "item_id": item_id,
-    }
-    updated_item = await database.fetch_one(query, values)
-
-    if updated_item is None:
-        raise HTTPException(status_code=404, detail="Item not found")
-
-    return {"updated_item": updated_item}

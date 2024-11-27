@@ -12,9 +12,9 @@ async def find_similar_vectors(query_embedding, threshold=0.4, limit=1):
 
     # Inline the vector directly into the query string
     query = f"""
-    SELECT v.id, v.ig_data_id, i.username, i.content, i.metadata, v.vector <=> '{vector_as_string}'::VECTOR AS similarity
+    SELECT v.id, v.answers_id, i.content, i.metadata, v.vector <=> '{vector_as_string}'::VECTOR AS similarity
     FROM vectors v
-    JOIN ig_data i ON v.ig_data_id = i.id
+    JOIN answers i ON v.answers_id = i.id
     WHERE v.vector <=> '{vector_as_string}'::VECTOR < {threshold}
     ORDER BY similarity
     LIMIT {limit};
