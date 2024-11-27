@@ -4,12 +4,9 @@ from typing import Union
 
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from databases import Database
-from app.utils.helpers import get_env_variable
-from app.api.routers import router
 
-DATABASE_URL = get_env_variable('DATABASE_URL')
-database = Database(DATABASE_URL)
+from app.api.routers import router
+from app.models.database import connect_db, disconnect_db, database
 
 app = FastAPI()
 
@@ -24,12 +21,12 @@ class Item(BaseModel):
 
 @app.on_event("startup")
 async def startup():
-    await database.connect()
+    await connect_db()
 
 
 @app.on_event("shutdown")
 async def shutdown():
-    await database.disconnect()
+    await disconnect_db()
 
 
 @app.get("/")
@@ -46,6 +43,17 @@ async def read_item(item_id: int, q: Union[str, None] = None):
         raise HTTPException(status_code=404, detail="Item not found")
 
     return {"item": item, "q": q}
+
+
+@app.get("/vectors/{vector_id}")
+async def read_vector(vector_id: int):
+    query = "SELECT * FROM vectors WHERE id = :vector_id"
+    vector = await database.fetch_one(query, values={"vector_id": vector_id})
+
+    if vector is None:
+        raise HTTPException(status_code=404, detail="Vector not found")
+
+    return {"vector": vector}
 
 
 @app.put("/items/{item_id}")
