@@ -121,6 +121,7 @@ async def chat(payload: ChatPayload):
             context = f"Relevant content: {search_result['content']}\n\n"
         else:
             context = "No relevant content found.\n\n"
+            return {"answer": "Sorry we didn't find any similar queries so cannot mimic here"}
 
         prompt = f"""You are a smart and stylistically consistent assistant. Your task is to respond to user queries or comments in a way that closely matches the tone, style, and language of the provided context. Whenever a relevant answer from a previous query is available, use its style, phrasing, and structure as a blueprint for your response.
                 Instructions:
