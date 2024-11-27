@@ -1,5 +1,6 @@
 import logging
 from app.models.database import database
+
 logging.basicConfig(level=logging.INFO)
 
 
@@ -12,13 +13,17 @@ async def find_similar_vectors(query_embedding, threshold=0.4, limit=1):
 
     # Inline the vector directly into the query string
     query = f"""
-    SELECT v.id, v.answers_id, i.content, i.metadata, v.vector <=> '{vector_as_string}'::VECTOR AS similarity
+    SELECT v.id AS vector_id, a.id AS answer_id, a.content, v.vector <=> '{vector_as_string}'::VECTOR AS similarity
     FROM vectors v
-    JOIN answers i ON v.answers_id = i.id
+    JOIN answers a ON a.vector_id = v.id
     WHERE v.vector <=> '{vector_as_string}'::VECTOR < {threshold}
     ORDER BY similarity
     LIMIT {limit};
     """
 
-    result = await database.fetch_one(query)
-    return result
+    try:
+        result = await database.fetch_one(query)
+        return result
+    except Exception as e:
+        logging.error(f"Error in find_similar_vectors: {e}")
+        return None

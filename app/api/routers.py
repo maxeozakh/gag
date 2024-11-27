@@ -7,8 +7,26 @@ from app.models.database import database
 router = APIRouter()
 
 
+@router.get("/vectors_original/")
+async def get_vectors_original():
+    """
+
+    Returns:
+        list: A list of vectors original.
+    """
+    query = "SELECT original FROM vectors;"
+    try:
+        results = await database.fetch_all(query)
+        if not results:
+            return {"message": "No vectors found."}
+        return {"vectors_original": results}
+    except Exception as e:
+        raise HTTPException(
+            status_code=500, detail=f"An error occurred: {str(e)}")
+
+
 @router.get("/answers/")
-async def get_all_answers():
+async def get_answers():
     """
     API endpoint to fetch all answers from the database.
 
@@ -69,48 +87,5 @@ async def search_query(payload: SearchPayload):
     return {
         "message": "Relevant data found.",
         "content": result["content"],
-        "metadata": result["metadata"],
         "similarity": result["similarity"],
     }
-
-
-class EmbedAndSavePayload(BaseModel):
-    answers_id: int  # ID of the related IG data
-    content: str     # Content to embed and save
-
-
-@router.post("/embed_and_save/")
-async def embed_and_save(payload: EmbedAndSavePayload):
-    """
-    API endpoint to create an embedding from content and save it to the vectors table.
-
-    Args:
-        payload (EmbedAndSavePayload): JSON body containing answers_id and content.
-
-    Returns:
-        dict: Confirmation of saved vector with metadata.
-    """
-    try:
-        embedding = await get_embedding(payload.content)
-
-        # Convert embedding to a PostgreSQL-compatible format
-        vector_as_string = "[" + ",".join(map(str, embedding)) + "]"
-
-        query = f"""
-        INSERT INTO vectors (answers_id, vector, original)
-        VALUES ({payload.answers_id}, '{vector_as_string}'::VECTOR, '{payload.content}')
-        RETURNING id, answers_id, created_at;
-        """
-        result = await database.fetch_one(query)
-
-        if result is None:
-            raise HTTPException(
-                status_code=500, detail="Failed to save the vector to the database."
-            )
-
-        return {"message": "Vector saved successfully.", "vector_data": result}
-
-    except Exception as e:
-        raise HTTPException(
-            status_code=500, detail=f"An error occurred: {str(e)}"
-        )
