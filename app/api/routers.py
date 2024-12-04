@@ -1,3 +1,5 @@
+from fastapi import HTTPException
+import os
 import openai
 from openai import OpenAI
 from fastapi import APIRouter, HTTPException
@@ -5,6 +7,7 @@ from pydantic import BaseModel
 from app.models.embeddings import get_embedding
 from app.models.vector_search import find_similar_vectors
 from app.models.database import database
+from fastapi.responses import JSONResponse
 
 from app.utils.helpers import get_env_variable
 
@@ -191,3 +194,40 @@ async def chat(payload: ChatPayload):
     except Exception as e:
         raise HTTPException(
             status_code=500, detail=f"An error occurred: {str(e)}")
+
+
+@router.post("/reinit_db/")
+async def reinit_db():
+    """
+    Endpoint to reinitialize the database using the init.sql file.
+    """
+    try:
+        # Path to your init.sql file
+        init_sql_path = os.path.join(
+            os.path.dirname(__file__), "../../init.sql")
+
+        # Check if the file exists
+        if not os.path.exists(init_sql_path):
+            raise HTTPException(
+                status_code=404, detail="init.sql file not found.")
+
+        # Read the SQL file
+        with open(init_sql_path, "r") as sql_file:
+            sql_commands = sql_file.read()
+
+        # Split the commands by semicolon
+        commands = [cmd.strip()
+                    for cmd in sql_commands.split(";") if cmd.strip()]
+
+        # Execute each command separately
+        async with database.transaction():
+            for command in commands:
+                await database.execute(command)
+
+        return JSONResponse(
+            content={"message": "Database reinitialized successfully."}, status_code=200
+        )
+    except Exception as e:
+        raise HTTPException(
+            status_code=500, detail=f"Failed to reinitialize the database: {str(e)}"
+        )

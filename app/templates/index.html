@@ -3,9 +3,252 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>...</title>
+    <title>Naive RAG demo</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #f9f9f9;
+      }
+
+      header {
+        background-color: #4caf50;
+        color: white;
+        padding: 15px;
+        text-align: center;
+        width: 100%;
+      }
+
+      .container {
+        margin: 20px;
+        padding: 20px;
+        border: 1px solid #ddd;
+        background: white;
+        width: 90%;
+        max-width: 800px;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .section {
+        margin-bottom: 20px;
+      }
+
+      h2 {
+        margin-bottom: 10px;
+        font-size: 20px;
+        color: #333;
+        display: inline;
+      }
+
+      button {
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+
+      .data-list {
+        list-style: none;
+        padding: 0;
+      }
+
+      .data-list li {
+        padding: 5px;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .chat-box {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+
+      .chat-output {
+        margin-top: 10px;
+        border-radius: 5px;
+      }
+      .chat-output:not(:empty) {
+        background: #f1f1f1;
+        padding: 10px;
+      }
+      summary {
+        cursor: pointer;
+      }
+    </style>
   </head>
   <body>
-    <h1>:wave:</h1>
+    <header>
+      <h1>That Tea Shop again</h1>
+    </header>
+    <div class="container">
+      <details>
+        <summary>
+          <h2>Questions (original queries which we vectorize)</h2>
+        </summary>
+        <div class="section" id="vector-originals">
+          <ul class="data-list" id="vectors-list"></ul>
+        </div>
+      </details>
+
+      <br />
+      <details>
+        <summary>
+          <h2>
+            Answers (examples of answers from the user to previous questions)
+          </h2>
+        </summary>
+        <div class="section" id="answers">
+          <ul class="data-list" id="answers-list"></ul>
+        </div>
+      </details>
+      <br />
+      <div class="section" id="mapped-data">
+        <h2>Mapped Questions and Answers</h2>
+        <ul class="data-list" id="mapped-list"></ul>
+      </div>
+
+      <div class="section chat-box">
+        <h2>Ask a Question</h2>
+        <input
+          type="text"
+          id="chat-input"
+          placeholder="Enter your question..."
+        />
+        <button id="chat-button">Send</button>
+        <div class="chat-output" id="chat-response"></div>
+      </div>
+    </div>
+
+    <script>
+      async function fetchAndRender(endpoint, listId) {
+        try {
+          const response = await fetch(endpoint);
+          const data = await response.json();
+
+          const list = document.getElementById(listId);
+          list.innerHTML = ""; // Clear existing data
+          if (data.vectors_original) {
+            data.vectors_original.forEach((item) => {
+              const li = document.createElement("li");
+              li.textContent = item.original;
+              list.appendChild(li);
+            });
+          } else if (data.comments) {
+            data.comments.forEach((item) => {
+              const li = document.createElement("li");
+              li.textContent = item.content;
+              list.appendChild(li);
+            });
+          } else {
+            const li = document.createElement("li");
+            li.textContent = "No data available.";
+            list.appendChild(li);
+          }
+
+          return data;
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      }
+
+      async function createAndRenderMap() {
+        try {
+          const vectorsData = await fetch("/vectors_original/");
+          const vectors = (await vectorsData.json()).vectors_original;
+
+          const answersData = await fetch("/answers/");
+          const answers = (await answersData.json()).comments;
+
+          const mappedList = document.getElementById("mapped-list");
+          mappedList.innerHTML = ""; // Clear existing mappings
+
+          vectors.forEach((vector, index) => {
+            const matchingAnswer = answers.find(
+              (answer) => answer.vector_id === index + 1
+            );
+            const li = document.createElement("li");
+            li.textContent = `${vector.original} => ${
+              matchingAnswer ? matchingAnswer.content : "No matching answer"
+            }`;
+            mappedList.appendChild(li);
+          });
+        } catch (error) {
+          console.error("Error mapping vectors to answers:", error);
+        }
+      }
+
+      // Load data on page load and render the map
+      async function initialize() {
+        await fetchAndRender("/vectors_original/", "vectors-list");
+        await fetchAndRender("/answers/", "answers-list");
+        await createAndRenderMap();
+      }
+
+      async function sendChat() {
+        const input = document.getElementById("chat-input");
+        const responseBox = document.getElementById("chat-response");
+        const button = document.getElementById("chat-button");
+        const query = input.value;
+
+        if (!query.trim()) {
+          responseBox.textContent = "Please enter a question.";
+          return;
+        }
+
+        // Set button to "Loading..." state and disable it
+        button.textContent = "Loading...";
+        console.log("mmm");
+        button.disabled = true;
+
+        try {
+          const response = await fetch("/chat/", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ query }),
+          });
+          const data = await response.json();
+
+          if (data.answer) {
+            responseBox.textContent = `${data.answer}`;
+          } else {
+            responseBox.textContent = "No response received.";
+          }
+        } catch (error) {
+          console.error("Error in chat:", error);
+          responseBox.textContent = "Error while processing your question.";
+        } finally {
+          // Reset button text and enable it
+          button.textContent = "Send";
+          button.disabled = false;
+          initialize();
+        }
+      }
+
+      document
+        .getElementById("chat-button")
+        .addEventListener("click", sendChat);
+
+      initialize();
+    </script>
   </body>
 </html>
