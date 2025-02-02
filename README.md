@@ -1,4 +1,4 @@
-hello lets do tone of voice, aka mimic person communication style
+gag is like RAG but quality is kinda yet garbage
 
 ## TODO
 
