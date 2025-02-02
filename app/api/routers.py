@@ -8,6 +8,7 @@ from app.models.embeddings import get_embedding
 from app.models.vector_search import find_similar_vectors
 from app.models.database import database
 from fastapi.responses import JSONResponse
+from app.models.db_operations import save_vector, save_answer
 
 from app.utils.helpers import get_env_variable
 
@@ -157,31 +158,18 @@ async def chat(payload: ChatPayload):
         # Extract OpenAI's response content
         answer_content = response.choices[0].message.content
 
-        # Step 5: Save the vector for the query
-        vector_as_string = "[" + ",".join(map(str, query_embedding)) + "]"
-        vector_query = f"""
-        INSERT INTO vectors (vector, original)
-        VALUES ('{vector_as_string}'::VECTOR, '{payload.query}')
-        RETURNING id;
-        """
-        vector_result = await database.fetch_one(vector_query)
-        if not vector_result:
+        try:
+            # Step 5: Save the vector for the query
+            vector_id = await save_vector(payload.query, query_embedding)
+            
+            # Step 6: Save the answer
+            answer_id = await save_answer(answer_content, vector_id)
+        except Exception as db_error:
+            print(f"Database operation failed: {str(db_error)}")  # For debugging
             raise HTTPException(
-                status_code=500, detail="Failed to save the query vector.")
-
-        vector_id = vector_result["id"]
-
-        # Step 6: Save the answer
-        query = """
-        INSERT INTO answers (content, vector_id)
-        VALUES (:content, :vector_id)
-        RETURNING id;
-        """
-        values = {"content": answer_content, "vector_id": vector_id}
-        answer_result = await database.fetch_one(query, values)
-        if not answer_result:
-            raise HTTPException(
-                status_code=500, detail="Failed to save the answer.")
+                status_code=500,
+                detail=f"Failed to save to database: {str(db_error)}"
+            )
 
         print('response...', payload.query, answer_content, context)
         return {
@@ -192,8 +180,11 @@ async def chat(payload: ChatPayload):
         }
 
     except Exception as e:
+        print(f"Chat endpoint error: {str(e)}")  # For debugging
         raise HTTPException(
-            status_code=500, detail=f"An error occurred: {str(e)}")
+            status_code=500, 
+            detail=f"An error occurred: {str(e)}"
+        )
 
 
 @router.post("/reinit_db/")
