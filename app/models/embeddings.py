@@ -1,10 +1,12 @@
-import openai
+from langfuse.openai import openai  # OpenAI integration
+from langfuse.decorators import observe
 
 # Configure your OpenAI API key
 from app.utils.helpers import get_env_variable
 openai.api_key = get_env_variable("OPENAI_API_KEY")
 
 
+@observe()
 async def get_embedding(query: str, model: str = "text-embedding-3-small"):
     """
     Fetch vector embeddings for a given query using OpenAI API.

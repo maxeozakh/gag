@@ -1,7 +1,7 @@
+from langfuse.openai import openai  # OpenAI integration
+from langfuse.decorators import observe, langfuse_context
 from fastapi import HTTPException
 import os
-import openai
-from openai import OpenAI
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from app.models.embeddings import get_embedding
@@ -13,7 +13,6 @@ from app.models.db_operations import save_vector, save_answer
 from app.utils.helpers import get_env_variable
 
 router = APIRouter()
-client = OpenAI()
 
 
 @router.get("/vectors_original/")
@@ -104,10 +103,48 @@ class ChatPayload(BaseModel):
     query: str
 
 
-client = OpenAI()
 
+async def categorize_query(query: str) -> str:
+    """
+    Categorizes the user query into predefined categories using LLM.
+    Returns one of: "lore", "film", "director personality", "not relevant question"
+    """
+    prompt = """Categorize the following query into one of these exact categories:
+    - lore
+    - film
+    - director personality
+    - not relevant question
+
+    Rules:
+    - If the query is about story, characters, or world-building, categorize as "lore"
+    - If the query is about cinematography, scenes, or movie production, categorize as "film"
+    - If the query is about director's style, opinions, or personal life, categorize as "director personality"
+    - If the query doesn't fit any of above categories, categorize as "not relevant question"
+
+    Return ONLY the category name, nothing else.
+
+    Query: {query}
+    """
+
+    try:
+        response = openai.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": "You are a precise categorization assistant."},
+                {"role": "user", "content": prompt.format(query=query)}
+            ]
+        )
+        category = response.choices[0].message.content.strip().lower()
+        
+        # Validate the category
+        valid_categories = {"lore", "film", "director personality", "not relevant question"}
+        return category if category in valid_categories else "not relevant question"
+    except Exception as e:
+        print(f"Categorization error: {str(e)}")
+        return "not relevant question"
 
 @router.post("/chat/")
+@observe()
 async def chat(payload: ChatPayload):
     """
     Handles a user query by searching for similar vectors, generating a response,
@@ -116,6 +153,12 @@ async def chat(payload: ChatPayload):
     try:
         # Step 1: Embed the user query
         query_embedding = await get_embedding(payload.query)
+        
+        # New Step: Categorize the query
+        category = await categorize_query(payload.query)
+
+        # Update the current trace with the category tag
+        langfuse_context.update_current_trace(tags=[category])
 
         # Step 2: Search for similar vectors
         search_result = await find_similar_vectors(query_embedding)
@@ -144,7 +187,7 @@ async def chat(payload: ChatPayload):
 
         # Step 4: Call OpenAI API
         openai.api_key = get_env_variable("OPENAI_API_KEY")
-        response = client.chat.completions.create(
+        response = openai.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
                 {"role": "system", "content": "You are a helpful assistant."},
@@ -161,11 +204,12 @@ async def chat(payload: ChatPayload):
         try:
             # Step 5: Save the vector for the query
             vector_id = await save_vector(payload.query, query_embedding)
-            
+
             # Step 6: Save the answer
             answer_id = await save_answer(answer_content, vector_id)
         except Exception as db_error:
-            print(f"Database operation failed: {str(db_error)}")  # For debugging
+            # Fixed the formatting
+            print(f"Database operation failed: {str(db_error)}")
             raise HTTPException(
                 status_code=500,
                 detail=f"Failed to save to database: {str(db_error)}"
@@ -182,7 +226,7 @@ async def chat(payload: ChatPayload):
     except Exception as e:
         print(f"Chat endpoint error: {str(e)}")  # For debugging
         raise HTTPException(
-            status_code=500, 
+            status_code=500,
             detail=f"An error occurred: {str(e)}"
         )
 
