@@ -4,7 +4,7 @@ from app.models.database import database
 logging.basicConfig(level=logging.INFO)
 
 
-async def find_similar_vectors(query_embedding, threshold=0.6, limit=1):
+async def find_similar_vectors(query_embedding, threshold=0.5, limit=1):
     """
     Search the database for vectors similar to the query embedding.
     """

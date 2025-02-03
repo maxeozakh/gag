@@ -1,5 +1,6 @@
 from langfuse.openai import openai  # OpenAI integration
 from langfuse.decorators import observe, langfuse_context
+from langfuse import Langfuse
 from fastapi import HTTPException
 import os
 from fastapi import APIRouter, HTTPException
@@ -13,6 +14,7 @@ from app.models.db_operations import save_vector, save_answer
 from app.utils.helpers import get_env_variable
 
 router = APIRouter()
+langfuse = Langfuse() 
 
 
 @router.get("/vectors_original/")
@@ -103,6 +105,20 @@ class ChatPayload(BaseModel):
     query: str
 
 
+# its garbage but fine for now
+class TraceContext:
+    """Simple class to store the current trace context"""
+    def __init__(self):
+        self.current_trace_id = None
+
+    def set_trace_id(self, trace_id: str):
+        self.current_trace_id = trace_id
+
+    def get_trace_id(self) -> str:
+        return self.current_trace_id
+
+# Create a global instance
+trace_context = TraceContext()
 
 async def categorize_query(query: str) -> str:
     """
@@ -112,14 +128,14 @@ async def categorize_query(query: str) -> str:
     prompt = """Categorize the following query into one of these exact categories:
     - lore
     - film
-    - director personality
-    - not relevant question
+    - director_personality
+    - not_relevant_question
 
     Rules:
     - If the query is about story, characters, or world-building, categorize as "lore"
     - If the query is about cinematography, scenes, or movie production, categorize as "film"
-    - If the query is about director's style, opinions, or personal life, categorize as "director personality"
-    - If the query doesn't fit any of above categories, categorize as "not relevant question"
+    - If the query is about director's style, opinions, or personal life, categorize as "director_personality"
+    - If the query doesn't fit any of above categories, categorize as "not_relevant_question"
 
     Return ONLY the category name, nothing else.
 
@@ -151,14 +167,20 @@ async def chat(payload: ChatPayload):
     and storing the results in the database.
     """
     try:
+        # Get the trace ID from the current observation context
+        current_trace = langfuse_context.get_current_trace_id()
+        if current_trace:
+            trace_context.set_trace_id(current_trace)
+        
         # Step 1: Embed the user query
         query_embedding = await get_embedding(payload.query)
         
         # New Step: Categorize the query
         category = await categorize_query(payload.query)
 
-        # Update the current trace with the category tag
-        langfuse_context.update_current_trace(tags=[category])
+        # Update the current trace with the category tag using set_tags
+        if current_trace:
+           langfuse_context.update_current_trace(tags=[category])
 
         # Step 2: Search for similar vectors
         search_result = await find_similar_vectors(query_embedding)
@@ -168,7 +190,8 @@ async def chat(payload: ChatPayload):
             context = f"Relevant content: {search_result['content']}\n\n"
         else:
             context = "No relevant content found.\n\n"
-            return {"answer": "Sorry we didn't find any similar queries so cannot mimic here"}
+            langfuse_context.update_current_trace(tags=[category, 'no_similar_embeds'])
+            return {"answer": "Sorry we dont have a data about it and we also dont wanna lie"}
 
         prompt = f"""You are a smart and stylistically consistent assistant. Your task is to respond to user queries or comments in a way that closely matches the tone, style, and language of the provided context. Whenever a relevant answer from a previous query is available, use its style, phrasing, and structure as a blueprint for your response.
                 Instructions:
@@ -182,6 +205,9 @@ async def chat(payload: ChatPayload):
 
                 User Query:
                 {payload.query}
+
+
+                If context is == "No relevant content found" then always answer ONLY "I have no idea"
 
                 Your Response:"""
 
@@ -217,10 +243,8 @@ async def chat(payload: ChatPayload):
 
         print('response...', payload.query, answer_content, context)
         return {
-            "message": "Chat processed successfully.",
-            "query": payload.query,
             "answer": answer_content,
-            "similarity": search_result["similarity"] if search_result else None,
+            "trace_id": trace_context.get_trace_id()  # Include trace_id in response
         }
 
     except Exception as e:
@@ -265,4 +289,48 @@ async def reinit_db():
     except Exception as e:
         raise HTTPException(
             status_code=500, detail=f"Failed to reinitialize the database: {str(e)}"
+        )
+
+
+class FeedbackPayload(BaseModel):
+    score: float  # Only need score from the frontend now
+
+@router.post("/feedback/")
+async def submit_feedback(payload: FeedbackPayload):
+    """
+    API endpoint to collect user feedback scores for responses.
+    """
+    try:
+        if not 0 <= payload.score <= 1:
+            raise HTTPException(
+                status_code=400,
+                detail="Score must be between 0 and 1"
+            )
+
+        # Get trace_id from our local context
+        trace_id = trace_context.get_trace_id()
+        if not trace_id:
+            raise HTTPException(
+                status_code=400,
+                detail="No active trace found"
+            )
+
+        langfuse.score(
+            trace_id=trace_id,
+            data_type="BOOLEAN",  # required for boolean scores
+            name="user_feedback_bool",
+            value=payload.score
+        )
+
+        return {
+            "message": "Feedback submitted successfully",
+            "trace_id": trace_id,
+            "score": payload.score
+        }
+
+    except Exception as e:
+        print(f"Feedback submission error: {str(e)}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to submit feedback: {str(e)}"
         )

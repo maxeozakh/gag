@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>RAG demo</title>
     <style>
+      * {
+        box-sizing: border-box;
+      }
+
       body {
         font-family: Arial, sans-serif;
         margin: 0;
@@ -92,6 +96,38 @@
       summary {
         cursor: pointer;
       }
+
+      .feedback-buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      .feedback-btn {
+        background-color: #f0f0f0;
+        color: #333;
+        border: 1px solid #ddd;
+        padding: 8px 12px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.2s;
+      }
+
+      .feedback-btn:hover {
+        background-color: #e0e0e0;
+      }
+
+      #feedback-section {
+        background-color: #f9f9f9;
+        padding: 15px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+      }
+
+      #feedback-section p {
+        margin: 0;
+        color: #666;
+      }
     </style>
   </head>
   <body>
@@ -140,6 +176,19 @@
         />
         <button id="chat-button">Send</button>
         <div class="chat-output" id="chat-response"></div>
+
+        <!-- Add feedback section -->
+        <div id="feedback-section" style="display: none; margin-top: 10px">
+          <p>Did we answer your question?</p>
+          <div class="feedback-buttons">
+            <button onclick="submitFeedback(1)" class="feedback-btn">
+              👍 Yes
+            </button>
+            <button onclick="submitFeedback(0)" class="feedback-btn">
+              😐 No
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -208,10 +257,48 @@
         await createAndRenderMap();
       }
 
+      let currentTraceId = null;
+
+      async function submitFeedback(score) {
+        try {
+          const response = await fetch("/feedback/", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              score: score,
+            }),
+          });
+
+          const data = await response.json();
+
+          // Hide feedback section after submission
+          document.getElementById("feedback-section").style.display = "none";
+
+          // Optional: Show thank you message
+          const thankYou = document.createElement("p");
+          thankYou.textContent = "Thank you for your feedback!";
+          thankYou.style.color = "#4caf50";
+          thankYou.style.marginTop = "10px";
+          document
+            .getElementById("feedback-section")
+            .parentNode.appendChild(thankYou);
+
+          // Remove thank you message after 3 seconds
+          setTimeout(() => {
+            thankYou.remove();
+          }, 3000);
+        } catch (error) {
+          console.error("Error submitting feedback:", error);
+        }
+      }
+
       async function sendChat() {
         const input = document.getElementById("chat-input");
         const responseBox = document.getElementById("chat-response");
         const button = document.getElementById("chat-button");
+        const feedbackSection = document.getElementById("feedback-section");
         const query = input.value;
 
         if (!query.trim()) {
@@ -219,9 +306,9 @@
           return;
         }
 
-        // Set button to "Loading..." state and disable it
         button.textContent = "Loading...";
         button.disabled = true;
+        feedbackSection.style.display = "none"; // Hide feedback section while loading
 
         try {
           const response = await fetch("/chat/", {
@@ -235,6 +322,8 @@
 
           if (data.answer) {
             responseBox.textContent = `${data.answer}`;
+            currentTraceId = data.trace_id; // Store the trace ID
+            feedbackSection.style.display = "block"; // Show feedback section after getting response
           } else {
             responseBox.textContent = "No response received.";
           }
@@ -242,7 +331,6 @@
           console.error("Error in chat:", error);
           responseBox.textContent = "Error while processing your question.";
         } finally {
-          // Reset button text and enable it
           button.textContent = "Send";
           button.disabled = false;
           initialize();
