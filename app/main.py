@@ -47,7 +47,7 @@ async def startup_event():
     # Path to your CSV file
     csv_path = os.path.join(
         os.path.dirname(__file__),
-        "../mythology_of_star_wars_ready_to_work_with.csv"
+        "..data/mythology_of_star_wars_ready_to_work_with.csv"
     )
 
     try:
