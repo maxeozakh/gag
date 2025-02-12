@@ -10,8 +10,10 @@ from app.models.vector_search import find_similar_vectors
 from app.models.database import database
 from fastapi.responses import JSONResponse
 from app.models.db_operations import save_vector, save_answer
+from typing import Optional, List
 
 from app.utils.helpers import get_env_variable
+from app.evaluation.token_metrics import TokenMetrics
 
 router = APIRouter()
 langfuse = Langfuse() 
@@ -103,6 +105,8 @@ async def search_query(payload: SearchPayload):
 
 class ChatPayload(BaseModel):
     query: str
+    ground_truth: Optional[str] = None
+    key_facts: Optional[List[str]] = None
 
 
 # its garbage but fine for now
@@ -159,15 +163,19 @@ async def categorize_query(query: str) -> str:
         print(f"Categorization error: {str(e)}")
         return "not relevant question"
 
+# Initialize TokenMetrics at module level
+token_metrics = TokenMetrics()
+
 @router.post("/chat/")
-@observe()
+# @observe()
 async def chat(payload: ChatPayload):
     """
     Handles a user query by searching for similar vectors, generating a response,
-    and storing the results in the database.
+    and storing the results in the database. If ground truth is provided,
+    also performs evaluation.
     """
     try:
-        # Get the trace ID from the current observation context
+        # Existing trace ID logic
         current_trace = langfuse_context.get_current_trace_id()
         if current_trace:
             trace_context.set_trace_id(current_trace)
@@ -227,28 +235,57 @@ async def chat(payload: ChatPayload):
         # Extract OpenAI's response content
         answer_content = response.choices[0].message.content
 
-        try:
-            # Step 5: Save the vector for the query
-            vector_id = await save_vector(payload.query, query_embedding)
+        # After getting the answer_content, add evaluation if ground truth exists
+        response_data = {
+            "answer": answer_content,
+            "trace_id": trace_context.get_trace_id()
+        }
 
-            # Step 6: Save the answer
+        # If ground truth is provided, calculate metrics
+        if payload.ground_truth:
+            metrics = token_metrics.calculate_f1(
+                prediction=answer_content,
+                reference=payload.ground_truth
+            )
+            response_data["evaluation"] = {
+                "f1_score": metrics["f1"],
+                "precision": metrics["precision"],
+                "recall": metrics["recall"]
+            }
+
+            # If key facts are provided, validate them
+            if payload.key_facts:
+                key_facts_results = token_metrics.validate_key_facts(
+                    prediction=answer_content,
+                    key_facts=payload.key_facts
+                )
+                response_data["evaluation"]["key_facts"] = key_facts_results
+
+            # Add evaluation metrics to Langfuse trace
+            if current_trace:
+                langfuse_context.update_current_trace(
+                    metrics={
+                        "f1_score": metrics["f1"],
+                        "precision": metrics["precision"],
+                        "recall": metrics["recall"]
+                    }
+                )
+
+        # Continue with database operations
+        try:
+            vector_id = await save_vector(payload.query, query_embedding)
             answer_id = await save_answer(answer_content, vector_id)
         except Exception as db_error:
-            # Fixed the formatting
             print(f"Database operation failed: {str(db_error)}")
             raise HTTPException(
                 status_code=500,
                 detail=f"Failed to save to database: {str(db_error)}"
             )
 
-        print('response...', payload.query, answer_content, context)
-        return {
-            "answer": answer_content,
-            "trace_id": trace_context.get_trace_id()  # Include trace_id in response
-        }
+        return response_data
 
     except Exception as e:
-        print(f"Chat endpoint error: {str(e)}")  # For debugging
+        print(f"Chat endpoint error: {str(e)}")
         raise HTTPException(
             status_code=500,
             detail=f"An error occurred: {str(e)}"
@@ -334,3 +371,34 @@ async def submit_feedback(payload: FeedbackPayload):
             status_code=500,
             detail=f"Failed to submit feedback: {str(e)}"
         )
+
+def safe_calculate_metrics(token_metrics, prediction, reference):
+    try:
+        return token_metrics.calculate_f1(prediction=prediction, reference=reference)
+    except Exception as e:
+        print(f"Error calculating metrics: {str(e)}")
+        return {
+            "f1": 0.0,
+            "precision": 0.0,
+            "recall": 0.0
+        }
+
+@router.get("/ecom_products/")
+async def get_ecom_products():
+    """
+    API endpoint to fetch all ecommerce products from the database.
+    """
+    query = """
+    SELECT p.id, p.description, v.original as text
+    FROM ecom_products p
+    JOIN ecom_vectors v ON p.vector_id = v.id
+    ORDER BY p.id;
+    """
+    try:
+        results = await database.fetch_all(query)
+        if not results:
+            return {"message": "No products found."}
+        return {"products": results}
+    except Exception as e:
+        raise HTTPException(
+            status_code=500, detail=f"An error occurred: {str(e)}")

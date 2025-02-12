@@ -14,8 +14,8 @@ services:
     env_file:
       - .env
     volumes:
-      - .:/app # Mount local directory into the container
-      - /app/__pycache__/ # Prevent Python cache files from persisting
+      - .:/app
+      - /app/__pycache__/
     command:
       [
         "uvicorn",
@@ -35,16 +35,19 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
+      PGDATA: /var/lib/postgresql/data/pgdata
     ports:
-      - "5442:5442"
+      - "5442:5432"
     volumes:
       - db_data:/var/lib/postgresql/data
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./00-init.sh:/docker-entrypoint-initdb.d/00-init.sh
+      - ./db_dump.sqlc:/docker-entrypoint-initdb.d/02-data.sqlc
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 5s
       timeout: 3s
       retries: 5
+    command: postgres -c 'max_connections=100' -c 'shared_buffers=128MB'
 
 volumes:
   db_data:

@@ -34,7 +34,7 @@ async def save_vector(query: str, vector_embedding: List[float]) -> int:
             logger.error("Failed to save vector: No result returned")
             raise HTTPException(status_code=500, detail="Failed to save the query vector.")
         
-        logger.info(f"Successfully saved vector with id: {result['id']}")
+        logger.debug(f"Successfully saved vector with id: {result['id']}")
         return result["id"]
     except Exception as e:
         logger.error(f"Error saving vector: {str(e)}")
