@@ -43,7 +43,7 @@ async def main():
         evaluator = Evaluator(os.path.join(os.path.dirname(os.path.dirname(__file__)), "data/ecom_ground_truth.csv"))
         print(f"✅ Loaded {len(evaluator.ground_truth_df)} test cases")
         
-        limit = None
+        limit = 10
         print(f"\n🔄 Running evaluations (limited to {limit} queries)...")
         results, metrics = await evaluator.evaluate_all(limit)
         

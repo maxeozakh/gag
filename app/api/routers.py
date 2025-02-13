@@ -199,7 +199,7 @@ async def chat(payload: ChatPayload):
         else:
             context = "No relevant content found.\n\n"
             langfuse_context.update_current_trace(tags=[category, 'no_similar_embeds'])
-            return {"answer": "Sorry we dont have a data about it and we also dont wanna lie"}
+            # return {"answer": "Sorry we dont have a data about it and we also dont wanna lie"}
 
         prompt = f"""You are a smart and stylistically consistent assistant. Your task is to respond to user queries or comments in a way that closely matches the tone, style, and language of the provided context. Whenever a relevant answer from a previous query is available, use its style, phrasing, and structure as a blueprint for your response.
                 Instructions:
@@ -215,7 +215,7 @@ async def chat(payload: ChatPayload):
                 {payload.query}
 
 
-                If context is == "No relevant content found" then always answer ONLY "I have no idea"
+                If context is == "No relevant content found" then always answer ONLY "I'm not sure about that"
 
                 Your Response:"""
 

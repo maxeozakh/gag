@@ -62,8 +62,8 @@ class Evaluator:
             limit: Optional number of queries to evaluate. If None, evaluates all queries.
         """
         results = []
-        # Limit the number of rows if specified
-        df = self.ground_truth_df.head(limit) if limit else self.ground_truth_df
+        # Get random sample if limit is specified, otherwise use all data
+        df = self.ground_truth_df.sample(n=limit) if limit else self.ground_truth_df
         total = len(df)
         
         for idx, row in df.iterrows():
@@ -75,7 +75,6 @@ class Evaluator:
             )
             results.append(result)
             
-            # Print error if any
             if "error" in result:
                 print(f"❌ Error in query {idx + 1}: {result['error']}")
         
