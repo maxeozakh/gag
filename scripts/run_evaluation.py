@@ -78,19 +78,18 @@ async def main():
         evaluator = EnhancedEvaluator("data/ecom_ground_truth.csv")
         print(f"✅ Loaded {len(evaluator.ground_truth_df)} test cases")
 
-        limit = 5
+        limit = None
         print(f"\n🔄 Running evaluations (limited to {limit} queries)...")
         evaluation_results = await evaluator.evaluate_all_approaches(limit)
 
         # Print comparison results
         print_comparison_results(evaluation_results["metrics"])
 
-        # TODO: do we want that?
         # Save detailed results to file
-        # output_file = f"evaluation_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-        # with open(output_file, 'w') as f:
-        #     json.dump(evaluation_results, f, indent=2)
-        # print(f"\n💾 Detailed results saved to {output_file}")
+        output_file = f"evaluation_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+        with open(output_file, 'w') as f:
+            json.dump(evaluation_results, f, indent=2)
+        print(f"\n💾 Detailed results saved to {output_file}")
 
     finally:
         # Disconnect from database
