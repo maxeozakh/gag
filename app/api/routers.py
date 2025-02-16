@@ -1,22 +1,22 @@
-from langfuse.openai import openai  # OpenAI integration
-from langfuse.decorators import observe, langfuse_context
-from langfuse import Langfuse
-from fastapi import HTTPException
 import os
+
+from typing import Optional, List
+from langfuse.openai import openai  # type: ignore
+from langfuse.decorators import langfuse_context  # type: ignore
+from langfuse import Langfuse  # type: ignore
+from fastapi.responses import JSONResponse
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
+
 from app.models.embeddings import get_embedding
+from app.models.db_operations import save_vector, save_answer
 from app.models.vector_search import find_similar_vectors
 from app.models.database import database
-from fastapi.responses import JSONResponse
-from app.models.db_operations import save_vector, save_answer
-from typing import Optional, List
-
 from app.utils.helpers import get_env_variable
 from app.evaluation.token_metrics import TokenMetrics
 
 router = APIRouter()
-langfuse = Langfuse() 
+langfuse = Langfuse()
 
 
 @router.get("/vectors_original/")
@@ -112,6 +112,7 @@ class ChatPayload(BaseModel):
 # its garbage but fine for now
 class TraceContext:
     """Simple class to store the current trace context"""
+
     def __init__(self):
         self.current_trace_id = None
 
@@ -121,8 +122,10 @@ class TraceContext:
     def get_trace_id(self) -> str:
         return self.current_trace_id
 
+
 # Create a global instance
 trace_context = TraceContext()
+
 
 async def categorize_query(query: str) -> str:
     """
@@ -155,9 +158,10 @@ async def categorize_query(query: str) -> str:
             ]
         )
         category = response.choices[0].message.content.strip().lower()
-        
+
         # Validate the category
-        valid_categories = {"lore", "film", "director personality", "not relevant question"}
+        valid_categories = {"lore", "film",
+                            "director personality", "not relevant question"}
         return category if category in valid_categories else "not relevant question"
     except Exception as e:
         print(f"Categorization error: {str(e)}")
@@ -165,6 +169,7 @@ async def categorize_query(query: str) -> str:
 
 # Initialize TokenMetrics at module level
 token_metrics = TokenMetrics()
+
 
 @router.post("/chat/")
 # @observe()
@@ -179,16 +184,16 @@ async def chat(payload: ChatPayload):
         current_trace = langfuse_context.get_current_trace_id()
         if current_trace:
             trace_context.set_trace_id(current_trace)
-        
+
         # Step 1: Embed the user query
         query_embedding = await get_embedding(payload.query)
-        
+
         # New Step: Categorize the query
         category = await categorize_query(payload.query)
 
         # Update the current trace with the category tag using set_tags
         if current_trace:
-           langfuse_context.update_current_trace(tags=[category])
+            langfuse_context.update_current_trace(tags=[category])
 
         # Step 2: Search for similar vectors
         search_result = await find_similar_vectors(query_embedding)
@@ -198,7 +203,8 @@ async def chat(payload: ChatPayload):
             context = f"Relevant content: {search_result['content']}\n\n"
         else:
             context = "No relevant content found.\n\n"
-            langfuse_context.update_current_trace(tags=[category, 'no_similar_embeds'])
+            langfuse_context.update_current_trace(
+                tags=[category, 'no_similar_embeds'])
             # return {"answer": "Sorry we dont have a data about it and we also dont wanna lie"}
 
         prompt = f"""You are a smart and stylistically consistent assistant. Your task is to respond to user queries or comments in a way that closely matches the tone, style, and language of the provided context. Whenever a relevant answer from a previous query is available, use its style, phrasing, and structure as a blueprint for your response.
@@ -262,16 +268,17 @@ async def chat(payload: ChatPayload):
                 response_data["evaluation"]["key_facts"] = key_facts_results
 
             # Add evaluation metrics to Langfuse trace
-            if current_trace:
-                langfuse_context.update_current_trace(
-                    metrics={
-                        "f1_score": metrics["f1"],
-                        "precision": metrics["precision"],
-                        "recall": metrics["recall"]
-                    }
-                )
+            # TODO: it should be done in different way
+            # if current_trace:
+                # langfuse_context.update_current_trace(
+                #     metrics={
+                #         "f1_score": metrics["f1"],
+                #         "precision": metrics["precision"],
+                #         "recall": metrics["recall"]
+                #     }
+                # )
 
-        # Continue with database operations
+                # Continue with database operations
         try:
             vector_id = await save_vector(payload.query, query_embedding)
             answer_id = await save_answer(answer_content, vector_id)
@@ -332,6 +339,7 @@ async def reinit_db():
 class FeedbackPayload(BaseModel):
     score: float  # Only need score from the frontend now
 
+
 @router.post("/feedback/")
 async def submit_feedback(payload: FeedbackPayload):
     """
@@ -372,6 +380,7 @@ async def submit_feedback(payload: FeedbackPayload):
             detail=f"Failed to submit feedback: {str(e)}"
         )
 
+
 def safe_calculate_metrics(token_metrics, prediction, reference):
     try:
         return token_metrics.calculate_f1(prediction=prediction, reference=reference)
@@ -382,6 +391,7 @@ def safe_calculate_metrics(token_metrics, prediction, reference):
             "precision": 0.0,
             "recall": 0.0
         }
+
 
 @router.get("/ecom_products/")
 async def get_ecom_products():

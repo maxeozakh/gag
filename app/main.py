@@ -21,35 +21,17 @@ app.include_router(router)
 @app.on_event("startup")
 async def startup_event():
     print("Starting application startup process... 🚀")
-    
+
     # Connect to database first
     await connect_db()
     print("✅ Database connected")
-    
+
     # Verify data exists
     try:
         result = await database.fetch_one("SELECT COUNT(*) as count FROM ecom_products;")
         print(f"✅ Found {result['count']} products in database")
     except Exception as e:
         print(f"❌ Error checking products: {str(e)}")
-
-
-    # Load ecommerce data
-    # ecom_csv_path = os.path.join(
-    #     os.path.dirname(os.path.dirname(__file__)),
-    #     "data/ecom.csv"
-        # "data/ecom_mini.csv"
-    # )
-
-    # try:
-        # print("🛍️ Loading ecommerce data...")
-        # await load_ecom_data(ecom_csv_path)
-        # print("✅ Ecommerce data loaded")
-    # except Exception as e:
-        # print(f"❌ Error loading data: {str(e)}")
-        # You might want to exit the application here if this is critical
-        # import sys
-        # sys.exit(1)
 
     # Initialize Langfuse last
     print('Initializing Langfuse...')
