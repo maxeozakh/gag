@@ -64,7 +64,7 @@ async def save_answer(content: str, vector_id: int) -> int:
             logger.error("Failed to save answer: No result returned")
             raise HTTPException(status_code=500, detail="Failed to save the answer.")
         
-        logger.info(f"Successfully saved answer with id: {result['id']}")
+        # logger.info(f"Successfully saved answer with id: {result['id']}")
         return result["id"]
     except Exception as e:
         logger.error(f"Error saving answer: {str(e)}")

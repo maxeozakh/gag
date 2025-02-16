@@ -1,13 +1,9 @@
-from fastapi import FastAPI, HTTPException, Request
-from app.utils.helpers import get_env_variable
-
-from langfuse.openai import openai  # OpenAI integration
-from langfuse import Langfuse
-import langfuse
+from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-import os
+from langfuse import Langfuse  # type: ignore
 
+from app.utils.helpers import get_env_variable
 from app.api.routers import router
 from app.models.database import connect_db, disconnect_db, database
 

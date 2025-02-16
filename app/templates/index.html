@@ -197,8 +197,6 @@
         await fetchAndRender("/ecom_products/", "products-list");
       }
 
-      let currentTraceId = null;
-
       async function submitFeedback(score) {
         try {
           const response = await fetch("/feedback/", {
@@ -230,7 +228,7 @@
         }
       }
 
-      async function sendChat() {
+      async function sendChat(endpoint = "/rag_chat/") {
         const input = document.getElementById("chat-input");
         const responseBox = document.getElementById("chat-response");
         const button = document.getElementById("chat-button");
@@ -247,7 +245,7 @@
         feedbackSection.style.display = "none";
 
         try {
-          const response = await fetch("/chat/", {
+          const response = await fetch(endpoint, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -258,7 +256,6 @@
 
           if (data.answer) {
             responseBox.textContent = `${data.answer}`;
-            currentTraceId = data.trace_id;
             feedbackSection.style.display = "block";
           } else {
             responseBox.textContent = "No matching products found.";
@@ -275,7 +272,7 @@
 
       document
         .getElementById("chat-button")
-        .addEventListener("click", sendChat);
+        .addEventListener("click", () => sendChat());
 
       initialize();
     </script>

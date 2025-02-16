@@ -14,9 +14,32 @@ from app.models.vector_search import find_similar_vectors
 from app.models.database import database
 from app.utils.helpers import get_env_variable
 from app.evaluation.token_metrics import TokenMetrics
+from app.models import ChatPayload  # Add this import
 
 router = APIRouter()
 langfuse = Langfuse()
+
+RAG_PROMPT = """You are a smart and stylistically consistent assistant. Your task is to respond to user queries or comments in a way that closely matches the tone, style, and language of the provided context. Whenever a relevant answer from a previous query is available, use its style, phrasing, and structure as a blueprint for your response.
+Instructions:
+1. Always prioritize consistency with the provided context's style and structure. Match the tone (e.g., formal, casual, humorous, technical).
+2. When relevant content from a prior query is provided, heavily incorporate its phrasing, sentence patterns, and stylistic choices into your response.
+3. If no prior context is available, generate a response that is clear, concise, and helpful.
+4. Avoid repeating content verbatim unless explicitly requested.
+
+Context for the user query:
+{context}
+
+User Query:
+{query}
+
+Your Response:"""
+
+NAIVE_PROMPT = """You are a helpful assistant. Please provide a clear and concise response to the following query.
+
+User Query:
+{query}
+
+Your Response:"""
 
 
 @router.get("/vectors_original/")
@@ -103,12 +126,6 @@ async def search_query(payload: SearchPayload):
     }
 
 
-class ChatPayload(BaseModel):
-    query: str
-    ground_truth: Optional[str] = None
-    key_facts: Optional[List[str]] = None
-
-
 # its garbage but fine for now
 class TraceContext:
     """Simple class to store the current trace context"""
@@ -171,128 +188,159 @@ async def categorize_query(query: str) -> str:
 token_metrics = TokenMetrics()
 
 
-@router.post("/chat/")
-# @observe()
-async def chat(payload: ChatPayload):
-    """
-    Handles a user query by searching for similar vectors, generating a response,
-    and storing the results in the database. If ground truth is provided,
-    also performs evaluation.
-    """
+async def handle_evaluation(answer_content: str, payload: ChatPayload, trace_id: str, is_evaluation: bool = False) -> dict:
+    """Handle evaluation logic for both naive and RAG chat endpoints."""
+    response_data: dict = {
+        "answer": answer_content,
+        "trace_id": trace_id
+    }
+
+    if payload.ground_truth:
+        metrics = token_metrics.calculate_f1(
+            prediction=answer_content,
+            reference=payload.ground_truth
+        )
+        
+
+        response_data["evaluation"] = dict({
+            "f1_score": metrics["f1"],
+            "precision": metrics["precision"],
+            "recall": metrics["recall"]
+        })
+
+        if payload.key_facts:
+            key_facts_results = token_metrics.validate_key_facts(
+                prediction=answer_content,
+                key_facts=payload.key_facts
+            )
+            response_data["evaluation"]["key_facts"] = key_facts_results
+    elif not is_evaluation:
+        print("⚠️ No ground truth available for evaluation")
+
+    return response_data
+
+
+async def save_chat_data(query: str, answer: str, embedding: Optional[List[float]] = None):
+    """Handle database operations for both chat endpoints."""
     try:
-        # Existing trace ID logic
+        # Use zero vector if no embedding provided
+        vector = embedding if embedding else [0.0] * 1536
+        vector_id = await save_vector(query, vector)
+        answer_id = await save_answer(answer, vector_id)
+        return vector_id, answer_id
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to save to database: {str(e)}"
+        )
+
+
+async def handle_trace_context(current_trace: Optional[str], category: str, tags: Optional[List[str]] = []) -> str:
+    """Handle trace context and tagging for both endpoints."""
+    if current_trace:
+        trace_context.set_trace_id(current_trace)
+        all_tags = [category]
+        if tags:
+            all_tags.extend(tags)
+        langfuse_context.update_current_trace(tags=all_tags)
+    return trace_context.get_trace_id()
+
+
+@router.post("/rag_chat/")
+async def rag_chat(payload: ChatPayload):
+    """RAG-enhanced chat endpoint that uses vector search and retrieval."""
+    try:
+        print("-----------------------------------------------------")
+        print(f"RAG chat endpoint called with query: {payload.query}")
+        # Handle trace context and categorization
         current_trace = langfuse_context.get_current_trace_id()
-        if current_trace:
-            trace_context.set_trace_id(current_trace)
+        # category = await categorize_query(payload.query)
+        category = "other"
+        trace_id = await handle_trace_context(current_trace, category)
 
-        # Step 1: Embed the user query
+        # Get embeddings and search for similar vectors
         query_embedding = await get_embedding(payload.query)
-
-        # New Step: Categorize the query
-        category = await categorize_query(payload.query)
-
-        # Update the current trace with the category tag using set_tags
-        if current_trace:
-            langfuse_context.update_current_trace(tags=[category])
-
-        # Step 2: Search for similar vectors
         search_result = await find_similar_vectors(query_embedding)
 
-        # Step 3: Build the OpenAI prompt
+        print("\n=== RAG RETRIEVAL INFO ===")
+        print(f"Query: {payload.query}")
+        print(f"Retrieved content: {search_result['content'] if search_result else 'No content retrieved'}")
+        print(f"Similarity score: {search_result['similarity'] if search_result else 'N/A'}")
+        print("========================\n")
+
+        # Handle context and early return for no results
         if search_result:
             context = f"Relevant content: {search_result['content']}\n\n"
         else:
-            context = "No relevant content found.\n\n"
-            langfuse_context.update_current_trace(
-                tags=[category, 'no_similar_embeds'])
-            # return {"answer": "Sorry we dont have a data about it and we also dont wanna lie"}
+            await handle_trace_context(current_trace, category, ['no_similar_embeds'])
+            return {"answer": "I'm not sure about that", "trace_id": trace_id}
 
-        prompt = f"""You are a smart and stylistically consistent assistant. Your task is to respond to user queries or comments in a way that closely matches the tone, style, and language of the provided context. Whenever a relevant answer from a previous query is available, use its style, phrasing, and structure as a blueprint for your response.
-                Instructions:
-                1. Always prioritize consistency with the provided context's style and structure. Match the tone (e.g., formal, casual, humorous, technical).
-                2. When relevant content from a prior query is provided, heavily incorporate its phrasing, sentence patterns, and stylistic choices into your response.
-                3. If no prior context is available, generate a response that is clear, concise, and helpful.
-                4. Avoid repeating content verbatim unless explicitly requested.
-
-                Context for the user query:
-                {context}
-
-                User Query:
-                {payload.query}
-
-
-                If context is == "No relevant content found" then always answer ONLY "I'm not sure about that"
-
-                Your Response:"""
-
-        # Step 4: Call OpenAI API
+        # Call OpenAI API
         openai.api_key = get_env_variable("OPENAI_API_KEY")
         response = openai.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
                 {"role": "system", "content": "You are a helpful assistant."},
-                {
-                    "role": "user",
-                    "content": prompt,
-                }
+                {"role": "user", "content": RAG_PROMPT.format(
+                    context=context,
+                    query=payload.query
+                )}
             ]
         )
 
-        # Extract OpenAI's response content
         answer_content = response.choices[0].message.content
 
-        # After getting the answer_content, add evaluation if ground truth exists
-        response_data = {
-            "answer": answer_content,
-            "trace_id": trace_context.get_trace_id()
-        }
+        # Handle evaluation and prepare response
+        response_data = await handle_evaluation(answer_content, payload, trace_id)
 
-        # If ground truth is provided, calculate metrics
-        if payload.ground_truth:
-            metrics = token_metrics.calculate_f1(
-                prediction=answer_content,
-                reference=payload.ground_truth
-            )
-            response_data["evaluation"] = {
-                "f1_score": metrics["f1"],
-                "precision": metrics["precision"],
-                "recall": metrics["recall"]
-            }
-
-            # If key facts are provided, validate them
-            if payload.key_facts:
-                key_facts_results = token_metrics.validate_key_facts(
-                    prediction=answer_content,
-                    key_facts=payload.key_facts
-                )
-                response_data["evaluation"]["key_facts"] = key_facts_results
-
-            # Add evaluation metrics to Langfuse trace
-            # TODO: it should be done in different way
-            # if current_trace:
-                # langfuse_context.update_current_trace(
-                #     metrics={
-                #         "f1_score": metrics["f1"],
-                #         "precision": metrics["precision"],
-                #         "recall": metrics["recall"]
-                #     }
-                # )
-
-                # Continue with database operations
-        try:
-            vector_id = await save_vector(payload.query, query_embedding)
-            answer_id = await save_answer(answer_content, vector_id)
-        except Exception as db_error:
-            print(f"Database operation failed: {str(db_error)}")
-            raise HTTPException(
-                status_code=500,
-                detail=f"Failed to save to database: {str(db_error)}"
-            )
+        # Save to database
+        await save_chat_data(payload.query, answer_content, query_embedding)
 
         return response_data
 
     except Exception as e:
-        print(f"Chat endpoint error: {str(e)}")
+        print(f"RAG chat endpoint error: {str(e)}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"An error occurred: {str(e)}"
+        )
+
+
+@router.post("/naive_chat/")
+async def naive_chat(payload: ChatPayload):
+    """Naive chat endpoint that uses only the LLM without retrieval."""
+    try:
+        print("-----------------------------------------------------")
+        print(f"Naive chat endpoint called with query: {payload.query}")
+        # Handle trace context and categorization
+        current_trace = langfuse_context.get_current_trace_id()
+        # category = await categorize_query(payload.query)
+        category = "other"
+        trace_id = await handle_trace_context(current_trace, category)
+
+        # Call OpenAI API
+        openai.api_key = get_env_variable("OPENAI_API_KEY")
+        response = openai.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": NAIVE_PROMPT.format(
+                    query=payload.query)}
+            ]
+        )
+
+        answer_content = response.choices[0].message.content
+
+        # Handle evaluation and prepare response
+        response_data = await handle_evaluation(answer_content, payload, trace_id)
+
+        # Save to database with zero vector
+        await save_chat_data(payload.query, answer_content)
+
+        return response_data
+
+    except Exception as e:
+        print(f"Naive chat endpoint error: {str(e)}")
         raise HTTPException(
             status_code=500,
             detail=f"An error occurred: {str(e)}"

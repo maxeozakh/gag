@@ -1,5 +1,6 @@
 annotated-types==0.7.0
 anyio==4.6.2.post1
+async-timeout==5.0.1
 asyncio==3.4.3
 asyncpg==0.30.0
 backoff==2.2.1
@@ -10,6 +11,7 @@ databases==0.9.0
 distro==1.9.0
 dnspython==2.7.0
 email_validator==2.2.0
+exceptiongroup==1.2.2
 fastapi==0.115.5
 fastapi-cli==0.0.5
 h11==0.14.0
@@ -29,6 +31,7 @@ numpy==2.0.2
 openai==1.55.1
 packaging==24.2
 pandas==2.2.3
+pandas-stubs==2.2.2.240807
 pydantic==2.10.1
 pydantic_core==2.27.1
 Pygments==2.18.0
@@ -50,6 +53,7 @@ starlette==0.41.3
 threadpoolctl==3.5.0
 tqdm==4.67.1
 typer==0.13.1
+types-pytz==2025.1.0.20250204
 typing_extensions==4.12.2
 tzdata==2025.1
 urllib3==2.3.0
