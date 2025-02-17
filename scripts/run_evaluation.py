@@ -78,7 +78,7 @@ async def main():
         evaluator = EnhancedEvaluator("data/ecom_ground_truth.csv")
         print(f"✅ Loaded {len(evaluator.ground_truth_df)} test cases")
 
-        limit = 10
+        limit = None
         print(f"\n🔄 Running evaluations (limited to {limit} queries)...")
         evaluation_results = await evaluator.evaluate_all_approaches(limit)
 
