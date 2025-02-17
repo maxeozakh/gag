@@ -18,11 +18,30 @@ class EnhancedEvaluator:
                                   key_facts: Optional[List[str]] = None) -> Dict:
         """Evaluate a single query against multiple ground truths using specified chat type."""
         try:
+            # Get the key_fact (product name) from ground truth data for this query
+            query_data = self.ground_truth_df[self.ground_truth_df['question'] == query]
+            product_name = query_data['key_fact'].iloc[0] if not query_data.empty else None
+
+            # Skip evaluation if product is N/A
+            if product_name == "N/A":
+                return {
+                    "chat_type": chat_type,
+                    "query": query,
+                    "predicted": None,
+                    "ground_truths": ground_truths,
+                    "best_matching_ground_truth": ground_truths[0],
+                    "f1_score": None,
+                    "precision": None,
+                    "recall": None,
+                    "key_facts_match": {},
+                    "trace_id": None
+                }
+
             # Create payload with first ground truth (for context)
             payload = ChatPayload(
                 query=query,
                 chat_type=chat_type,
-                ground_truth=ground_truths[0],  # Use first as reference
+                ground_truth=ground_truths[0],
                 key_facts=key_facts
             )
 
@@ -124,9 +143,11 @@ class EnhancedEvaluator:
 
     def calculate_aggregate_metrics(self, results: List[Dict]) -> Dict:
         """Calculate aggregate metrics across all results."""
-        # Consider a result valid if it has non-zero metrics
+        # Only include results that weren't skipped (where metrics are not None)
         valid_results = [
-            r for r in results if "error" not in r and r["f1_score"] > 0]
+            r for r in results 
+            if "error" not in r and r["f1_score"] is not None
+        ]
 
         if not valid_results:
             return {
@@ -138,7 +159,7 @@ class EnhancedEvaluator:
                 "key_facts_success_rate": 0.0
             }
 
-        # Calculate key facts success rate
+        # Calculate key facts success rate (only for valid results)
         key_facts_results = [
             r for r in valid_results
             if "key_facts_match" in r and r["key_facts_match"]
