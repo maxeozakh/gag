@@ -2,9 +2,12 @@ import asyncio
 import sys
 import os
 import json
+import logging
 from datetime import datetime
 from dotenv import load_dotenv
 
+# Configure logging to suppress INFO messages from sentence_transformers
+logging.getLogger('sentence_transformers').setLevel(logging.WARNING)
 
 # Load environment variables from .env file
 load_dotenv()
@@ -62,8 +65,23 @@ def print_comparison_results(metrics: dict):
             f"{improvement:+.1f}%" if improvement != float('inf') else "N/A"
         ))
 
+def prepare_for_json(obj):
+    """Convert all values to JSON serializable format"""
+    if isinstance(obj, dict):
+        return {k: prepare_for_json(v) for k, v in obj.items()}
+    elif isinstance(obj, list):
+        return [prepare_for_json(item) for item in obj]
+    elif isinstance(obj, (bool, int, float, str)) or obj is None:
+        return obj
+    else:
+        return str(obj)
 
 async def main():
+    # Get limit from command line argument, default to None if not provided
+    limit = int(sys.argv[1]) if len(sys.argv) > 1 else None
+    
+    print(f"Running evaluation with limit: {limit if limit else 'No limit'}")
+    
     start_time = datetime.now()
     print(f"\n🚀 Starting evaluation at {start_time.strftime('%H:%M:%S')}")
 
@@ -74,22 +92,28 @@ async def main():
 
     try:
         # Initialize evaluator
-        print("\n📚 Loading ground truth data from ecom_ground_truth.csv...")
-        evaluator = EnhancedEvaluator("data/ecom_ground_truth.csv")
+        print("\n📚 Loading QA pairs")
+        evaluator = EnhancedEvaluator("data/qa_test.csv")
         print(f"✅ Loaded {len(evaluator.ground_truth_df)} test cases")
 
-        limit = None
-        print(f"\n🔄 Running evaluations (limited to {limit} queries)...")
-        evaluation_results = await evaluator.evaluate_all_approaches(limit)
+        # Add debug prints
+        print("\nDebug: Checking ground truth data")
+        print(f"Columns: {evaluator.ground_truth_df.columns}")
+        print("\nSample key_facts:")
+        print(evaluator.ground_truth_df['key_fact'].head())
+
+        print(f"\n🔄 Running evaluations (limited to {limit if limit else 'No limit'} queries)...")
+        evaluation_results = await evaluator.evaluate_all_approaches(limit=limit)
 
         # Print comparison results
         print_comparison_results(evaluation_results["metrics"])
 
-        # Save detailed results to file
-        output_file = f"evaluation_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-        with open(output_file, 'w') as f:
-            json.dump(evaluation_results, f, indent=2)
-        print(f"\n💾 Detailed results saved to {output_file}")
+        # Save results to file
+        with open("evaluation_results.json", "w") as f:
+            # Convert results to JSON-serializable format
+            serializable_results = prepare_for_json(evaluation_results)
+            json.dump(serializable_results, f, indent=2)
+        print(f"\n💾 Detailed results saved to evaluation_results.json")
 
     finally:
         # Disconnect from database

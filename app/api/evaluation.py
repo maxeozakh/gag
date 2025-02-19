@@ -3,13 +3,14 @@ import pandas as pd
 from app.evaluation.token_metrics import calculate_f1
 from app.api.routers import naive_chat, rag_chat, ChatPayload
 from app.evaluation.token_metrics import TokenMetrics
-
+from app.api.metrics import EnhancedKeyFactsValidator
 
 class EnhancedEvaluator:
     def __init__(self, ground_truth_path: str):
         """Initialize evaluator with ground truth data."""
         # Load the CSV but don't group yet - we'll group during evaluation
         self.ground_truth_df = pd.read_csv(ground_truth_path)
+        self.key_facts_validator = EnhancedKeyFactsValidator()
 
     async def evaluate_single_query(self,
                                   query: str,
@@ -34,6 +35,7 @@ class EnhancedEvaluator:
                     "precision": None,
                     "recall": None,
                     "key_facts_match": {},
+                    "key_facts_details": {},
                     "trace_id": None
                 }
 
@@ -65,8 +67,13 @@ class EnhancedEvaluator:
             print(f"Predicted: {response['answer'][:50]}...")
             print(f"Metrics: F1={best_metrics['f1']:.3f}, P={best_metrics['precision']:.3f}, R={best_metrics['recall']:.3f}")
             if key_facts:
-                key_facts_match = TokenMetrics.validate_key_facts(response["answer"], key_facts)
-                print(f"Key Facts Match: {key_facts_match}")
+                print(f"\nProcessing key facts for {chat_type}:")
+                print(f"Key facts to check: {key_facts}")
+                key_facts_results = self.key_facts_validator.validate_key_facts(
+                    response["answer"], 
+                    key_facts
+                )
+                print(f"Validation results: {key_facts_results}")
 
             return {
                 "chat_type": chat_type,
@@ -77,7 +84,11 @@ class EnhancedEvaluator:
                 "f1_score": best_metrics["f1"],
                 "precision": best_metrics["precision"],
                 "recall": best_metrics["recall"],
-                "key_facts_match": TokenMetrics.validate_key_facts(response["answer"], key_facts) if key_facts else {},
+                "key_facts_match": key_facts_results if key_facts else {},
+                "key_facts_details": {
+                    fact: self.key_facts_validator.get_best_match_explanation(fact, result)
+                    for fact, result in key_facts_results.items()
+                } if key_facts else {},
                 "trace_id": response.get("trace_id")
             }
 
@@ -89,7 +100,10 @@ class EnhancedEvaluator:
                 "error": str(e),
                 "f1_score": 0.0,
                 "precision": 0.0,
-                "recall": 0.0
+                "recall": 0.0,
+                "key_facts_match": {},
+                "key_facts_details": {},
+                "trace_id": None
             }
 
     async def evaluate_all_approaches(self, limit: Optional[int] = None) -> Dict[str, Dict]:
@@ -143,7 +157,6 @@ class EnhancedEvaluator:
 
     def calculate_aggregate_metrics(self, results: List[Dict]) -> Dict:
         """Calculate aggregate metrics across all results."""
-        # Only include results that weren't skipped (where metrics are not None)
         valid_results = [
             r for r in results 
             if "error" not in r and r["f1_score"] is not None
@@ -159,17 +172,27 @@ class EnhancedEvaluator:
                 "key_facts_success_rate": 0.0
             }
 
-        # Calculate key facts success rate (only for valid results)
+        # Calculate key facts success rate
         key_facts_results = [
             r for r in valid_results
-            if "key_facts_match" in r and r["key_facts_match"]
+            if r.get("key_facts_match") and isinstance(r["key_facts_match"], dict)
         ]
-        total_facts = sum(len(r["key_facts_match"]) for r in key_facts_results)
-        matched_facts = sum(
-            sum(1 for matched in r["key_facts_match"].values() if matched)
-            for r in key_facts_results
-        )
-        key_facts_rate = matched_facts / total_facts if total_facts > 0 else 0
+        
+        if key_facts_results:
+            total_matches = 0
+            total_facts = 0
+            
+            for result in key_facts_results:
+                matches = result["key_facts_match"]
+                
+                for fact, fact_result in matches.items():
+                    total_facts += 1
+                    if fact_result.get("match", False):
+                        total_matches += 1
+            
+            key_facts_rate = total_matches / total_facts if total_facts > 0 else 0
+        else:
+            key_facts_rate = 0.0
 
         return {
             "avg_f1": sum(r["f1_score"] for r in valid_results) / len(valid_results),
@@ -177,5 +200,5 @@ class EnhancedEvaluator:
             "avg_recall": sum(r["recall"] for r in valid_results) / len(valid_results),
             "total_queries": len(results),
             "successful_queries": len(valid_results),
-            "key_facts_success_rate": key_facts_rate
+            "key_facts_success_rate": float(key_facts_rate)  # Ensure it's JSON serializable
         }
