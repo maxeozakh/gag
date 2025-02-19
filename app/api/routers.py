@@ -15,6 +15,7 @@ from app.models.database import database
 from app.utils.helpers import get_env_variable
 from app.evaluation.token_metrics import TokenMetrics
 from app.models import ChatPayload  # Add this import
+from app.api.metrics import EnhancedKeyFactsValidator
 
 router = APIRouter()
 langfuse = Langfuse()
@@ -221,7 +222,8 @@ async def handle_evaluation(answer_content: str, payload: ChatPayload, trace_id:
         })
 
         if payload.key_facts:
-            key_facts_results = token_metrics.validate_key_facts(
+            validator = EnhancedKeyFactsValidator()
+            key_facts_results = validator.validate_key_facts(
                 prediction=answer_content,
                 key_facts=payload.key_facts
             )
@@ -276,7 +278,7 @@ async def rag_chat(payload: ChatPayload):
 
         print("\n=== RAG RETRIEVAL INFO ===")
         print(f"Query: {payload.query}")
-        print(f"Retrieved content: {search_result['content'] if search_result else 'No content retrieved'}")
+        print(f"Retrieved content: {search_result['content'][:50] if search_result else 'No content retrieved'}")
         print(f"Similarity score: {search_result['similarity'] if search_result else 'N/A'}")
         print("========================\n")
 
