@@ -6,6 +6,7 @@ from langfuse import Langfuse  # type: ignore
 from app.utils.helpers import get_env_variable
 from app.api.routers import router
 from app.models.database import connect_db, disconnect_db, database
+from app.syntetic_qa_pairs import QAPairs
 
 templates = Jinja2Templates(directory="app/templates")
 
@@ -45,6 +46,7 @@ async def startup_event():
     except Exception as e:
         print(f"⚠️ Warning: Failed to connect to Langfuse: {str(e)}")
 
+    # QAPairs('data/ecom.csv')
 
 @app.on_event("shutdown")
 async def shutdown():

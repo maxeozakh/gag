@@ -64,6 +64,7 @@ class EnhancedEvaluator:
             # Debug print
             print(f"\nChat Type: {chat_type.upper()}")
             print(f"Query: {query[:50]}...")
+            print(f"Expected: {best_ground_truth[:50]}...")
             print(f"Predicted: {response['answer'][:50]}...")
             print(f"Metrics: F1={best_metrics['f1']:.3f}, P={best_metrics['precision']:.3f}, R={best_metrics['recall']:.3f}")
             if key_facts:

@@ -93,7 +93,7 @@ async def main():
     try:
         # Initialize evaluator
         print("\n📚 Loading QA pairs")
-        evaluator = EnhancedEvaluator("data/qa_test.csv")
+        evaluator = EnhancedEvaluator("data/qa_dev.csv")
         print(f"✅ Loaded {len(evaluator.ground_truth_df)} test cases")
 
         # Add debug prints
