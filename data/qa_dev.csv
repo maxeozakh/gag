@@ -1,12 +1,17 @@
 id,question,answer,key_fact
-1,"How much does the down sweater weigh?
-",The down sweater weighs 34 g (1.2 oz),34
-2,"What is the fabric blend of the Stretch Tees?
-        ","The fabric blend of the Stretch Tees is 55% organic cotton, 35% polyester, and 10% spandex.",
-3,"What is the fabric blend of the Short-Sleeved Rashguard?
-
-",The fabric blend of the Short-Sleeved Rashguard is a blend of 84% all-recycled polyester and 16% spandex.,
-4,"What is the fabric blend of the pants?
-        ",The fabric blend of the pants is 98% organic cotton and 2% spandex.,
-5,"What is the fabric of the Versatiliti tank made of?
-        ",The Versatiliti tank is made of a lightweight blend of 62% organic cotton/38% Tencel.,
+3,What is the fabric of the organic logo t-shirt?,The fabric of the organic logo t-shirt is 100% organic cotton.,100% organic cotton
+4,What is the fabric of the Houdini full-zip jkt?,The fabric of the Houdini full-zip jkt is 1-oz 15-denier 100% nylon ripstop with Deluge DWR finish.,1-oz 15-denier 100% nylon ripstop with Deluge DWR finish
+5,What is the fabric of the Cap 2 cap sleeve?,The fabric of the Cap 2 cap sleeve is 4-oz 100% polyester (54% recycled) with Gladiodor natural odor control for the garment.,4-oz 100% polyester (54% recycled)
+6,What is the fabric of the Shelled Insulator pants?,"The Shelled Insulator pants are made of a 3-layer polyester soft-shell fabric that includes a windproof membrane and soft, grid-backed interior.",3-layer polyester soft-shell fabric
+7,What is the fabric of the Cap 2 v-neck?,The fabric of the Cap 2 v-neck is 4-oz 100% polyester (54% recycled) with Gladiodor natural odor control for the garment.,4-oz 100% polyester (54% recycled)
+8,What is the fabric of the Merino 3 pants?,The Merino 3 pants are made of 100% chlorine-free merino wool.,Merino wool
+9,What is the fabric of the Custodian Pants?,The fabric of the Custodian Pants is a 5.2-oz 100% organic cotton canvas.,Organic cotton canvas
+11,What is the fabric of the all-wear cargo shorts?,The fabric of the all-wear cargo shorts is 5.2-oz 100% organic cotton canvas.,Organic cotton canvas
+13,What is the fabric of the Insulator Pants made of?,"The Insulator Pants are made with moisture-wicking, low-bulk polyester Regulator R1 fleece, tapered Capilene 4 polyester cuffs, and Polartec Power Dry 6.5-oz 93% polyester (60% recycled)/7% spandex single-sided fleece.",Insulator Pants fabric
+14,What is the fabric of the guide jacket?,The guide jacket is made of a 7.6-oz 70-denier 92% polyester (47% recycled) double weave with 4-way stretch and an 8% spandex Deluge DWR finish.,7.6-oz 70-denier 92% polyester (47% recycled) double weave
+15,What is the fabric of the Corinne dress made of?,The Corinne dress is made of a 7-oz 86% nylon/14% spandex smooth-faced jersey knit with moisture-wicking performance.,7-oz 86% nylon/14% spandex jersey knit
+16,What is the fabric of the Boucau halter top?,The fabric of the Boucau halter top is a blend of 82% nylon and 18% spandex.,82% nylon/18% spandex
+17,What is the fabric of the Women's Sport Top?,The Women's Sport Top is made of a nylon/spandex blend.,Nylon/spandex blend
+18,What is the fabric composition of the Versatiliti tee?,The Versatiliti tee is made of 62% organic cotton and 38% Tencel.,Organic cotton/Tencel plaited jersey
+19,What is the fabric of the Cerro Torre One Shirt made of?,The fabric of the Cerro Torre One Shirt is made of 100% organic cotton.,100% organic cotton
+20,What is the fabric of the Merino 2 t-shirt made of?,The Merino 2 t-shirt is made of 73% merino wool and 27% all-recycled polyester.,73% merino wool and 27% all-recycled polyester

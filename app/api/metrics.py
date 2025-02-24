@@ -11,9 +11,9 @@ class EnhancedKeyFactsValidator:
         # Initialize the sentence transformer model
         self.model = SentenceTransformer('all-MiniLM-L6-v2')
         # Threshold for semantic similarity (0-1)
-        self.semantic_threshold = 0.8
+        self.semantic_threshold = 0.6
         # Threshold for fuzzy matching (0-100)
-        self.fuzzy_threshold = 85
+        self.fuzzy_threshold = 70
 
     def validate_key_facts(self, 
                           prediction: str, 

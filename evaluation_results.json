@@ -1,0 +1,794 @@
+{
+  "results": {
+    "naive": [
+      {
+        "chat_type": "naive",
+        "query": "What is the fabric of the organic logo t-shirt?",
+        "predicted": "The organic logo t-shirt is typically made from 100% organic cotton, known for being environmentally friendly and free from synthetic pesticides and fertilizers.",
+        "ground_truths": [
+          "The fabric of the organic logo t-shirt is 100% organic cotton."
+        ],
+        "best_matching_ground_truth": "The fabric of the organic logo t-shirt is 100% organic cotton.",
+        "f1_score": 0.5294117647058824,
+        "precision": 0.391304347826087,
+        "recall": 0.8181818181818182,
+        "key_facts_match": {
+          "100% organic cotton": {
+            "match": "True",
+            "semantic_similarity": 0.6047086119651794,
+            "fuzzy_score": 1.0,
+            "exact_match": true
+          }
+        },
+        "key_facts_details": {
+          "100% organic cotton": "Exact match found"
+        },
+        "trace_id": null
+      },
+      {
+        "chat_type": "naive",
+        "query": "What is the fabric of the Houdini full-zip jkt?",
+        "predicted": "The Houdini Full-Zip Jacket is typically made from a lightweight, durable, and breathable fabric such as recycled polyester. It is often treated with a durable water repellent (DWR) finish to provide some resistance to light rain and wind. Always check the specific product details as materials can vary by model or season.",
+        "ground_truths": [
+          "The fabric of the Houdini full-zip jkt is 1-oz 15-denier 100% nylon ripstop with Deluge DWR finish."
+        ],
+        "best_matching_ground_truth": "The fabric of the Houdini full-zip jkt is 1-oz 15-denier 100% nylon ripstop with Deluge DWR finish.",
+        "f1_score": 0.26865671641791045,
+        "precision": 0.1836734693877551,
+        "recall": 0.5,
+        "key_facts_match": {
+          "1-oz 15-denier 100% nylon ripstop with Deluge DWR finish": {
+            "match": false,
+            "semantic_similarity": 0.4205908477306366,
+            "fuzzy_score": 0.46,
+            "exact_match": false
+          }
+        },
+        "key_facts_details": {
+          "1-oz 15-denier 100% nylon ripstop with Deluge DWR finish": "No significant match found"
+        },
+        "trace_id": null
+      },
+      {
+        "chat_type": "naive",
+        "query": "What is the fabric of the Cap 2 cap sleeve?",
+        "predicted": "The Cap 2 cap sleeve is typically made from a lightweight, stretchy, and breathable fabric designed for moisture management. This often includes a blend of synthetic materials such as polyester and elastane to provide comfort and flexibility.",
+        "ground_truths": [
+          "The fabric of the Cap 2 cap sleeve is 4-oz 100% polyester (54% recycled) with Gladiodor natural odor control for the garment."
+        ],
+        "best_matching_ground_truth": "The fabric of the Cap 2 cap sleeve is 4-oz 100% polyester (54% recycled) with Gladiodor natural odor control for the garment.",
+        "f1_score": 0.3448275862068965,
+        "precision": 0.2857142857142857,
+        "recall": 0.43478260869565216,
+        "key_facts_match": {
+          "4-oz 100% polyester (54% recycled)": {
+            "match": false,
+            "semantic_similarity": 0.28436899185180664,
+            "fuzzy_score": 0.47,
+            "exact_match": false
+          }
+        },
+        "key_facts_details": {
+          "4-oz 100% polyester (54% recycled)": "No significant match found"
+        },
+        "trace_id": null
+      },
+      {
+        "chat_type": "naive",
+        "query": "What is the fabric of the Shelled Insulator pants?",
+        "predicted": "The Shelled Insulator pants are typically made from a combination of synthetic materials, such as nylon or polyester, often with a durable water-repellent (DWR) finish, and insulated with synthetic fill for warmth. For specific fabric details, it\u2019s best to check the product description from the manufacturer or retailer.",
+        "ground_truths": [
+          "The Shelled Insulator pants are made of a 3-layer polyester soft-shell fabric that includes a windproof membrane and soft, grid-backed interior."
+        ],
+        "best_matching_ground_truth": "The Shelled Insulator pants are made of a 3-layer polyester soft-shell fabric that includes a windproof membrane and soft, grid-backed interior.",
+        "f1_score": 0.38235294117647056,
+        "precision": 0.2826086956521739,
+        "recall": 0.5909090909090909,
+        "key_facts_match": {
+          "3-layer polyester soft-shell fabric": {
+            "match": false,
+            "semantic_similarity": 0.5243767499923706,
+            "fuzzy_score": 0.57,
+            "exact_match": false
+          }
+        },
+        "key_facts_details": {
+          "3-layer polyester soft-shell fabric": "No significant match found"
+        },
+        "trace_id": null
+      },
+      {
+        "chat_type": "naive",
+        "query": "What is the fabric of the Cap 2 v-neck?",
+        "predicted": "The fabric of the Capilene\u00ae 2 Lightweight V-Neck is made from 100% recycled polyester.",
+        "ground_truths": [
+          "The fabric of the Cap 2 v-neck is 4-oz 100% polyester (54% recycled) with Gladiodor natural odor control for the garment."
+        ],
+        "best_matching_ground_truth": "The fabric of the Cap 2 v-neck is 4-oz 100% polyester (54% recycled) with Gladiodor natural odor control for the garment.",
+        "f1_score": 0.5789473684210527,
+        "precision": 0.7333333333333333,
+        "recall": 0.4782608695652174,
+        "key_facts_match": {
+          "4-oz 100% polyester (54% recycled)": {
+            "match": false,
+            "semantic_similarity": 0.43071529269218445,
+            "fuzzy_score": 0.52,
+            "exact_match": false
+          }
+        },
+        "key_facts_details": {
+          "4-oz 100% polyester (54% recycled)": "No significant match found"
+        },
+        "trace_id": null
+      },
+      {
+        "chat_type": "naive",
+        "query": "What is the fabric of the Merino 3 pants?",
+        "predicted": "The Merino 3 pants are made from merino wool fabric, which is known for its softness, breathability, and moisture-wicking properties.",
+        "ground_truths": [
+          "The Merino 3 pants are made of 100% chlorine-free merino wool."
+        ],
+        "best_matching_ground_truth": "The Merino 3 pants are made of 100% chlorine-free merino wool.",
+        "f1_score": 0.4848484848484849,
+        "precision": 0.38095238095238093,
+        "recall": 0.6666666666666666,
+        "key_facts_match": {
+          "Merino wool": {
+            "match": "True",
+            "semantic_similarity": 0.6219841241836548,
+            "fuzzy_score": 1.0,
+            "exact_match": true
+          }
+        },
+        "key_facts_details": {
+          "Merino wool": "Exact match found"
+        },
+        "trace_id": null
+      },
+      {
+        "chat_type": "naive",
+        "query": "What is the fabric of the Custodian Pants?",
+        "predicted": "The Custodian Pants are made from 100% Taslan nylon.",
+        "ground_truths": [
+          "The fabric of the Custodian Pants is a 5.2-oz 100% organic cotton canvas."
+        ],
+        "best_matching_ground_truth": "The fabric of the Custodian Pants is a 5.2-oz 100% organic cotton canvas.",
+        "f1_score": 0.4799999999999999,
+        "precision": 0.5454545454545454,
+        "recall": 0.42857142857142855,
+        "key_facts_match": {
+          "Organic cotton canvas": {
+            "match": false,
+            "semantic_similarity": 0.2969772517681122,
+            "fuzzy_score": 0.45,
+            "exact_match": false
+          }
+        },
+        "key_facts_details": {
+          "Organic cotton canvas": "No significant match found"
+        },
+        "trace_id": null
+      },
+      {
+        "chat_type": "naive",
+        "query": "What is the fabric of the all-wear cargo shorts?",
+        "predicted": "The All-Wear Cargo Shorts are made from 100% organic cotton.",
+        "ground_truths": [
+          "The fabric of the all-wear cargo shorts is 5.2-oz 100% organic cotton canvas."
+        ],
+        "best_matching_ground_truth": "The fabric of the all-wear cargo shorts is 5.2-oz 100% organic cotton canvas.",
+        "f1_score": 0.6923076923076924,
+        "precision": 0.75,
+        "recall": 0.6428571428571429,
+        "key_facts_match": {
+          "Organic cotton canvas": {
+            "match": true,
+            "semantic_similarity": 0.4780803322792053,
+            "fuzzy_score": 0.78,
+            "exact_match": false
+          }
+        },
+        "key_facts_details": {
+          "Organic cotton canvas": "Fuzzy match score: 0.78"
+        },
+        "trace_id": null
+      },
+      {
+        "chat_type": "naive",
+        "query": "What is the fabric of the Insulator Pants made of?",
+        "predicted": "The Insulator Pants are made of 100% Nylon, featuring 135 g/m\u00b2 PrimaLoft\u00ae Gold Insulation and a Pertex\u00ae Quantum Eco polyester lining.",
+        "ground_truths": [
+          "The Insulator Pants are made with moisture-wicking, low-bulk polyester Regulator R1 fleece, tapered Capilene 4 polyester cuffs, and Polartec Power Dry 6.5-oz 93% polyester (60% recycled)/7% spandex single-sided fleece."
+        ],
+        "best_matching_ground_truth": "The Insulator Pants are made with moisture-wicking, low-bulk polyester Regulator R1 fleece, tapered Capilene 4 polyester cuffs, and Polartec Power Dry 6.5-oz 93% polyester (60% recycled)/7% spandex single-sided fleece.",
+        "f1_score": 0.35714285714285715,
+        "precision": 0.4166666666666667,
+        "recall": 0.3125,
+        "key_facts_match": {
+          "Insulator Pants fabric": {
+            "match": "True",
+            "semantic_similarity": 0.8097847104072571,
+            "fuzzy_score": 0.82,
+            "exact_match": false
+          }
+        },
+        "key_facts_details": {
+          "Insulator Pants fabric": "Semantic similarity: 0.81"
+        },
+        "trace_id": null
+      },
+      {
+        "chat_type": "naive",
+        "query": "What is the fabric of the guide jacket?",
+        "predicted": "The guide jacket is typically made from a durable, water-resistant material such as nylon or polyester, often with a breathable membrane like Gore-Tex for added weather protection and comfort.",
+        "ground_truths": [
+          "The guide jacket is made of a 7.6-oz 70-denier 92% polyester (47% recycled) double weave with 4-way stretch and an 8% spandex Deluge DWR finish."
+        ],
+        "best_matching_ground_truth": "The guide jacket is made of a 7.6-oz 70-denier 92% polyester (47% recycled) double weave with 4-way stretch and an 8% spandex Deluge DWR finish.",
+        "f1_score": 0.33898305084745767,
+        "precision": 0.3333333333333333,
+        "recall": 0.3448275862068966,
+        "key_facts_match": {
+          "7.6-oz 70-denier 92% polyester (47% recycled) double weave": {
+            "match": false,
+            "semantic_similarity": 0.25627005100250244,
+            "fuzzy_score": 0.41,
+            "exact_match": false
+          }
+        },
+        "key_facts_details": {
+          "7.6-oz 70-denier 92% polyester (47% recycled) double weave": "No significant match found"
+        },
+        "trace_id": null
+      },
+      {
+        "chat_type": "naive",
+        "query": "What is the fabric of the Corinne dress made of?",
+        "predicted": "The Corinne dress is made of 100% polyester fabric.",
+        "ground_truths": [
+          "The Corinne dress is made of a 7-oz 86% nylon/14% spandex smooth-faced jersey knit with moisture-wicking performance."
+        ],
+        "best_matching_ground_truth": "The Corinne dress is made of a 7-oz 86% nylon/14% spandex smooth-faced jersey knit with moisture-wicking performance.",
+        "f1_score": 0.5333333333333333,
+        "precision": 0.7272727272727273,
+        "recall": 0.42105263157894735,
+        "key_facts_match": {
+          "7-oz 86% nylon/14% spandex jersey knit": {
+            "match": false,
+            "semantic_similarity": 0.4149891138076782,
+            "fuzzy_score": 0.35,
+            "exact_match": false
+          }
+        },
+        "key_facts_details": {
+          "7-oz 86% nylon/14% spandex jersey knit": "No significant match found"
+        },
+        "trace_id": null
+      },
+      {
+        "chat_type": "naive",
+        "query": "What is the fabric of the Boucau halter top?",
+        "predicted": "The Boucau halter top is made from a blend of recycled polyester and spandex.",
+        "ground_truths": [
+          "The fabric of the Boucau halter top is a blend of 82% nylon and 18% spandex."
+        ],
+        "best_matching_ground_truth": "The fabric of the Boucau halter top is a blend of 82% nylon and 18% spandex.",
+        "f1_score": 0.7096774193548386,
+        "precision": 0.7333333333333333,
+        "recall": 0.6875,
+        "key_facts_match": {
+          "82% nylon/18% spandex": {
+            "match": false,
+            "semantic_similarity": 0.41798046231269836,
+            "fuzzy_score": 0.59,
+            "exact_match": false
+          }
+        },
+        "key_facts_details": {
+          "82% nylon/18% spandex": "No significant match found"
+        },
+        "trace_id": null
+      },
+      {
+        "chat_type": "naive",
+        "query": "What is the fabric of the Women's Sport Top?",
+        "predicted": "The fabric of the Women's Sport Top is made of a breathable polyester-spandex blend designed to provide comfort and flexibility during physical activities.",
+        "ground_truths": [
+          "The Women's Sport Top is made of a nylon/spandex blend."
+        ],
+        "best_matching_ground_truth": "The Women's Sport Top is made of a nylon/spandex blend.",
+        "f1_score": 0.6285714285714286,
+        "precision": 0.4782608695652174,
+        "recall": 0.9166666666666666,
+        "key_facts_match": {
+          "Nylon/spandex blend": {
+            "match": false,
+            "semantic_similarity": 0.5085381269454956,
+            "fuzzy_score": 0.68,
+            "exact_match": false
+          }
+        },
+        "key_facts_details": {
+          "Nylon/spandex blend": "No significant match found"
+        },
+        "trace_id": null
+      },
+      {
+        "chat_type": "naive",
+        "query": "What is the fabric composition of the Versatiliti tee?",
+        "predicted": "The Versatiliti Tee is made primarily from a blend of 95% Tencel lyocell and 5% spandex.",
+        "ground_truths": [
+          "The Versatiliti tee is made of 62% organic cotton and 38% Tencel."
+        ],
+        "best_matching_ground_truth": "The Versatiliti tee is made of 62% organic cotton and 38% Tencel.",
+        "f1_score": 0.6250000000000001,
+        "precision": 0.5555555555555556,
+        "recall": 0.7142857142857143,
+        "key_facts_match": {
+          "Organic cotton/Tencel plaited jersey": {
+            "match": false,
+            "semantic_similarity": 0.40578365325927734,
+            "fuzzy_score": 0.42,
+            "exact_match": false
+          }
+        },
+        "key_facts_details": {
+          "Organic cotton/Tencel plaited jersey": "No significant match found"
+        },
+        "trace_id": null
+      },
+      {
+        "chat_type": "naive",
+        "query": "What is the fabric of the Cerro Torre One Shirt made of?",
+        "predicted": "The Cerro Torre One Shirt is made of polyester.",
+        "ground_truths": [
+          "The fabric of the Cerro Torre One Shirt is made of 100% organic cotton."
+        ],
+        "best_matching_ground_truth": "The fabric of the Cerro Torre One Shirt is made of 100% organic cotton.",
+        "f1_score": 0.75,
+        "precision": 0.9,
+        "recall": 0.6428571428571429,
+        "key_facts_match": {
+          "100% organic cotton": {
+            "match": false,
+            "semantic_similarity": 0.38176819682121277,
+            "fuzzy_score": 0.32,
+            "exact_match": false
+          }
+        },
+        "key_facts_details": {
+          "100% organic cotton": "No significant match found"
+        },
+        "trace_id": null
+      },
+      {
+        "chat_type": "naive",
+        "query": "What is the fabric of the Merino 2 t-shirt made of?",
+        "predicted": "The Merino 2 t-shirt is made of merino wool, often blended with other fibers like polyester for added durability and moisture-wicking properties.",
+        "ground_truths": [
+          "The Merino 2 t-shirt is made of 73% merino wool and 27% all-recycled polyester."
+        ],
+        "best_matching_ground_truth": "The Merino 2 t-shirt is made of 73% merino wool and 27% all-recycled polyester.",
+        "f1_score": 0.5789473684210527,
+        "precision": 0.4782608695652174,
+        "recall": 0.7333333333333333,
+        "key_facts_match": {
+          "73% merino wool and 27% all-recycled polyester": {
+            "match": "True",
+            "semantic_similarity": 0.632632851600647,
+            "fuzzy_score": 0.52,
+            "exact_match": false
+          }
+        },
+        "key_facts_details": {
+          "73% merino wool and 27% all-recycled polyester": "Semantic similarity: 0.63"
+        },
+        "trace_id": null
+      }
+    ],
+    "rag": [
+      {
+        "chat_type": "rag",
+        "query": "What is the fabric of the organic logo t-shirt?",
+        "predicted": "The fabric of the Organic Logo T-Shirt is 4.4-ounce 100% organic cotton. This t-shirt commemorates Patagonia's commitment to sustainability and is designed with ringspun yarns for a softer feel. Additionally, the t-shirt is recyclable through the Common Threads Recycling Program, highlighting its eco-friendly design.\n\nIf you have any further questions or need additional details, please let me know.",
+        "ground_truths": [
+          "The fabric of the organic logo t-shirt is 100% organic cotton."
+        ],
+        "best_matching_ground_truth": "The fabric of the organic logo t-shirt is 100% organic cotton.",
+        "f1_score": 0.3384615384615384,
+        "precision": 0.2037037037037037,
+        "recall": 1.0,
+        "key_facts_match": {
+          "100% organic cotton": {
+            "match": true,
+            "semantic_similarity": 0.5550100803375244,
+            "fuzzy_score": 1.0,
+            "exact_match": true
+          }
+        },
+        "key_facts_details": {
+          "100% organic cotton": "Exact match found"
+        },
+        "trace_id": null
+      },
+      {
+        "chat_type": "rag",
+        "query": "What is the fabric of the Houdini full-zip jkt?",
+        "predicted": "The fabric of the Houdini full-zip jacket is a 1-oz 15-denier 100% nylon ripstop with a Deluge DWR (durable water repellent) finish. This material is characterized by its lightweight and textured soft-shell fabric, which features a strong triple ripstop pattern and a slightly transparent appearance. The fabric is also recyclable through the Common Threads Recycling Program.\n\nIf you need further details on the fabric not covered here, please feel free to ask.",
+        "ground_truths": [
+          "The fabric of the Houdini full-zip jkt is 1-oz 15-denier 100% nylon ripstop with Deluge DWR finish."
+        ],
+        "best_matching_ground_truth": "The fabric of the Houdini full-zip jkt is 1-oz 15-denier 100% nylon ripstop with Deluge DWR finish.",
+        "f1_score": 0.41975308641975306,
+        "precision": 0.2698412698412698,
+        "recall": 0.9444444444444444,
+        "key_facts_match": {
+          "1-oz 15-denier 100% nylon ripstop with Deluge DWR finish": {
+            "match": "True",
+            "semantic_similarity": 0.6212360858917236,
+            "fuzzy_score": 0.89,
+            "exact_match": false
+          }
+        },
+        "key_facts_details": {
+          "1-oz 15-denier 100% nylon ripstop with Deluge DWR finish": "Semantic similarity: 0.62"
+        },
+        "trace_id": null
+      },
+      {
+        "chat_type": "rag",
+        "query": "What is the fabric of the Cap 2 cap sleeve?",
+        "predicted": "The fabric of the Cap 2 cap sleeve is detailed as follows:\n\n1. **Material Composition**: The Cap 2 cap sleeve is made from 4-ounce 100% polyester, which includes 54% recycled content. This reflects a commitment to sustainability by incorporating recycled materials.\n\n2. **Performance Features**:\n   - **Fast Drying**: It is noted as the fastest-drying fabric among the Capilene baselayers, making it ideal for endurance activities in warm to moderate temperatures.\n   - **Breathability and Wicking**: The open knit design enhances airflow, contributing to excellent moisture wicking and breathability, which helps to keep the wearer dry and comfortable.\n   - **Odor Control**: The fabric is treated with Gladiodor natural odor control, further enhancing its suitability for performance and active use.\n\n3. **Environmental Considerations**: The garment is recyclable through the Common Threads Recycling Program, illustrating environmental responsibility in its design and lifecycle management.\n\nWhile the context provides extensive details about the fabric's composition and performance characteristics, it does not specify the color options or any additional fabric treatments beyond odor control. If further information on these aspects is needed, additional context would be required.",
+        "ground_truths": [
+          "The fabric of the Cap 2 cap sleeve is 4-oz 100% polyester (54% recycled) with Gladiodor natural odor control for the garment."
+        ],
+        "best_matching_ground_truth": "The fabric of the Cap 2 cap sleeve is 4-oz 100% polyester (54% recycled) with Gladiodor natural odor control for the garment.",
+        "f1_score": 0.2684563758389262,
+        "precision": 0.15873015873015872,
+        "recall": 0.8695652173913043,
+        "key_facts_match": {
+          "4-oz 100% polyester (54% recycled)": {
+            "match": false,
+            "semantic_similarity": 0.4497193992137909,
+            "fuzzy_score": 0.65,
+            "exact_match": false
+          }
+        },
+        "key_facts_details": {
+          "4-oz 100% polyester (54% recycled)": "No significant match found"
+        },
+        "trace_id": null
+      },
+      {
+        "chat_type": "rag",
+        "query": "What is the fabric of the Shelled Insulator pants?",
+        "predicted": "The fabric of the Shelled Insulator pants is specifically crafted from 9.6-ounce 70-denier material, consisting of 86% polyester and 14% spandex. This fabric is bonded to a windproof membrane and features a Deluge DWR (durable water repellent) finish. The construction integrates a three-layer stretch-woven polyester soft-shell, which includes a tough, water-resistant exterior combined with a windproof film laminate and soft, grid-backed insulation on the inside. If you need more details about the fabric properties or other specifications, please let me know.",
+        "ground_truths": [
+          "The Shelled Insulator pants are made of a 3-layer polyester soft-shell fabric that includes a windproof membrane and soft, grid-backed interior."
+        ],
+        "best_matching_ground_truth": "The Shelled Insulator pants are made of a 3-layer polyester soft-shell fabric that includes a windproof membrane and soft, grid-backed interior.",
+        "f1_score": 0.3695652173913044,
+        "precision": 0.24285714285714285,
+        "recall": 0.7727272727272727,
+        "key_facts_match": {
+          "3-layer polyester soft-shell fabric": {
+            "match": "True",
+            "semantic_similarity": 0.6348117589950562,
+            "fuzzy_score": 0.74,
+            "exact_match": false
+          }
+        },
+        "key_facts_details": {
+          "3-layer polyester soft-shell fabric": "Semantic similarity: 0.63"
+        },
+        "trace_id": null
+      },
+      {
+        "chat_type": "rag",
+        "query": "What is the fabric of the Cap 2 v-neck?",
+        "predicted": "The fabric of the Cap 2 V-neck is 4-oz 100% polyester, with 54% of this polyester being recycled. This fabric is designed with an open knit to offer maximum breathability and excellent moisture-wicking capabilities, making it ideal for endurance activities in warm to moderate temperatures. Additionally, the garment features Gladiodor natural odor control, which helps maintain freshness. The Cap 2 V-neck is also part of the Common Threads Recycling Program, allowing it to be recyclable. \n\nIf you have further questions about this product, please let me know!",
+        "ground_truths": [
+          "The fabric of the Cap 2 v-neck is 4-oz 100% polyester (54% recycled) with Gladiodor natural odor control for the garment."
+        ],
+        "best_matching_ground_truth": "The fabric of the Cap 2 v-neck is 4-oz 100% polyester (54% recycled) with Gladiodor natural odor control for the garment.",
+        "f1_score": 0.4421052631578948,
+        "precision": 0.2916666666666667,
+        "recall": 0.9130434782608695,
+        "key_facts_match": {
+          "4-oz 100% polyester (54% recycled)": {
+            "match": true,
+            "semantic_similarity": 0.5940340161323547,
+            "fuzzy_score": 0.71,
+            "exact_match": false
+          }
+        },
+        "key_facts_details": {
+          "4-oz 100% polyester (54% recycled)": "Fuzzy match score: 0.71"
+        },
+        "trace_id": null
+      },
+      {
+        "chat_type": "rag",
+        "query": "What is the fabric of the Merino 3 pants?",
+        "predicted": "The Merino 3 pants are made from 100% merino wool. This fabric is notably luxurious due to its fine 18.5 micron gauge yarn and jersey-knit construction, providing both softness and durability. The merino wool used in the pants is chlorine-free and recycled through the Common Threads Recycling Program. Additionally, merino wool naturally resists odor, regulates body temperature, and stretches to accommodate movement, making it suitable for a range of activities. If you have any further questions or need additional details, please let me know!",
+        "ground_truths": [
+          "The Merino 3 pants are made of 100% chlorine-free merino wool."
+        ],
+        "best_matching_ground_truth": "The Merino 3 pants are made of 100% chlorine-free merino wool.",
+        "f1_score": 0.27906976744186046,
+        "precision": 0.16216216216216217,
+        "recall": 1.0,
+        "key_facts_match": {
+          "Merino wool": {
+            "match": "True",
+            "semantic_similarity": 0.6440168023109436,
+            "fuzzy_score": 1.0,
+            "exact_match": true
+          }
+        },
+        "key_facts_details": {
+          "Merino wool": "Exact match found"
+        },
+        "trace_id": null
+      },
+      {
+        "chat_type": "rag",
+        "query": "What is the fabric of the Custodian Pants?",
+        "predicted": "The fabric of the Custodian Pants is made from a 5.2-oz 100% organic cotton canvas. This material is described as tough yet comfortable, suitable for the pants' work ethic theme. Additionally, the fabric is lightweight and supports sustainability efforts as it is recyclable through the Common Threads Recycling Program.\n\nIf further details are required that are not covered here, the provided context might not fully address them. However, all relevant information based on the current context has been included.",
+        "ground_truths": [
+          "The fabric of the Custodian Pants is a 5.2-oz 100% organic cotton canvas."
+        ],
+        "best_matching_ground_truth": "The fabric of the Custodian Pants is a 5.2-oz 100% organic cotton canvas.",
+        "f1_score": 0.34146341463414637,
+        "precision": 0.20588235294117646,
+        "recall": 1.0,
+        "key_facts_match": {
+          "Organic cotton canvas": {
+            "match": true,
+            "semantic_similarity": 0.5604892373085022,
+            "fuzzy_score": 1.0,
+            "exact_match": true
+          }
+        },
+        "key_facts_details": {
+          "Organic cotton canvas": "Exact match found"
+        },
+        "trace_id": null
+      },
+      {
+        "chat_type": "rag",
+        "query": "What is the fabric of the all-wear cargo shorts?",
+        "predicted": "The fabric of the All-Wear Cargo Shorts is a 5.2-oz 100% organic cotton canvas. This material is noted for its resilience and softness, enhanced by garment washing that softens the fabric with each wash. Additionally, the shorts are recyclable through the Common Threads Recycling Program. If there are any further details you need regarding the fabric or shorts, please let me know!",
+        "ground_truths": [
+          "The fabric of the all-wear cargo shorts is 5.2-oz 100% organic cotton canvas."
+        ],
+        "best_matching_ground_truth": "The fabric of the all-wear cargo shorts is 5.2-oz 100% organic cotton canvas.",
+        "f1_score": 0.4057971014492754,
+        "precision": 0.2545454545454545,
+        "recall": 1.0,
+        "key_facts_match": {
+          "Organic cotton canvas": {
+            "match": true,
+            "semantic_similarity": 0.5155908465385437,
+            "fuzzy_score": 1.0,
+            "exact_match": true
+          }
+        },
+        "key_facts_details": {
+          "Organic cotton canvas": "Exact match found"
+        },
+        "trace_id": null
+      },
+      {
+        "chat_type": "rag",
+        "query": "What is the fabric of the Insulator Pants made of?",
+        "predicted": "The fabric of the Insulator Pants is primarily composed of Polartec Power Dry materials. Specifically, the pants utilize a blend of 93% polyester (60% of which is recycled) and 7% spandex for the main single-sided fleece construction. The cuffs are made from a similar composition, with 93% polyester (50% recycled) and 7% spandex, and include Gladiodor natural odor control. The materials are designed for moisture-wicking performance and low bulk, contributing to their comfort and functionality in cold-water conditions.\n\nIf you need more detailed information beyond the provided specifications, further data may not be available in the current context.",
+        "ground_truths": [
+          "The Insulator Pants are made with moisture-wicking, low-bulk polyester Regulator R1 fleece, tapered Capilene 4 polyester cuffs, and Polartec Power Dry 6.5-oz 93% polyester (60% recycled)/7% spandex single-sided fleece."
+        ],
+        "best_matching_ground_truth": "The Insulator Pants are made with moisture-wicking, low-bulk polyester Regulator R1 fleece, tapered Capilene 4 polyester cuffs, and Polartec Power Dry 6.5-oz 93% polyester (60% recycled)/7% spandex single-sided fleece.",
+        "f1_score": 0.4403669724770642,
+        "precision": 0.3116883116883117,
+        "recall": 0.75,
+        "key_facts_match": {
+          "Insulator Pants fabric": {
+            "match": "True",
+            "semantic_similarity": 0.772245466709137,
+            "fuzzy_score": 0.82,
+            "exact_match": false
+          }
+        },
+        "key_facts_details": {
+          "Insulator Pants fabric": "Semantic similarity: 0.77"
+        },
+        "trace_id": null
+      },
+      {
+        "chat_type": "rag",
+        "query": "What is the fabric of the guide jacket?",
+        "predicted": "The fabric of the Guidewater jacket is a high-performance, 3-layer, recyclable 100% nylon double ripstop, which incorporates a waterproof/breathable H2No barrier alongside a Deluge Durable Water Repellent (DWR) finish. This combination is designed to optimize durability, breathability, and water resistance, making the jacket suitable for demanding angling conditions.\n\nAdditional Details:\n- The jacket features Reverse StretchCoat fabric for the cuffs.\n- It is recyclable through the Common Threads Recycling Program.\n\nThis detailed information highlights the sophisticated material choices that contribute to the jacket\u2019s technical performance, although the context does not provide further specific fabric characteristics beyond these descriptions.",
+        "ground_truths": [
+          "The guide jacket is made of a 7.6-oz 70-denier 92% polyester (47% recycled) double weave with 4-way stretch and an 8% spandex Deluge DWR finish."
+        ],
+        "best_matching_ground_truth": "The guide jacket is made of a 7.6-oz 70-denier 92% polyester (47% recycled) double weave with 4-way stretch and an 8% spandex Deluge DWR finish.",
+        "f1_score": 0.25,
+        "precision": 0.1686746987951807,
+        "recall": 0.4827586206896552,
+        "key_facts_match": {
+          "7.6-oz 70-denier 92% polyester (47% recycled) double weave": {
+            "match": false,
+            "semantic_similarity": 0.41092196106910706,
+            "fuzzy_score": 0.45,
+            "exact_match": false
+          }
+        },
+        "key_facts_details": {
+          "7.6-oz 70-denier 92% polyester (47% recycled) double weave": "No significant match found"
+        },
+        "trace_id": null
+      },
+      {
+        "chat_type": "rag",
+        "query": "What is the fabric of the Corinne dress made of?",
+        "predicted": "The Corinne dress is made from a stretchy, synthetic jersey knit fabric. Specifically, the fabric composition is 86% nylon and 14% spandex. This material is smooth-faced and offers moisture-wicking performance, making it quick-drying and suitable for an active lifestyle. If you have further questions or need additional details, let me know!",
+        "ground_truths": [
+          "The Corinne dress is made of a 7-oz 86% nylon/14% spandex smooth-faced jersey knit with moisture-wicking performance."
+        ],
+        "best_matching_ground_truth": "The Corinne dress is made of a 7-oz 86% nylon/14% spandex smooth-faced jersey knit with moisture-wicking performance.",
+        "f1_score": 0.44117647058823534,
+        "precision": 0.30612244897959184,
+        "recall": 0.7894736842105263,
+        "key_facts_match": {
+          "7-oz 86% nylon/14% spandex jersey knit": {
+            "match": false,
+            "semantic_similarity": 0.5071104168891907,
+            "fuzzy_score": 0.66,
+            "exact_match": false
+          }
+        },
+        "key_facts_details": {
+          "7-oz 86% nylon/14% spandex jersey knit": "No significant match found"
+        },
+        "trace_id": null
+      },
+      {
+        "chat_type": "rag",
+        "query": "What is the fabric of the Boucau halter top?",
+        "predicted": "The fabric of the Print Boucau Halter Top is a blend composed of 82% nylon and 18% spandex. This fabric combination is designed to provide a balance of elasticity and comfort, ensuring a snug and supportive fit. The top also features improved fabric quality for enhanced performance. \n\nIf you need additional information regarding the fabric or other specifications not covered in the current context, please feel free to ask.",
+        "ground_truths": [
+          "The fabric of the Boucau halter top is a blend of 82% nylon and 18% spandex."
+        ],
+        "best_matching_ground_truth": "The fabric of the Boucau halter top is a blend of 82% nylon and 18% spandex.",
+        "f1_score": 0.4444444444444445,
+        "precision": 0.2857142857142857,
+        "recall": 1.0,
+        "key_facts_match": {
+          "82% nylon/18% spandex": {
+            "match": true,
+            "semantic_similarity": 0.5923363566398621,
+            "fuzzy_score": 0.76,
+            "exact_match": false
+          }
+        },
+        "key_facts_details": {
+          "82% nylon/18% spandex": "Fuzzy match score: 0.76"
+        },
+        "trace_id": null
+      },
+      {
+        "chat_type": "rag",
+        "query": "What is the fabric of the Women's Sport Top?",
+        "predicted": "The Women's Sport Top is crafted from a supersoft fabric blend, specifically composed of 94% nylon and 6% spandex. Both the tank and the built-in sports bra utilize this blend, with each piece providing moisture-wicking performance to enhance comfort during high-impact activities. The seamless construction further ensures a next-to-skin comfort, ideal for pairing with running shorts, yoga pants, or everyday styles.\n\nIf you need further information about the fabric or its performance characteristics beyond what is provided, please let me know!",
+        "ground_truths": [
+          "The Women's Sport Top is made of a nylon/spandex blend."
+        ],
+        "best_matching_ground_truth": "The Women's Sport Top is made of a nylon/spandex blend.",
+        "f1_score": 0.2380952380952381,
+        "precision": 0.1388888888888889,
+        "recall": 0.8333333333333334,
+        "key_facts_match": {
+          "Nylon/spandex blend": {
+            "match": false,
+            "semantic_similarity": 0.48215651512145996,
+            "fuzzy_score": 0.58,
+            "exact_match": false
+          }
+        },
+        "key_facts_details": {
+          "Nylon/spandex blend": "No significant match found"
+        },
+        "trace_id": null
+      },
+      {
+        "chat_type": "rag",
+        "query": "What is the fabric composition of the Versatiliti tee?",
+        "predicted": "The fabric composition of the Versatiliti tee is a blend of 62% organic cotton and 38% Tencel plaited jersey. This combination is designed to provide a soft and comfortable feel while being both durable and environmentally conscious. The fabric, weighing 5.5 ounces per square yard, reflects the tee's travel-friendly and versatile nature. Additionally, the shirt is recyclable through the Common Threads Recycling Program, highlighting its eco-friendly design. \n\nIf you need more detailed information regarding the specific benefits of the fabric blend or production processes, please let me know.",
+        "ground_truths": [
+          "The Versatiliti tee is made of 62% organic cotton and 38% Tencel."
+        ],
+        "best_matching_ground_truth": "The Versatiliti tee is made of 62% organic cotton and 38% Tencel.",
+        "f1_score": 0.29885057471264365,
+        "precision": 0.1780821917808219,
+        "recall": 0.9285714285714286,
+        "key_facts_match": {
+          "Organic cotton/Tencel plaited jersey": {
+            "match": true,
+            "semantic_similarity": 0.5565395355224609,
+            "fuzzy_score": 0.75,
+            "exact_match": false
+          }
+        },
+        "key_facts_details": {
+          "Organic cotton/Tencel plaited jersey": "Fuzzy match score: 0.75"
+        },
+        "trace_id": null
+      },
+      {
+        "chat_type": "rag",
+        "query": "What is the fabric of the Cerro Torre One Shirt made of?",
+        "predicted": "The fabric of the Cerro Torre One Shirt is made of 100% organic cotton. This specific fabric is described as a 5.4-ounce material, which is both soft to the touch due to its ringspun yarns and environmentally conscious, as it is recyclable through the Common Threads Recycling Program. Additionally, the shirt is printed using PVC- and phthalate-free inks, aligning with eco-friendly practices.\n\nIf you need further details about other aspects or specifications that are not covered here, please let me know.",
+        "ground_truths": [
+          "The fabric of the Cerro Torre One Shirt is made of 100% organic cotton."
+        ],
+        "best_matching_ground_truth": "The fabric of the Cerro Torre One Shirt is made of 100% organic cotton.",
+        "f1_score": 0.33333333333333337,
+        "precision": 0.2,
+        "recall": 1.0,
+        "key_facts_match": {
+          "100% organic cotton": {
+            "match": true,
+            "semantic_similarity": 0.5892674326896667,
+            "fuzzy_score": 1.0,
+            "exact_match": true
+          }
+        },
+        "key_facts_details": {
+          "100% organic cotton": "Exact match found"
+        },
+        "trace_id": null
+      },
+      {
+        "chat_type": "rag",
+        "query": "What is the fabric of the Merino 2 t-shirt made of?",
+        "predicted": "The fabric of the Merino 2 t-shirt is composed of a blend of 73% merino wool and 27% all-recycled polyester. The merino wool is chlorine-free, which contributes to the shirt's natural softness and odor resistance. The polyester core enhances the fabric's strength, wicks moisture, and improves dry time. This combination creates a luxurious hand and provides the wearer with superior performance in terms of comfort, temperature regulation, and stretch. The shirt's specific fabric weight is 4.85 oz (165 g).\n\nIf you require more detailed information about the t-shirt's specific manufacturing aspects or origins of materials, that context is not fully provided here. However, it is noted that the shirt is recyclable through the Common Threads Recycling Program and made in the USA.",
+        "ground_truths": [
+          "The Merino 2 t-shirt is made of 73% merino wool and 27% all-recycled polyester."
+        ],
+        "best_matching_ground_truth": "The Merino 2 t-shirt is made of 73% merino wool and 27% all-recycled polyester.",
+        "f1_score": 0.2857142857142857,
+        "precision": 0.16666666666666666,
+        "recall": 1.0,
+        "key_facts_match": {
+          "73% merino wool and 27% all-recycled polyester": {
+            "match": "True",
+            "semantic_similarity": 0.6740738153457642,
+            "fuzzy_score": 1.0,
+            "exact_match": true
+          }
+        },
+        "key_facts_details": {
+          "73% merino wool and 27% all-recycled polyester": "Exact match found"
+        },
+        "trace_id": null
+      }
+    ]
+  },
+  "metrics": {
+    "naive": {
+      "avg_f1": 0.5176880007347099,
+      "avg_precision": 0.5109827758507883,
+      "avg_recall": 0.5833282937734823,
+      "total_queries": 16,
+      "successful_queries": 16,
+      "key_facts_success_rate": 0.3125
+    },
+    "rag": {
+      "avg_f1": 0.3497908177599965,
+      "avg_precision": 0.22157665024759263,
+      "avg_recall": 0.8927448424768022,
+      "total_queries": 16,
+      "successful_queries": 16,
+      "key_facts_success_rate": 0.75
+    }
+  }
+}

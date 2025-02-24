@@ -86,25 +86,33 @@ class QAPairs:
         call_llm(llm_client, "who let the dogs out")
 
         QA_generation_prompt = """
-        Your task is to write a factoid question and an answer given a context.
+        Your task is to write a factoid question, an answer, and a key fact given a context.
         Your factoid question should be answerable with a specific, concise piece of factual information from the context.
         Your factoid question should be formulated in the same style as questions users could ask in a search engine.
         This means that your factoid question MUST NOT mention something like "according to the passage" or "context".
 
-        Provide your answer as follows:
+        IMPORTANT: You must ALWAYS extract a key fact that represents the main product being discussed.
+        The key fact should be a single, concise phrase (2-5 words) that captures the main idea of the context.
+        Examples of good key facts:
+        - "Logo baseball hat"
+        - "Material: nylon"
+        - "Cotton t-shirt"
+
+        Provide your answer in EXACTLY this format:
 
         Output:::
         Factoid question: (your factoid question)
         Answer: (your answer to the factoid question)
+        Key fact: (your key fact)
 
         Now here is the context.
 
-        Context: {context}\n
+        Context: {context}
         Output:::"""
 
         import random
 
-        N_GENERATIONS = 5  # Reduced from 20 to 5 for testing
+        N_GENERATIONS = 20  
 
         print(f"Generating {N_GENERATIONS} QA couples...")
 
@@ -117,20 +125,42 @@ class QAPairs:
                 llm_client, QA_generation_prompt.format(context=sampled_context.page_content)
             )
             try:
-                question = output_QA_couple.split("Factoid question: ")[-1].split("Answer: ")[0]
-                answer = output_QA_couple.split("Answer: ")[-1]
+                # Split the output into parts
+                output_parts = output_QA_couple.split("\n")
+                question = ""
+                answer = ""
+                key_fact = ""
+                
+                for part in output_parts:
+                    part = part.strip()  # Remove leading/trailing whitespace
+                    if part.startswith("Factoid question:"):
+                        question = part.replace("Factoid question:", "").strip()
+                    elif part.startswith("Answer:"):
+                        answer = part.replace("Answer:", "").strip()
+                    elif part.startswith("Key fact:"):
+                        key_fact = part.replace("Key fact:", "").strip()
+                
                 assert len(answer) < 300, "Answer is too long"
-                outputs.append(
-                    {
-                        "context": sampled_context.page_content,
-                        "question": question,
-                        "answer": answer,
-                        "source_doc": sampled_context.metadata["source"],
-                    }
-                )
+                if key_fact == "":
+                    print('key fact is missing', output_parts)
+                    continue
+                
+                outputs.append({
+                    "context": sampled_context.page_content,
+                    "question": question,
+                    "answer": answer,
+                    "key_fact": key_fact,
+                    "source_doc": sampled_context.metadata["source"],
+                    "groundedness_score": 1,
+                    "relevance_score": 1,
+                    "standalone_score": 1,
+                    "groundedness_eval": "",
+                    "relevance_eval": "",
+                    "standalone_eval": "",
+                })
                 print('successfully generated QA pair', counter)
-            except:
-                print('failed to generate QA pair at index', counter)
+            except Exception as e:
+                print('failed to generate QA pair at index', counter, str(e))
                 continue
 
         question_groundedness_critique_prompt = """
@@ -214,17 +244,6 @@ class QAPairs:
                     ),
                 }
 
-                # Initialize default scores
-                default_scores = {
-                    "groundedness_score": 1,
-                    "relevance_score": 1,
-                    "standalone_score": 1,
-                    "groundedness_eval": "",
-                    "relevance_eval": "",
-                    "standalone_eval": "",
-                }
-                output.update(default_scores)
-
                 # Try to parse each evaluation
                 for criterion, evaluation in evaluations.items():
                     try:
@@ -234,8 +253,6 @@ class QAPairs:
                             # Get the evaluation part between "Evaluation:" and "Total rating:"
                             eval_part = evaluation.split("Evaluation:")[-1].split("Total rating:")[0].strip()
                             
-                            print('rating_part', rating_part)
-                            print('eval_part', eval_part)
                             
                             score = extract_rating(rating_part)
                             output[f"{criterion}_score"] = score
@@ -249,26 +266,35 @@ class QAPairs:
                 continue
 
         # Move DataFrame creation outside the loop
+        if not outputs:
+            print("No QA pairs were generated successfully. Exiting...")
+            return
+
         generated_questions = pd.DataFrame.from_dict(outputs)
 
-        print("Evaluation dataset before filtering:")
-        print(
-            generated_questions[
-                [
-                    "groundedness_score",
-                    "relevance_score",
-                    "standalone_score",
+        # Only proceed with evaluation if we have data
+        if len(generated_questions) > 0:
+            print("Evaluation dataset before filtering:")
+            print(
+                generated_questions[
+                    [
+                        "groundedness_score",
+                        "relevance_score",
+                        "standalone_score",
+                    ]
                 ]
-            ]
-        )
+            )
 
-        # Filter and save operations
-        filtering_threshold = 5
-        generated_questions = generated_questions.loc[
-            (generated_questions["groundedness_score"] + 
-             generated_questions["relevance_score"] + 
-             generated_questions["standalone_score"]) >= filtering_threshold
-        ]
+            # Filter and save operations
+            filtering_threshold = 5
+            generated_questions = generated_questions.loc[
+                (generated_questions["groundedness_score"] + 
+                generated_questions["relevance_score"] + 
+                generated_questions["standalone_score"]) >= filtering_threshold
+            ]
+        else:
+            print("No data to evaluate. Exiting...")
+            return
 
         print("============================================")
         print("Final evaluation dataset:")
@@ -293,10 +319,9 @@ class QAPairs:
 
         # Create a DataFrame with the required columns
         generated_questions['id'] = range(1, len(generated_questions) + 1)  # Add sequential IDs
-        generated_questions['key_fact'] = ""  # Empty key_fact column
 
         print('start to save csv')
-        output_csv_path = "generated_qa_pairs.csv"
+        output_csv_path = "data/generated_qa_pairs.csv"
         generated_questions[columns_to_save].to_csv(output_csv_path, index=False)
         print(f"QA pairs saved to {output_csv_path}")
 

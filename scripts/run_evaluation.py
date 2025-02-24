@@ -55,14 +55,19 @@ def print_comparison_results(metrics: dict):
     for label, metric in metrics_to_compare:
         naive_value = metrics["naive"][metric]
         rag_value = metrics["rag"][metric]
-        improvement = ((rag_value - naive_value) / naive_value * 100
-                       if naive_value > 0 else float('inf'))
+        
+        if naive_value == 0 and rag_value > 0:
+            improvement = "+100%"  # or could be "+∞%" to indicate infinite improvement
+        else:
+            improvement = ((rag_value - naive_value) / naive_value * 100
+                          if naive_value > 0 else 0)
+            improvement = f"{improvement:+.1f}%"
 
         print(row_format.format(
             label,
             f"{naive_value:.3f}",
             f"{rag_value:.3f}",
-            f"{improvement:+.1f}%" if improvement != float('inf') else "N/A"
+            improvement
         ))
 
 def prepare_for_json(obj):

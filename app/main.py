@@ -46,7 +46,7 @@ async def startup_event():
     except Exception as e:
         print(f"⚠️ Warning: Failed to connect to Langfuse: {str(e)}")
 
-    # QAPairs('data/ecom.csv')
+    QAPairs('data/ecom.csv')
 
 @app.on_event("shutdown")
 async def shutdown():
