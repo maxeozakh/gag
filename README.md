@@ -1,3 +1,18 @@
+# Basic usage with required parameters
+
+python scripts/evaluate_rag.py --qa_file data/generated_qa_pairs.csv --embeddings_file product_embeddings.json
+
+# Advanced usage with all options
+
+python scripts/evaluate_rag.py \
+ --qa_file data/generated_qa_pairs.csv \
+ --embeddings_file product_embeddings.json \
+ --rag_script scripts/rag.py \
+ --llm_model gpt-4o \
+ --eval_model gpt-4 \
+ --sample_size 10 \
+ --output_file evaluation_results.json
+
 gag is like RAG but we exploring
 
 ## Task
