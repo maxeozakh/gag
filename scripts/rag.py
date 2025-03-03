@@ -7,6 +7,7 @@ from typing import List, Dict, Any, Optional, Tuple
 from dotenv import load_dotenv
 from openai import OpenAI
 import subprocess
+import traceback
 
 # Load environment variables from .env file
 load_dotenv()
@@ -39,7 +40,7 @@ Format your response to:
 
 Your Response:"""
 
-def search_vectors(query: str, embeddings_file: str, top_n: int = 3, threshold: float = 0.0, model: str = "text-embedding-3-small") -> List[Dict[str, Any]]:
+def search_vectors(query: str, embeddings_file: str, top_n: int = 3, threshold: float = 0.0, model: str = "text-embedding-3-small", terminal_output: bool = False) -> List[Dict[str, Any]]:
     """
     Search for similar vectors using the vector_search.py script.
     
@@ -49,12 +50,14 @@ def search_vectors(query: str, embeddings_file: str, top_n: int = 3, threshold: 
         top_n: Number of top results to return
         threshold: Minimum similarity threshold
         model: OpenAI embedding model to use
+        terminal_output: Whether to print debug information
         
     Returns:
         List of search results
     """
     try:
-        print(f"Searching for content similar to query: '{query}'")
+        if terminal_output:
+            print(f"Searching for content similar to query: '{query}'")
         
         # Build command to run vector_search.py
         cmd = [
@@ -172,53 +175,101 @@ def main():
     parser.add_argument("--threshold", type=float, default=0.0, help="Minimum similarity threshold (0.0 to 1.0)")
     parser.add_argument("--embed_model", type=str, default="text-embedding-3-small", help="OpenAI embedding model")
     parser.add_argument("--llm_model", type=str, default="gpt-3.5-turbo", help="OpenAI LLM model")
+    parser.add_argument("--terminal_output", action="store_true", help="Display human-readable output in terminal")
     args = parser.parse_args()
     
     # Get API key from environment
     api_key = os.getenv("OPENAI_API_KEY")
     if not api_key:
-        print("Error: OPENAI_API_KEY not found in .env file")
+        error_msg = "Error: OPENAI_API_KEY not found in .env file"
+        if args.terminal_output:
+            print(error_msg)
+        else:
+            print(json.dumps({"error": error_msg}))
         return 1
     
-    # Initialize OpenAI client
-    client = OpenAI(api_key=api_key)
-    
-    # Step 1: Search for similar vectors
-    start_time = time.time()
-    results = search_vectors(
-        query=args.query,
-        embeddings_file=args.embeddings_file,
-        top_n=args.top_n,
-        threshold=args.threshold,
-        model=args.embed_model
-    )
-    search_time = time.time() - start_time
-    
-    # Step 2: Format the context
-    context = format_context(results)
-    
-    # Print retrieval information
-    print("\n=== RAG RETRIEVAL INFO ===")
-    print(f"Query: {args.query}")
-    print(f"Retrieved {len(results)} results in {search_time:.2f} seconds")
-    print(f"Similarity scores: {[round(r.get('similarity_score', 0), 4) for r in results]}")
-    print("========================\n")
-    
-    # Step 3: Generate response using OpenAI
-    print("Generating response...")
-    prompt = RAG_PROMPT.format(context=context, query=args.query)
-    
-    start_time = time.time()
-    response = call_openai(client, prompt, args.llm_model)
-    generation_time = time.time() - start_time
-    
-    # Step 4: Return the result
-    print("\n=== RESPONSE ===")
-    print(response)
-    print("\n========================")
-    print(f"Generated in {generation_time:.2f} seconds")
-    
-    return 0
+    try:
+        # Initialize OpenAI client
+        client = OpenAI(api_key=api_key)
+        
+        # Step 1: Search for similar vectors
+        start_time = time.time()
+        results = search_vectors(
+            query=args.query,
+            embeddings_file=args.embeddings_file,
+            top_n=args.top_n,
+            threshold=args.threshold,
+            model=args.embed_model,
+            terminal_output=args.terminal_output
+        )
+        search_time = time.time() - start_time
+        
+        # Step 2: Format the context
+        context = format_context(results)
+        
+        # Prepare data structure for output
+        output_data = {
+            "query": args.query,
+            "retrieved_results": len(results),
+            "search_time": round(search_time, 2),
+            "similarity_scores": [round(r.get("similarity_score", 0), 4) for r in results],
+            "context_text": [r.get("content", "") for r in results],
+            "metadata": [r.get("metadata", {}) for r in results],
+        }
+        
+        # Display retrieval information in terminal if requested
+        if args.terminal_output:
+            print("\n=== RAG RETRIEVAL INFO ===")
+            print(f"Query: {args.query}")
+            print(f"Retrieved {len(results)} results in {search_time:.2f} seconds")
+            print(f"Similarity scores: {[round(r.get('similarity_score', 0), 4) for r in results]}")
+            print("========================\n")
+            print("Generating response...")
+        
+        # Step 3: Generate response using OpenAI
+        prompt = RAG_PROMPT.format(context=context, query=args.query)
+        
+        start_time = time.time()
+        response = call_openai(client, prompt, args.llm_model)
+        generation_time = time.time() - start_time
+        
+        # Add response to output data
+        output_data["response"] = response
+        output_data["generation_time"] = round(generation_time, 2)
+        output_data["total_time"] = round(output_data["search_time"] + output_data["generation_time"], 2)
+        
+        # Output based on mode
+        if args.terminal_output:
+            # Human-readable format for terminal
+            print("\n=== RESPONSE ===")
+            print(response)
+            print("\n========================")
+            print(f"Generated in {generation_time:.2f} seconds")
+            # Also print JSON for completeness
+            print("\n=== JSON OUTPUT ===")
+            print(json.dumps(output_data))
+        else:
+            # ONLY output JSON for programmatic use, nothing else
+            print(json.dumps(output_data))
+        
+        return 0
+    except Exception as e:
+        # Handle any exceptions
+        error_data = {
+            "error": str(e),
+            "traceback": traceback.format_exc()
+        }
+        
+        if args.terminal_output:
+            print(f"Error: {str(e)}")
+            print(f"Traceback: {traceback.format_exc()}")
+            print("\n=== JSON ERROR OUTPUT ===")
+            print(json.dumps(error_data))
+        else:
+            # ONLY output JSON error
+            print(json.dumps(error_data))
+        
+        return 1
 
 if __name__ == "__main__":
     sys.exit(main()) 

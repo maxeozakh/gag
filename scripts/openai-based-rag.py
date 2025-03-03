@@ -376,91 +376,138 @@ def main():
                         help="Embedding model (unused, kept for compatibility)")
     parser.add_argument("--llm_model", type=str, default="gpt-4o", 
                         help="OpenAI LLM model to use")
+    parser.add_argument("--terminal_output", action="store_true", 
+                        help="Display human-readable output in terminal")
     args = parser.parse_args()
     
-    logger.info(f"Starting OpenAI-based RAG with query: {args.query}")
-    logger.info(f"Arguments: {args}")
-    
-    # Determine which file to use (prioritize input_file if both are provided)
-    if args.input_file:
-        file_to_use = args.input_file
-    elif args.embeddings_file:
-        file_to_use = args.embeddings_file
+    # Configure logging based on output format - completely suppress logs in non-terminal mode
+    if not args.terminal_output:
+        # When not in terminal mode, suppress ALL logs to avoid corrupting JSON output
+        logger.setLevel(logging.CRITICAL)  # Only show critical errors if any
     else:
-        logger.error("Error: Either --input_file or --embeddings_file must be provided")
-        return 1
-
-    # Get file type (either explicitly specified or inferred from extension)
-    if args.file_type:
-        file_type = args.file_type.lower()
-    else:
-        _, file_extension = os.path.splitext(file_to_use)
-        file_type = file_extension[1:].lower()  # Remove the leading dot
-    
-    logger.info(f"Using file: {file_to_use} with type: {file_type}")
-    
-    # Handle CSV files by converting them to JSON
-    if file_type == 'csv':
-        logger.info(f"CSV file detected: {file_to_use}")
-        logger.info("Converting to JSON format for compatibility with OpenAI vector store...")
-        json_file = convert_csv_to_json(file_to_use)
-        if json_file:
-            file_to_use = json_file
-            file_type = 'json'
-            logger.info(f"Using converted file: {file_to_use}")
-        else:
-            logger.error("Error: Failed to convert CSV to JSON")
-            return 1
-
-    # Get API key from environment
-    api_key = os.getenv("OPENAI_API_KEY")
-    if not api_key:
-        logger.error("Error: OPENAI_API_KEY not found in .env file")
-        return 1
-    
-    # Initialize OpenAI client
-    logger.info("Initializing OpenAI client")
-    client = OpenAI(api_key=api_key)
+        logger.info(f"Starting OpenAI-based RAG with query: {args.query}")
+        logger.info(f"Arguments: {args}")
     
     try:
+        # Determine which file to use (prioritize input_file if both are provided)
+        if args.input_file:
+            file_to_use = args.input_file
+        elif args.embeddings_file:
+            file_to_use = args.embeddings_file
+        else:
+            error_msg = "Error: Either --input_file or --embeddings_file must be provided"
+            if args.terminal_output:
+                logger.error(error_msg)
+                return 1
+            else:
+                print(json.dumps({"error": error_msg}))
+                return 1
+
+        # Get file type (either explicitly specified or inferred from extension)
+        if args.file_type:
+            file_type = args.file_type.lower()
+        else:
+            _, file_extension = os.path.splitext(file_to_use)
+            file_type = file_extension[1:].lower()  # Remove the leading dot
+        
+        if args.terminal_output:
+            logger.info(f"Using file: {file_to_use} with type: {file_type}")
+        
+        # Handle CSV files by converting them to JSON
+        if file_type == 'csv':
+            if args.terminal_output:
+                logger.info(f"CSV file detected: {file_to_use}")
+                logger.info("Converting to JSON format for compatibility with OpenAI vector store...")
+            json_file = convert_csv_to_json(file_to_use)
+            if json_file:
+                file_to_use = json_file
+                file_type = 'json'
+                if args.terminal_output:
+                    logger.info(f"Using converted file: {file_to_use}")
+            else:
+                error_msg = "Error: Failed to convert CSV to JSON"
+                if args.terminal_output:
+                    logger.error(error_msg)
+                    return 1
+                else:
+                    print(json.dumps({"error": error_msg}))
+                    return 1
+
+        # Get API key from environment
+        api_key = os.getenv("OPENAI_API_KEY")
+        if not api_key:
+            error_msg = "Error: OPENAI_API_KEY not found in .env file"
+            if args.terminal_output:
+                logger.error(error_msg)
+                return 1
+            else:
+                print(json.dumps({"error": error_msg}))
+                return 1
+        
+        # Initialize components and run the RAG pipeline
+        if args.terminal_output:
+            logger.info("Initializing OpenAI client and components")
+        
+        # Initialize OpenAI client
+        client = OpenAI(api_key=api_key)
+        
         # Initialize vector store and assistant managers
-        logger.info("Initializing vector store and assistant managers")
         vector_store_manager = OpenAIVectorStoreManager(client)
         assistant_manager = OpenAIAssistantManager(client, args.llm_model)
         
         # Create a vector store
-        logger.info("Creating vector store...")
+        if args.terminal_output:
+            logger.info("Creating vector store...")
         vector_store_id = vector_store_manager.create_vector_store(f"RAG-VectorStore-{uuid.uuid4().hex[:8]}")
         
         # Upload file to vector store
-        logger.info(f"Uploading file to vector store: {file_to_use}")
+        if args.terminal_output:
+            logger.info(f"Uploading file to vector store: {file_to_use}")
         if not vector_store_manager.upload_file_to_vector_store(vector_store_id, file_to_use):
-            logger.error("Error: Failed to upload file to vector store")
-            return 1
+            error_msg = "Error: Failed to upload file to vector store"
+            if args.terminal_output:
+                logger.error(error_msg)
+                return 1
+            else:
+                print(json.dumps({"error": error_msg}))
+                return 1
         
         # Create assistant with the vector store
-        logger.info("Creating assistant...")
+        if args.terminal_output:
+            logger.info("Creating assistant...")
         assistant_manager.create_assistant(vector_store_id)
         
         # Step 1: Search and generate response
         start_time = time.time()
-        logger.info(f"Searching for content related to query: '{args.query}'")
+        if args.terminal_output:
+            logger.info(f"Searching for content related to query: '{args.query}'")
         response, context_info = assistant_manager.search_and_generate(args.query)
         search_time = time.time() - start_time
         
         # Format for compatibility with evaluate_rag.py
         formatted_context = format_context(context_info)
         
-        # Print retrieval information
-        logger.info("\n=== RAG RETRIEVAL INFO ===")
-        logger.info(f"Query: {args.query}")
-        logger.info(f"Retrieved {len(context_info.get('context_text', []))} results in {search_time:.2f} seconds")
-        logger.info(f"Similarity scores: {context_info.get('similarity_scores', [])}")
-        logger.info("========================\n")
+        # Prepare output data structure
+        output_data = {
+            "query": args.query,
+            "retrieved_results": len(context_info.get("context_text", [])), 
+            "search_time": round(search_time, 2),
+            "similarity_scores": context_info.get("similarity_scores", []),
+            "context_text": context_info.get("context_text", []),
+            "metadata": context_info.get("metadata", []),
+        }
+        
+        if args.terminal_output:
+            logger.info("\n=== RAG RETRIEVAL INFO ===")
+            logger.info(f"Query: {args.query}")
+            logger.info(f"Retrieved {len(context_info.get('context_text', []))} results in {search_time:.2f} seconds")
+            logger.info(f"Similarity scores: {context_info.get('similarity_scores', [])}")
+            logger.info("========================\n")
         
         # For compatibility with the evaluation script, use the standard RAG prompt
         if context_info and context_info.get("context_text"):
-            logger.info("Formatting response with RAG prompt template...")
+            if args.terminal_output:
+                logger.info("Formatting response with RAG prompt template...")
             prompt = RAG_PROMPT.format(context=formatted_context, query=args.query)
             
             start_time = time.time()
@@ -470,22 +517,54 @@ def main():
             # If no context was found, use the direct response from the assistant
             generation_time = 0
         
-        # Print the response
-        logger.info("\n=== RESPONSE ===")
-        print(response)  # Use print for the actual response to ensure it's captured by the evaluation script
-        logger.info("\n========================")
-        logger.info(f"Generated in {generation_time:.2f} seconds")
+        # Add response to output data
+        output_data["response"] = response
+        output_data["generation_time"] = round(generation_time, 2)
+        output_data["total_time"] = round(output_data["search_time"] + output_data["generation_time"], 2)
         
-        # Clean up resources
-        logger.info("Cleaning up resources...")
+        # Output based on mode
+        if args.terminal_output:
+            # Human-readable format for terminal
+            logger.info("\n=== RESPONSE ===")
+            # Always use print for the actual response to ensure it's visible
+            print(response)  
+            logger.info("\n========================")
+            logger.info(f"Generated in {generation_time:.2f} seconds")
+            
+            # Also print JSON for completeness
+            logger.info("\n=== JSON OUTPUT ===")
+            print(json.dumps(output_data))
+            
+            # Clean up resources
+            logger.info("Cleaning up resources...")
+        else:
+            # ONLY output JSON for programmatic use, nothing else
+            print(json.dumps(output_data))
+        
+        # Always clean up resources
         assistant_manager.delete_assistant()
         
         return 0
     
     except Exception as e:
-        logger.error(f"Error in main function: {e}")
-        logger.error(traceback.format_exc())
-        print(f"Error: {str(e)}")  # Ensure the error is printed for the evaluation script
+        # Handle exceptions
+        error_data = {
+            "error": str(e),
+            "traceback": traceback.format_exc()
+        }
+        
+        if args.terminal_output:
+            logger.error(f"Error in main function: {e}")
+            logger.error(traceback.format_exc())
+            print(f"Error: {str(e)}")
+            
+            # Also print JSON error for completeness in terminal mode
+            logger.info("\n=== JSON ERROR OUTPUT ===")
+            print(json.dumps(error_data))
+        else:
+            # ONLY output JSON error
+            print(json.dumps(error_data))
+        
         return 1
 
 if __name__ == "__main__":
