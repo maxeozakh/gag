@@ -183,7 +183,6 @@ def run_rag_script(
             print(f"Debug - Context items: {len(context_info['context_text'])}")
             if context_info['context_text']:
                 print(f"Debug - First context item: '{context_info['context_text'][0][:50]}...'")
-                print(f"Debug - Context items: {context_info['context_text']}")
             
             # Check if structure looks valid
             if not isinstance(response, str):
@@ -337,6 +336,11 @@ def prepare_ragas_dataset(
                 # If no context was found, add an empty list to avoid errors in RAGAS
                 context_text = ["No relevant context found"]
                 print(f"Warning: No context found for QA pair {idx}")
+            else:
+                print(f"Debug - Context for QA {idx} - Type: {type(context_text)}, Length: {len(context_text)}")
+                print(f"Debug - First context item type: {type(context_text[0])}")
+                print(f"Debug - First context preview: {str(context_text[0])[:100]}...")
+                
             
             # Create a comprehensive reference document from all products
             # This gives context_recall a real reference to evaluate against

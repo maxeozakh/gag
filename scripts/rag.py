@@ -93,6 +93,10 @@ def search_vectors(query: str, embeddings_file: str, top_n: int = 3, threshold: 
                 score_text = line.split("Score: ")[1].strip().strip(')')
                 current_result: Dict[str, Any] = {"similarity_score": float(score_text)}
                 results.append(current_result)
+            elif line.startswith("Text: "):
+                # Capture the Text field specially
+                if results:
+                    results[-1]["text"] = line.split("Text: ", 1)[1].strip()
             elif ": " in line and not line.startswith("-") and not line.startswith("="):
                 # Extract key-value pairs
                 key, value = line.split(": ", 1)
@@ -213,7 +217,7 @@ def main():
             "retrieved_results": len(results),
             "search_time": round(search_time, 2),
             "similarity_scores": [round(r.get("similarity_score", 0), 4) for r in results],
-            "context_text": [r.get("content", "") for r in results],
+            "context_text": [r.get("text", "") for r in results],
             "metadata": [r.get("metadata", {}) for r in results],
         }
         

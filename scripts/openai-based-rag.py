@@ -303,6 +303,12 @@ class OpenAIAssistantManager:
                                                 # Extract content from the result
                                                 content = result.get('content', '')
                                                 
+                                                # Handle case where content is a list of dictionaries with text field
+                                                if isinstance(content, list) and content and isinstance(content[0], dict) and 'text' in content[0]:
+                                                    # Extract the text from the first dictionary in the list
+                                                    content = content[0].get('text', '')
+                                                    logger.info(f"Extracted text content from dictionary: {content[:50]}...")
+                                                
                                                 # Log search result details
                                                 content_preview = content[:100] + "..." if len(content) > 100 else content
                                                 logger.info(f"  File ID: {file_id}, File: {file_name}, Score: {score}")
@@ -349,6 +355,12 @@ class OpenAIAssistantManager:
                                         # Extract file_id and content
                                         file_id = getattr(result, "file_id", "unknown")
                                         content = getattr(result, "content", "")
+                                        
+                                        # Handle case where content is a list of dictionaries with text field
+                                        if isinstance(content, list) and content and isinstance(content[0], dict) and 'text' in content[0]:
+                                            # Extract the text from the first dictionary in the list
+                                            content = content[0].get('text', '')
+                                            logger.info(f"Extracted text content from dictionary: {content[:50]}...")
                                         
                                         logger.info(f"Found result - file_id: {file_id}")
                                         logger.info(f"Content preview: {content[:100]}...")
@@ -457,7 +469,14 @@ def format_context(context_info: Dict[str, Any]) -> str:
     
     for i, text in enumerate(context_info.get("context_text", []), 1):
         if text:
-            context_parts.append(f"[Result {i}] {text}")
+            # Handle case where text is a list of dictionaries with text field
+            if isinstance(text, list) and text and isinstance(text[0], dict) and 'text' in text[0]:
+                # Extract the text from the first dictionary in the list
+                text = text[0].get('text', '')
+                logger.debug(f"Extracted text content from dictionary in format_context: {text[:50]}...")
+            
+            # Format context with numbers
+            context_parts.append(f"[{i}] {text}")
     
     formatted_context = "\n\n".join(context_parts)
     logger.info(f"Formatted context of length {len(formatted_context)}")
@@ -618,23 +637,11 @@ def main():
             logger.info(f"Similarity scores: {context_info.get('similarity_scores', [])}")
             logger.info("========================\n")
         
-        # For compatibility with the evaluation script, use the standard RAG prompt
-        if context_info and context_info.get("context_text"):
-            if args.terminal_output:
-                logger.info("Formatting response with RAG prompt template...")
-            prompt = RAG_PROMPT.format(context=formatted_context, query=args.query)
-            
-            start_time = time.time()
-            response = call_openai(client, prompt, args.llm_model)
-            generation_time = time.time() - start_time
-        else:
-            # If no context was found, use the direct response from the assistant
-            generation_time = 0
         
         # Add response to output data
         output_data["response"] = response
-        output_data["generation_time"] = round(generation_time, 2)
-        output_data["total_time"] = round(output_data["search_time"] + output_data["generation_time"], 2)
+        output_data["generation_time"] = 'N/A'
+        output_data["total_time"] = round(output_data["search_time"], 2)
         
         # Output based on mode
         if args.terminal_output:
@@ -643,7 +650,6 @@ def main():
             # Always use print for the actual response to ensure it's visible
             print(response)  
             logger.info("\n========================")
-            logger.info(f"Generated in {generation_time:.2f} seconds")
             
             # Also print JSON for completeness
             logger.info("\n=== JSON OUTPUT ===")

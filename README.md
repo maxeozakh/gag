@@ -4,6 +4,11 @@ openai
 
 ```
 {
+  "faithfulness": 0.5657142857142856,
+  "answer_relevancy": 0.7932489612943341,
+  "context_recall": 0.7617196209587513
+}
+{
   "faithfulness": 0.3416666666666667,
   "answer_relevancy": 0.20000000000000004,
   "context_recall": 0.3666666666666667
@@ -14,14 +19,9 @@ homemade
 
 ```
 {
-  "faithfulness": 0.17666666666666667,
-  "answer_relevancy": 0.5957090540197866,
-  "context_recall": 0.5833333333333333
-}
-{
-  "faithfulness": 0.215,
-  "answer_relevancy": 0.780941080116453,
-  "context_recall": 0.4666666666666666
+  "faithfulness": 0.8458333333333332,
+  "answer_relevancy": 0.7845947987159569,
+  "context_recall": 0.36837218337218336
 }
 ```
 
