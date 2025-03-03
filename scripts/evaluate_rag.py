@@ -12,6 +12,10 @@ from dotenv import load_dotenv
 import importlib.util
 from openai import OpenAI
 import traceback
+import random
+import logging
+import datetime
+import dotenv
 
 # Try to import datasets for dataset creation
 try:
@@ -46,94 +50,162 @@ except ImportError as e:
 # Load environment variables from .env file
 load_dotenv()
 
-def check_rag_script(script_path: str) -> bool:
+def validate_file_path(file_path: str) -> bool:
     """
-    Check if the specified RAG script exists.
+    Check if a file exists and is readable.
+    
+    Args:
+        file_path: Path to the file to check
+        
+    Returns:
+        True if the file exists and is readable, False otherwise
+    """
+    return os.path.exists(file_path) and os.path.isfile(file_path)
+
+def validate_rag_script(script_path: str) -> bool:
+    """
+    Check if a RAG script exists and is executable.
     
     Args:
         script_path: Path to the RAG script
         
     Returns:
-        True if the script exists, False otherwise
+        True if the script exists and is executable, False otherwise
     """
-    # Check if the file exists
     return os.path.exists(script_path) and os.path.isfile(script_path)
 
-def run_rag_script(script_path: str, query: str, embeddings_file: str, llm_model: str) -> Tuple[str, Dict[str, Any], float]:
+def run_rag_script(
+    script_path: str, 
+    query: str, 
+    embeddings_file: str = "",
+    products_file: str = "",
+    llm_model: str = "gpt-3.5-turbo",
+    log_level: str = "ERROR"
+) -> Tuple[str, Dict[str, Any], float]:
     """
-    Run the specified RAG script with the given query and return the response.
+    Run the RAG script with a query and return the response, context, and time taken.
     
     Args:
         script_path: Path to the RAG script
-        query: The user query
-        embeddings_file: Path to the embeddings file
-        llm_model: LLM model to use
+        query: User query to run
+        embeddings_file: Path to embeddings file
+        products_file: Path to products file
+        llm_model: Language model to use
+        log_level: Logging level
         
     Returns:
-        Tuple of (response, retrieved_context, response_time)
+        Tuple of (response, context_info, response_time)
     """
     start_time = time.time()
     
-    # Setup base command
-    cmd = [
-        sys.executable,
-        script_path,
-        "--query", query,
-        "--embeddings_file", embeddings_file,
-        "--llm_model", llm_model
-    ]
-    
-    # Check if script is openai-based-rag.py and adjust parameters if needed
-    if "openai-based-rag.py" in script_path:
-        # Replace --embeddings_file with --input_file for openai-based-rag.py
-        cmd = [c if c != "--embeddings_file" else "--input_file" for c in cmd]
-        
-    # Run the command and capture output
-    result = subprocess.run(cmd, capture_output=True, text=True)
-    
-    # Check for errors
-    if result.returncode != 0:
-        print(f"Error running RAG script: {result.stderr}")
-        return "Error: Failed to run RAG script", {}, 0.0
-    
-    # Parse the JSON output
     try:
-        output_data = json.loads(result.stdout.strip())
+        # Prepare command to run the script
+        cmd = [sys.executable, script_path, "--query", query]
         
-        # Check if there was an error in the RAG script
-        if "error" in output_data:
-            print(f"Error in RAG script: {output_data['error']}")
-            return f"Error: {output_data['error']}", {}, 0.0
+        # Special handling for different RAG scripts
+        script_name = os.path.basename(script_path)
         
-        # Extract response and context
-        response = output_data.get("response", "")
+        if script_name == "openai-based-rag.py":
+            # OpenAI-based RAG uses different parameters
+            if products_file and os.path.exists(products_file):
+                cmd.extend(["--input_file", products_file])
+            elif embeddings_file:
+                raise ValueError("Products file is required for OpenAI-based RAG")
+                
+            # Add LLM model
+            if llm_model:
+                cmd.extend(["--llm_model", llm_model])
+        else:
+            # Standard RAG script
+            if embeddings_file:
+                cmd.extend(["--embeddings_file", embeddings_file])
+                
+            
+            # Add LLM model if specified
+            if llm_model:
+                cmd.extend(["--llm_model", llm_model])
+                
+            # Add log level if accepted by the script
+            with open(script_path, 'r', encoding='utf-8') as f:
+                script_content = f.read()
+                if "--log_level" in script_content:
+                    cmd.extend(["--log_level", log_level])
         
-        # Prepare context info for RAGAS
-        context_info = {
-            "context_text": output_data.get("context_text", []),
-            "similarity_scores": output_data.get("similarity_scores", []),
-            "metadata": output_data.get("metadata", []),
-            "search_time": output_data.get("search_time", 0),
-            "generation_time": output_data.get("generation_time", 0),
-            "total_time": output_data.get("total_time", 0)
-        }
+        print(f"Running command: {' '.join(cmd)}")
         
-        total_time = output_data.get("total_time", time.time() - start_time)
+        # Run the command and capture the output
+        process = subprocess.Popen(
+            cmd,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True
+        )
         
-        # Log successful response
-        resp_len = len(response)
-        print(f"Successfully processed response (length: {resp_len} chars) with {len(context_info['context_text'])} context items")
+        stdout, stderr = process.communicate()
         
-        return response, context_info, total_time
+        if process.returncode != 0:
+            print(f"Error running RAG script: {stderr}")
+            return f"Error: {stderr}", {"context_text": [], "similarity_scores": []}, time.time() - start_time
         
-    except json.JSONDecodeError as e:
-        print(f"Error parsing JSON output from RAG script: {e}")
-        print("RAG script output:", result.stdout)
-        return "Error: Failed to parse JSON output", {}, 0.0
+        if stderr:
+            print(f"Warning from RAG script: {stderr}")
+        
+        # Parse the JSON output
+        try:
+            # Extract only the JSON part if there's other output
+            # The script might output logs before the JSON
+            json_start = stdout.find('{')
+            json_end = stdout.rfind('}') + 1
+            
+            if json_start >= 0 and json_end > json_start:
+                json_str = stdout[json_start:json_end]
+                try:
+                    output_data = json.loads(json_str)
+                    print(f"Successfully parsed JSON output of length {len(json_str)}")
+                except json.JSONDecodeError:
+                    print(f"Failed to parse JSON output: {json_str[:100]}...")
+                    # Try again with full output as a fallback
+                    output_data = json.loads(stdout)
+            else:
+                # Try with the full output
+                output_data = json.loads(stdout)
+                
+            response = output_data.get("response", "")
+            context_info = {
+                "context_text": output_data.get("context_text", []),
+                "similarity_scores": output_data.get("similarity_scores", []),
+                "metadata": output_data.get("metadata", []),
+            }
+            
+            # Debug output to help diagnose issues
+            print(f"Debug - Response type: {type(response)}, length: {len(response)}")
+            print(f"Debug - Response preview: '{response[:50]}...'")
+            print(f"Debug - Context items: {len(context_info['context_text'])}")
+            if context_info['context_text']:
+                print(f"Debug - First context item: '{context_info['context_text'][0][:50]}...'")
+                print(f"Debug - Context items: {context_info['context_text']}")
+            
+            # Check if structure looks valid
+            if not isinstance(response, str):
+                print(f"Warning: Response is not a string, it's {type(response)}")
+                response = str(response)
+                
+            print(f"Successfully processed RAG response of length {len(response)} with {len(context_info['context_text'])} context items")
+            return response, context_info, time.time() - start_time
+            
+        except json.JSONDecodeError as e:
+            print(f"Error parsing JSON output: {e}")
+            print(f"Output: {stdout[:500]}...")
+            return stdout, {"context_text": [], "similarity_scores": []}, time.time() - start_time
+        except Exception as e:
+            print(f"Unexpected error processing RAG output: {e}")
+            traceback.print_exc()
+            return str(e), {"context_text": [], "similarity_scores": []}, time.time() - start_time
+    
     except Exception as e:
-        print(f"Unexpected error processing RAG script output: {e}")
-        print("RAG script output:", result.stdout)
-        return f"Error: {str(e)}", {}, 0.0
+        print(f"Error running RAG script: {e}")
+        traceback.print_exc()
+        return str(e), {"context_text": [], "similarity_scores": []}, time.time() - start_time
 
 def load_qa_pairs(qa_file_path: str) -> List[Dict[str, Any]]:
     """
@@ -246,13 +318,17 @@ def prepare_ragas_dataset(
             "reference": []  # Required by context_recall metric
         }
         
-        for qa_pair, response, context_info in zip(qa_pairs, rag_responses, contexts):
+        for idx, (qa_pair, response, context_info) in enumerate(zip(qa_pairs, rag_responses, contexts)):
             # Extract question and ground truth
             question = qa_pair.get("question", "")
             ground_truth = qa_pair.get("answer", "")
             
+            # Debug prints to identify issues
+            print(f"Debug - QA pair {idx}: Question type: {type(question)}, Ground truth type: {type(ground_truth)}")
+            
             # Skip if missing data
             if not question or not ground_truth:
+                print(f"Warning: Skipping QA pair {idx} due to missing question or ground truth")
                 continue
                 
             # Get context text from the context info dictionary
@@ -260,6 +336,7 @@ def prepare_ragas_dataset(
             if not context_text:
                 # If no context was found, add an empty list to avoid errors in RAGAS
                 context_text = ["No relevant context found"]
+                print(f"Warning: No context found for QA pair {idx}")
             
             # Create a comprehensive reference document from all products
             # This gives context_recall a real reference to evaluate against
@@ -276,20 +353,28 @@ def prepare_ragas_dataset(
             data["answer"].append(response)
             data["contexts"].append(context_text)
             data["reference"].append(reference_doc)  # Use comprehensive reference document
+            
+            # Debug what's being added to ensure it's properly formatted
+            print(f"Debug - Added to dataset: Q: '{question[:30]}...', A: '{response[:30]}...'")
         
         # Make sure we have at least one valid data point
         if not data["question"]:
             print("Error: No valid data points for RAGAS evaluation")
             return None
-            
+        
+        # Verify the question and answers are valid for OpenAI
+        print("Debug - Sample data check:")
+        print(f"  - First question: '{data['question'][0][:50]}...'")  
+        print(f"  - First answer: '{data['answer'][0][:50]}...'")
+        print(f"  - First ground truth: '{data['ground_truths'][0][0][:50]}...'")
+        
         # Create dataset
         dataset = HFDataset.from_dict(data)
         return dataset
         
     except Exception as e:
         print(f"Error preparing RAGAS dataset: {e}")
-        traceback_str = traceback.format_exc()
-        print(f"Traceback: {traceback_str}")
+        traceback.print_exc()
         return None
 
 def evaluate_with_ragas(
@@ -411,124 +496,137 @@ def evaluate_with_ragas(
         return {}
 
 def main():
-    parser = argparse.ArgumentParser(description="Evaluate RAG systems using RAGAS framework")
-    parser.add_argument("--qa_file", type=str, required=True, help="Path to the QA pairs file (CSV or JSON)")
-    parser.add_argument("--embeddings_file", type=str, required=True, help="Path to the embeddings file")
-    parser.add_argument("--products_file", type=str, default="data/ecommerce_products_test.csv", help="Path to the products CSV file for reference")
-    parser.add_argument("--rag_script", type=str, default="scripts/rag.py", help="Path to the RAG script to evaluate")
-    parser.add_argument("--llm_model", type=str, default="gpt-4o-mini", help="OpenAI model for generation")
-    parser.add_argument("--eval_model", type=str, default="gpt-4o-mini", help="OpenAI model for evaluation")
-    parser.add_argument("--sample_size", type=int, default=0, help="Number of QA pairs to sample (0 for all)")
-    parser.add_argument("--output_file", type=str, help="Path to save evaluation results")
+    """Main entry point for script execution."""
+    parser = argparse.ArgumentParser(description="Evaluate RAG system against a QA dataset")
+    
+    # Required arguments
+    parser.add_argument("--qa_file", required=True, help="Path to the file containing QA pairs")
+    parser.add_argument("--embeddings_file", required=True, help="Path to the embeddings file")
+    parser.add_argument("--rag_script", required=True, help="Path to the RAG script to evaluate")
+    
+    # Optional arguments
+    parser.add_argument("--products_file", default="data/ecommerce_products_test.csv", 
+                        help="Path to the products CSV file for reference")
+    parser.add_argument("--sample_size", type=int, default=0, 
+                        help="Number of QA pairs to sample (0 for all)")
+    parser.add_argument("--output_file", help="Path to save evaluation results")
+    parser.add_argument("--api_key", help="OpenAI API key (if not in .env file)")
+    parser.add_argument("--llm_model", default="gpt-3.5-turbo", 
+                        help="Language model to use for the RAG system")
+    parser.add_argument("--eval_model", default="gpt-4o-mini", 
+                        help="Model to use for RAGAS evaluation")
+    parser.add_argument("--log_level", default="ERROR", 
+                        help="Logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)")
+    
     args = parser.parse_args()
     
-    # Check if the RAG script exists
-    if not check_rag_script(args.rag_script):
-        print(f"Error: RAG script '{args.rag_script}' not found.")
+    # Validate arguments
+    if not validate_file_path(args.qa_file):
+        print(f"Error: QA file not found: {args.qa_file}")
         return 1
         
+    if not validate_file_path(args.embeddings_file):
+        print(f"Error: Embeddings file not found: {args.embeddings_file}")
+        return 1
+        
+    if not validate_rag_script(args.rag_script):
+        print(f"Error: RAG script not found or not executable: {args.rag_script}")
+        return 1
+        
+    # Check if products_file exists if provided
+    if args.products_file and not os.path.exists(args.products_file):
+        print(f"Warning: Products file not found: {args.products_file}")
+        print("Will proceed without products file for reference")
+        args.products_file = None
+    
+    # Load API key from .env file if not provided
+    if not args.api_key:
+        dotenv.load_dotenv()
+        args.api_key = os.getenv("OPENAI_API_KEY")
+    
+    # Set Logging
+    log_level = getattr(logging, args.log_level.upper(), logging.ERROR)
+    logging.basicConfig(
+        level=log_level,
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    )
+    
     # Load QA pairs
     qa_pairs = load_qa_pairs(args.qa_file)
-    
-    # Sample QA pairs if specified
-    if args.sample_size > 0 and args.sample_size < len(qa_pairs):
-        import random
-        random.shuffle(qa_pairs)
-        qa_pairs = qa_pairs[:args.sample_size]
-        print(f"Sampled {args.sample_size} QA pairs for evaluation")
-    
-    # Get API key from environment
-    api_key = os.getenv("OPENAI_API_KEY")
-    if not api_key:
-        print("Error: OPENAI_API_KEY not found in .env file")
+    if not qa_pairs:
+        print(f"Error: No valid QA pairs found in {args.qa_file}")
         return 1
-        
-    # Run RAG script for each QA pair
-    print(f"Evaluating RAG script: {args.rag_script}")
-    print(f"Using LLM model: {args.llm_model}")
-    print(f"Using {len(qa_pairs)} QA pairs")
     
-    rag_responses = []
-    context_infos = []
+    print(f"Loaded {len(qa_pairs)} valid QA pairs from {args.qa_file}")
+    
+    # Sample QA pairs if needed
+    if args.sample_size > 0 and args.sample_size < len(qa_pairs):
+        print(f"Sampling {args.sample_size} QA pairs for evaluation")
+        qa_pairs = random.sample(qa_pairs, args.sample_size)
+    
+    # Run evaluation
+    print(f"Evaluating RAG script at {args.rag_script} using model {args.llm_model}")
+    results = []
+    responses = []
+    contexts = []
+    
     response_times = []
-    
-    for i, qa_pair in enumerate(tqdm(qa_pairs, desc="Generating RAG responses")):
-        query = qa_pair["question"]
+    for i, qa_pair in enumerate(qa_pairs):
+        query = qa_pair.get("question", "")
+        print(f"\nEvaluating QA pair {i+1}/{len(qa_pairs)}")
+        print(f"Query: {query}")
         
-        # Run the RAG script
-        response, context_info, response_time = run_rag_script(
+        response, context, response_time = run_rag_script(
             args.rag_script, 
             query, 
             args.embeddings_file,
-            args.llm_model
+            args.products_file,
+            args.llm_model,
+            args.log_level
         )
         
-        rag_responses.append(response)
-        context_infos.append(context_info)
+        responses.append(response)
+        contexts.append(context)
         response_times.append(response_time)
-    
-    # Output results before RAGAS evaluation
-    results_data = {
-        "config": {
-            "rag_script": args.rag_script,
-            "llm_model": args.llm_model,
-            "eval_model": args.eval_model,
-            "embeddings_file": args.embeddings_file,
-            "qa_file": args.qa_file,
-            "sample_size": args.sample_size if args.sample_size > 0 else len(qa_pairs)
-        },
-        "qa_pairs": [
-            {
-                "question": qa["question"],
-                "expected_answer": qa["answer"],
-                "rag_response": resp,
-                "response_time": time,
-                # Include simplified context for reference
-                "context_summary": {
-                    "num_chunks": len(ctx.get("context_text", [])),
-                    "similarity_scores": ctx.get("similarity_scores", [])
-                }
-            } 
-            for qa, resp, ctx, time in zip(qa_pairs, rag_responses, context_infos, response_times)
-        ]
-    }
-    
-    # Run RAGAS evaluation if available
-    if RAGAS_AVAILABLE and DATASETS_AVAILABLE:
-        print("Preparing RAGAS evaluation dataset...")
-        ragas_dataset = prepare_ragas_dataset(qa_pairs, rag_responses, context_infos, args.products_file)
         
-        if ragas_dataset is not None:
-            print(f"Evaluating with RAGAS using model: {args.eval_model}")
-            ragas_scores = evaluate_with_ragas(ragas_dataset, args.eval_model, api_key)
-            
-            # Add RAGAS scores to results
-            results_data["ragas_scores"] = ragas_scores
-            
-            # Print RAGAS scores
-            print("\n=== RAGAS Evaluation Results ===")
-            for metric, score in ragas_scores.items():
-                print(f"{metric}: {score:.4f}")
-    else:
-        print("RAGAS evaluation skipped: Required libraries not available")
+        print(f"Response generated (length: {len(response)} chars)")
+        print(f"Retrieved {len(context.get('context_text', []))} context items")
     
-    # Calculate basic metrics (even without RAGAS)
-    avg_response_time = sum(response_times) / len(response_times)
-    results_data["basic_metrics"] = {
-        "avg_response_time": avg_response_time,
-        "total_queries": len(qa_pairs)
-    }
-    
+    avg_response_time = sum(response_times) / len(response_times) if response_times else 0
     print(f"\nAverage response time: {avg_response_time:.2f} seconds")
     
-    # Save results to file if specified
+    # Prepare RAGAS dataset
+    print(f"Preparing RAGAS dataset with {len(qa_pairs)} QA pairs")
+    ragas_dataset = prepare_ragas_dataset(qa_pairs, responses, contexts, args.products_file)
+    
+    # Evaluate with RAGAS
+    print(f"Evaluating with RAGAS using model: {args.eval_model}")
+    ragas_results = evaluate_with_ragas(ragas_dataset, args.eval_model, args.api_key)
+    
+    # Print results
+    print("\n=== Evaluation Results ===")
+    print(json.dumps(ragas_results, indent=2))
+    
+    # Save results if output file specified
     if args.output_file:
         try:
             with open(args.output_file, 'w') as f:
-                json.dump(results_data, f, indent=2)
+                json.dump({
+                    "ragas_results": ragas_results,
+                    "avg_response_time": avg_response_time,
+                    "config": {
+                        "rag_script": args.rag_script,
+                        "llm_model": args.llm_model,
+                        "eval_model": args.eval_model,
+                        "embeddings_file": args.embeddings_file,
+                        "products_file": args.products_file,
+                        "sample_size": args.sample_size if args.sample_size > 0 else len(qa_pairs)
+                    },
+                    "timestamp": datetime.datetime.now().isoformat()
+                }, f, indent=2)
             print(f"Results saved to {args.output_file}")
         except Exception as e:
-            print(f"Error saving results to file: {e}")
+            print(f"Error saving results: {e}")
     
     return 0
 

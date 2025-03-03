@@ -1,3 +1,36 @@
+# Evals
+
+openai
+
+```
+{
+  "faithfulness": 0.3416666666666667,
+  "answer_relevancy": 0.20000000000000004,
+  "context_recall": 0.3666666666666667
+}
+```
+
+homemade
+
+```
+{
+  "faithfulness": 0.17666666666666667,
+  "answer_relevancy": 0.5957090540197866,
+  "context_recall": 0.5833333333333333
+}
+{
+  "faithfulness": 0.215,
+  "answer_relevancy": 0.780941080116453,
+  "context_recall": 0.4666666666666666
+}
+```
+
+# Few commands to eval
+
+python scripts/openai-based-rag.py --query "What is the price of the Men Slim Fit Checkered Casual Shirt?" --input_file data/ecommerce_products_test.csv --llm_model gpt-4o --terminal_output
+
+python scripts/evaluate_rag.py --qa_file data/generated_qa_pairs.csv --embeddings_file product_embeddings.json --products_file data/ecommerce_products_test.csv --rag_script scripts/openai-based-rag.py --llm_model gpt-4o-mini --sample_size 1
+
 # Basic usage with required parameters
 
 python scripts/evaluate_rag.py --qa_file data/generated_qa_pairs.csv --embeddings_file product_embeddings.json
