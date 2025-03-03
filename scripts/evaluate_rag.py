@@ -196,7 +196,8 @@ def load_qa_pairs(qa_file_path: str) -> List[Dict[str, Any]]:
 def prepare_ragas_dataset(
     qa_pairs: List[Dict[str, Any]], 
     rag_responses: List[str],
-    contexts: List[Dict[str, Any]]
+    contexts: List[Dict[str, Any]],
+    products_file: str = "data/ecommerce_products_test.csv"
 ) -> Optional[Any]:
     """
     Prepare dataset for RAGAS evaluation.
@@ -205,6 +206,7 @@ def prepare_ragas_dataset(
         qa_pairs: List of QA pairs
         rag_responses: List of RAG responses
         contexts: List of context information from RAG system
+        products_file: Path to the products CSV file to use as reference
         
     Returns:
         RAGAS dataset if successful, None otherwise
@@ -220,12 +222,28 @@ def prepare_ragas_dataset(
                   f"RAG responses: {len(rag_responses)}, Contexts: {len(contexts)}")
             return None
             
+        # Load products data from CSV file to use as reference documents
+        products_data = []
+        if products_file and os.path.exists(products_file):
+            try:
+                import csv
+                with open(products_file, 'r', encoding='utf-8') as f:
+                    csv_reader = csv.DictReader(f)
+                    for row in csv_reader:
+                        # Convert each product row to a string description
+                        product_text = " ".join([f"{k}: {v}" for k, v in row.items() if v and v.lower() != "unknown"])
+                        products_data.append(product_text)
+                print(f"Loaded {len(products_data)} products from {products_file}")
+            except Exception as e:
+                print(f"Warning: Could not load products file: {e}")
+                
         # Prepare data in the format required by RAGAS
         data = {
             "question": [],
-            "ground_truths": [],
+            "ground_truths": [],  # RAGAS expects this field for context_recall
             "answer": [],
-            "contexts": []
+            "contexts": [],
+            "reference": []  # Required by context_recall metric
         }
         
         for qa_pair, response, context_info in zip(qa_pairs, rag_responses, contexts):
@@ -243,11 +261,21 @@ def prepare_ragas_dataset(
                 # If no context was found, add an empty list to avoid errors in RAGAS
                 context_text = ["No relevant context found"]
             
+            # Create a comprehensive reference document from all products
+            # This gives context_recall a real reference to evaluate against
+            if products_data:
+                # Join all product data into one reference document
+                reference_doc = " ".join(products_data)
+            else:
+                # If no products data, fall back to using the context
+                reference_doc = " ".join(context_text)
+            
             # Add to dataset
             data["question"].append(question)
             data["ground_truths"].append([ground_truth])  # RAGAS expects a list of ground truths
             data["answer"].append(response)
             data["contexts"].append(context_text)
+            data["reference"].append(reference_doc)  # Use comprehensive reference document
         
         # Make sure we have at least one valid data point
         if not data["question"]:
@@ -386,6 +414,7 @@ def main():
     parser = argparse.ArgumentParser(description="Evaluate RAG systems using RAGAS framework")
     parser.add_argument("--qa_file", type=str, required=True, help="Path to the QA pairs file (CSV or JSON)")
     parser.add_argument("--embeddings_file", type=str, required=True, help="Path to the embeddings file")
+    parser.add_argument("--products_file", type=str, default="data/ecommerce_products_test.csv", help="Path to the products CSV file for reference")
     parser.add_argument("--rag_script", type=str, default="scripts/rag.py", help="Path to the RAG script to evaluate")
     parser.add_argument("--llm_model", type=str, default="gpt-4o-mini", help="OpenAI model for generation")
     parser.add_argument("--eval_model", type=str, default="gpt-4o-mini", help="OpenAI model for evaluation")
@@ -467,7 +496,7 @@ def main():
     # Run RAGAS evaluation if available
     if RAGAS_AVAILABLE and DATASETS_AVAILABLE:
         print("Preparing RAGAS evaluation dataset...")
-        ragas_dataset = prepare_ragas_dataset(qa_pairs, rag_responses, context_infos)
+        ragas_dataset = prepare_ragas_dataset(qa_pairs, rag_responses, context_infos, args.products_file)
         
         if ragas_dataset is not None:
             print(f"Evaluating with RAGAS using model: {args.eval_model}")
