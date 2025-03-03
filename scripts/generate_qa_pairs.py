@@ -80,7 +80,7 @@ def generate_qa_pairs(
     """Generate QA pairs from document chunks using OpenAI."""
     
     # Prompt template for generating QA pairs
-    qa_generation_prompt = """
+    qa_generation_base_prompt = """
     Your task is to write a factoid question, an answer, and a key fact given a context.
     Your factoid question should be answerable with a specific, concise piece of factual information from the context.
     Your factoid question should be formulated in the same style as questions users could ask in a search engine.
@@ -92,6 +92,8 @@ def generate_qa_pairs(
     - "Logo baseball hat"
     - "Material: nylon"
     - "Cotton t-shirt"
+
+    {avoid_similar}
 
     Provide your answer in EXACTLY this format:
 
@@ -172,15 +174,36 @@ def generate_qa_pairs(
     print(f"Generating {num_pairs} QA pairs...")
     outputs = []
     
+    # Keep track of previously generated questions and key facts
+    previous_questions = []
+    previous_key_facts = []
+    
     # Sample random documents
     sampled_docs = random.sample(documents, min(num_pairs, len(documents)))
     
     for idx, doc in enumerate(tqdm(sampled_docs)):
         try:
+            # Create the avoid similar instruction
+            avoid_similar_text = ""
+            if previous_questions:
+                avoid_similar_text = "IMPORTANT: Avoid generating questions similar to these previously generated questions:\n"
+                # Add at most 10 previous questions to avoid making the prompt too long
+                for i, (prev_q, prev_kf) in enumerate(zip(previous_questions, previous_key_facts)):
+                    if i >= 10:
+                        break
+                    avoid_similar_text += f"- Question: {prev_q} (Key fact: {prev_kf})\n"
+                avoid_similar_text += "\nCreate a question on a different aspect or category than those listed above."
+            
+            # Format the prompt with avoid similar instruction
+            qa_generation_prompt = qa_generation_base_prompt.format(
+                context=doc.page_content,
+                avoid_similar=avoid_similar_text
+            )
+            
             # Generate QA pair
             qa_output = call_openai(
                 client,
-                qa_generation_prompt.format(context=doc.page_content),
+                qa_generation_prompt,
                 model
             )
             
@@ -206,6 +229,10 @@ def generate_qa_pairs(
             if len(answer) > 300:
                 print(f"Skip: Answer too long at index {idx + 1}")
                 continue
+            
+            # Add the new question and key fact to our tracking lists
+            previous_questions.append(question)
+            previous_key_facts.append(key_fact)
             
             # Create QA pair entry
             qa_pair = {
