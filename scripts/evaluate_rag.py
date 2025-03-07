@@ -335,13 +335,37 @@ def prepare_ragas_dataset(
             context_text = context_info.get("context_text", [])
             if not context_text:
                 # If no context was found, add an empty list to avoid errors in RAGAS
-                context_text = ["No relevant context found"]
+                processed_context = ["No relevant context found"]
                 print(f"Warning: No context found for QA pair {idx}")
             else:
                 print(f"Debug - Context for QA {idx} - Type: {type(context_text)}, Length: {len(context_text)}")
-                print(f"Debug - First context item type: {type(context_text[0])}")
-                print(f"Debug - First context preview: {str(context_text[0])[:100]}...")
+                if context_text and len(context_text) > 0:
+                    print(f"Debug - First context item type: {type(context_text[0])}")
+                    print(f"Debug - First context preview: {str(context_text[0])[:100]}...")
                 
+                # Process context to ensure we have a list of strings
+                processed_context = []
+                for ctx in context_text:
+                    # Handle different context formats
+                    if isinstance(ctx, str):
+                        # If it's already a string, use it directly
+                        processed_context.append(ctx)
+                    elif isinstance(ctx, list) and ctx and isinstance(ctx[0], dict) and 'text' in ctx[0]:
+                        # Extract text from list containing dictionaries with 'text' key
+                        # This handles format like [{'text': 'content', 'type': 'text'}]
+                        processed_context.append(ctx[0]['text'])
+                    elif isinstance(ctx, dict) and 'text' in ctx:
+                        # Extract text from dictionary with 'text' key
+                        processed_context.append(ctx['text'])
+                    else:
+                        # Fall back to string representation
+                        processed_context.append(str(ctx))
+                
+                # Ensure we have at least one context item
+                if not processed_context:
+                    processed_context = ["No processable context found"]
+                
+                print(f"Debug - Processed first context item: {processed_context[0][:100]}...")
             
             # Create a comprehensive reference document from all products
             # This gives context_recall a real reference to evaluate against
@@ -350,13 +374,13 @@ def prepare_ragas_dataset(
                 reference_doc = " ".join(products_data)
             else:
                 # If no products data, fall back to using the context
-                reference_doc = " ".join(context_text)
+                reference_doc = " ".join(processed_context)
             
             # Add to dataset
             data["question"].append(question)
             data["ground_truths"].append([ground_truth])  # RAGAS expects a list of ground truths
             data["answer"].append(response)
-            data["contexts"].append(context_text)
+            data["contexts"].append(processed_context)  # Use the processed context
             data["reference"].append(reference_doc)  # Use comprehensive reference document
             
             # Debug what's being added to ensure it's properly formatted
@@ -388,7 +412,7 @@ def evaluate_with_ragas(
     eval_dataset: Any,
     model: str = "gpt-3.5-turbo",
     api_key: Optional[str] = None
-) -> Dict[str, float]:
+) -> Dict[str, Union[float, str]]:
     """
     Evaluate the RAG system using RAGAS metrics.
     
@@ -400,107 +424,86 @@ def evaluate_with_ragas(
     Returns:
         Dictionary of evaluation metrics
     """
-    if not RAGAS_AVAILABLE:
-        return {"error": 0.0}
-        
-    print("\nEvaluating with RAGAS...")
+    print(f"\nEvaluating with RAGAS using model: {model}")
     
-    # Set up OpenAI client for RAGAS
+    if eval_dataset is None:
+        raise ValueError("Cannot evaluate with RAGAS: dataset is None")
+    
+    # Set up OpenAI API key for RAGAS
     if api_key:
         os.environ["OPENAI_API_KEY"] = api_key
     
-    # Initialize metrics according to latest RAGAS API
-    metrics = [
-        faithfulness,
-        answer_relevancy,
-        context_recall
-    ]
-    
-    # Run evaluation
     try:
-        # Direct evaluation with RAGAS using the simplest possible call
+        # Import the necessary modules
+        try:
+            from langchain_openai import ChatOpenAI
+            # Initialize metrics according to latest RAGAS API
+            metrics = [
+                faithfulness, 
+                answer_relevancy,
+                context_recall
+            ]
+            print("Successfully imported LangChain OpenAI integration")
+        except ImportError:
+            print("Warning: Could not import LangChain OpenAI. Using default metrics.")
+            # Fall back to default metrics
+            metrics = [
+                faithfulness, 
+                answer_relevancy,
+                context_recall
+            ]
+        
+        # For debugging
+        print(f"eval_dataset {eval_dataset}")
+        
+        # Call evaluate() with the dataset and metrics
+        # The model name should be properly handled by RAGAS
         result = evaluate(
-            eval_dataset,
+            dataset=eval_dataset,
             metrics=metrics
         )
         
-        # Convert result to dictionary based on its type
-        scores = {}
+        print(f"RAGAS evaluation completed: {type(result)}")
         
-        # Known non-metric columns to ignore
-        non_metric_columns = [
-            'question', 'answer', 'contexts', 'ground_truth', 
-            'user_input', 'retrieved_contexts', 'response', 'reference'
-        ]
-        
-        # Handle different result types from different RAGAS versions
+        # Convert result to dictionary
         if hasattr(result, "to_pandas"):
-            # For newer RAGAS versions that return a DataFrame-like object
-            result_df = result.to_pandas()
-            
-            # Process only numeric metric columns
-            for col in result_df.columns:
-                if col not in non_metric_columns:
-                    try:
-                        # First check if the column is numeric
-                        if pd.api.types.is_numeric_dtype(result_df[col]):
-                            value = result_df[col].mean()
-                            if pd.notna(value):  # Only add if it's not NaN
-                                scores[col] = float(value)
-                    except Exception:
-                        pass
-            
-        elif hasattr(result, "items"):
-            # For some RAGAS versions that return a dictionary
-            for k, v in result.items():
-                if k not in non_metric_columns:
-                    try:
-                        if isinstance(v, (int, float, np.number)):
-                            scores[k] = float(v)
-                        elif isinstance(v, (list, np.ndarray)) and all(isinstance(x, (int, float, np.number)) for x in v):
-                            scores[k] = float(np.mean(v))
-                    except (ValueError, TypeError):
-                        pass
-                    
-        else:
-            # For the latest RAGAS that might return a custom object
-            for attr_name in dir(result):
-                if attr_name.startswith('_') or callable(getattr(result, attr_name)) or attr_name in non_metric_columns:
-                    continue
-                
-                try:
-                    attr_value = getattr(result, attr_name)
-                    if isinstance(attr_value, (int, float, np.number)):
-                        scores[attr_name] = float(attr_value)
-                    elif hasattr(attr_value, 'mean') and callable(attr_value.mean):
-                        # Check if the mean result is numeric
-                        mean_value = attr_value.mean()
-                        if isinstance(mean_value, (int, float, np.number)):
-                            scores[attr_name] = float(mean_value)
-                except Exception:
-                    pass
-        
-        # If we still have no scores but the object is a DataFrame, try extracting just the known metric columns
-        if not scores and hasattr(result, "to_pandas"):
+            # Newer RAGAS versions return a DataFrame-like object
             df = result.to_pandas()
-            known_metrics = ['faithfulness', 'answer_relevancy', 'context_recall', 'context_precision']
-            for metric in known_metrics:
-                if metric in df.columns:
+            metrics_dict: Dict[str, Union[float, str]] = {}
+            for col in df.columns:
+                if col not in ["question", "contexts", "answer", "ground_truths", "reference"]:
                     try:
-                        # Get only numeric values if any
-                        numeric_values = pd.to_numeric(df[metric], errors='coerce').dropna()
-                        if not numeric_values.empty:
-                            scores[metric] = float(numeric_values.mean())
-                    except Exception:
-                        pass
+                        metrics_dict[str(col)] = float(df[col].mean())
+                    except (ValueError, TypeError):
+                        metrics_dict[str(col)] = 0.0
+            return metrics_dict
         
-        return scores
+        # Try to convert directly to dict
+        try:
+            result_dict: Dict[str, Union[float, str]] = {}
+            for k, v in dict(result).items():
+                if isinstance(v, (int, float)):
+                    result_dict[str(k)] = float(v)
+                else:
+                    result_dict[str(k)] = str(v)
+            return result_dict
+        except (ValueError, TypeError, AttributeError):
+            pass
             
+        # Last resort
+        print(f"RAGAS result type: {type(result)}, value: {result}")
+        return {"evaluation_completed": 1.0, "note": "Results format unclear, check logs"}
+    
     except Exception as e:
         print(f"Error during RAGAS evaluation: {e}")
-        traceback_str = traceback.format_exc()
-        print(f"Traceback: {traceback_str}")
-        return {}
+        print(f"Traceback: {traceback.format_exc()}")
+        
+        # Instead of raising an error, return an error object
+        # This allows the script to continue running
+        return {
+            "error": 1.0,
+            "error_message": str(e)
+        }
 
 def main():
     """Main entry point for script execution."""
@@ -521,24 +524,25 @@ def main():
     parser.add_argument("--llm_model", default="gpt-3.5-turbo", 
                         help="Language model to use for the RAG system")
     parser.add_argument("--eval_model", default="gpt-4o-mini", 
-                        help="Model to use for RAGAS evaluation")
-    parser.add_argument("--log_level", default="ERROR", 
-                        help="Logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)")
+                        help="Model to use for evaluation (RAGAS metrics)")
+    parser.add_argument("--log_level", default="ERROR",
+                        choices=["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
+                        help="Set the logging level")
     
     args = parser.parse_args()
     
-    # Validate arguments
+    # Generate timestamp for the run
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    
+    # Validate input files
     if not validate_file_path(args.qa_file):
-        print(f"Error: QA file not found: {args.qa_file}")
-        return 1
+        raise FileNotFoundError(f"QA file not found: {args.qa_file}")
         
     if not validate_file_path(args.embeddings_file):
-        print(f"Error: Embeddings file not found: {args.embeddings_file}")
-        return 1
+        raise FileNotFoundError(f"Embeddings file not found: {args.embeddings_file}")
         
     if not validate_rag_script(args.rag_script):
-        print(f"Error: RAG script not found or not executable: {args.rag_script}")
-        return 1
+        raise ValueError(f"RAG script not found or not executable: {args.rag_script}")
         
     # Check if products_file exists if provided
     if args.products_file and not os.path.exists(args.products_file):
@@ -561,8 +565,7 @@ def main():
     # Load QA pairs
     qa_pairs = load_qa_pairs(args.qa_file)
     if not qa_pairs:
-        print(f"Error: No valid QA pairs found in {args.qa_file}")
-        return 1
+        raise ValueError(f"No valid QA pairs found in {args.qa_file}")
     
     print(f"Loaded {len(qa_pairs)} valid QA pairs from {args.qa_file}")
     
@@ -573,7 +576,6 @@ def main():
     
     # Run evaluation
     print(f"Evaluating RAG script at {args.rag_script} using model {args.llm_model}")
-    results = []
     responses = []
     contexts = []
     
@@ -602,40 +604,65 @@ def main():
     avg_response_time = sum(response_times) / len(response_times) if response_times else 0
     print(f"\nAverage response time: {avg_response_time:.2f} seconds")
     
-    # Prepare RAGAS dataset
-    print(f"Preparing RAGAS dataset with {len(qa_pairs)} QA pairs")
-    ragas_dataset = prepare_ragas_dataset(qa_pairs, responses, contexts, args.products_file)
+    # Create config dictionary with all parameters
+    config = {
+        "rag_script": args.rag_script,
+        "qa_file": args.qa_file,
+        "embeddings_file": args.embeddings_file,
+        "products_file": args.products_file,
+        "llm_model": args.llm_model,
+        "eval_model": args.eval_model,
+        "sample_size": args.sample_size,
+        "actual_samples": len(qa_pairs)
+    }
     
-    # Evaluate with RAGAS
-    print(f"Evaluating with RAGAS using model: {args.eval_model}")
-    ragas_results = evaluate_with_ragas(ragas_dataset, args.eval_model, args.api_key)
+    # Prepare results structure
+    evaluation_results = {
+        "timestamp": timestamp,
+        "config": config,
+        "avg_response_time": avg_response_time,
+        "sample_size": len(qa_pairs)
+    }
+    
+    # Prepare RAGAS dataset
+    try:
+        print(f"Preparing RAGAS dataset with {len(qa_pairs)} QA pairs")
+        ragas_dataset = prepare_ragas_dataset(qa_pairs, responses, contexts, args.products_file)
+        
+        # Evaluate with RAGAS
+        print(f"Evaluating with RAGAS using model: {args.eval_model}")
+        ragas_results = evaluate_with_ragas(ragas_dataset, args.eval_model, args.api_key)
+        
+        # Add RAGAS results
+        evaluation_results["ragas_results"] = ragas_results
+    except Exception as e:
+        print(f"RAGAS evaluation failed: {e}")
+        evaluation_results["ragas_results"] = {
+            "error": 1.0,
+            "error_message": str(e)
+        }
     
     # Print results
     print("\n=== Evaluation Results ===")
-    print(json.dumps(ragas_results, indent=2))
+    print(json.dumps(evaluation_results, indent=2))
     
-    # Save results if output file specified
-    if args.output_file:
-        try:
-            with open(args.output_file, 'w') as f:
-                json.dump({
-                    "ragas_results": ragas_results,
-                    "avg_response_time": avg_response_time,
-                    "config": {
-                        "rag_script": args.rag_script,
-                        "llm_model": args.llm_model,
-                        "eval_model": args.eval_model,
-                        "embeddings_file": args.embeddings_file,
-                        "products_file": args.products_file,
-                        "sample_size": args.sample_size if args.sample_size > 0 else len(qa_pairs)
-                    },
-                    "timestamp": datetime.datetime.now().isoformat()
-                }, f, indent=2)
-            print(f"Results saved to {args.output_file}")
-        except Exception as e:
-            print(f"Error saving results: {e}")
+    # If no output file is specified, create one with timestamp
+    output_file = args.output_file
+    if not output_file:
+        output_dir = "evaluation_results"
+        os.makedirs(output_dir, exist_ok=True)
+        output_file = f"{output_dir}/rag_eval_{timestamp}.json"
+        print(f"No output file specified, using: {output_file}")
     
-    return 0
+    # Save results
+    with open(output_file, 'w') as f:
+        json.dump(evaluation_results, f, indent=2)
+    print(f"Results saved to {output_file}")
 
 if __name__ == "__main__":
-    sys.exit(main()) 
+    try:
+        main()
+    except Exception as e:
+        print(f"Error: {e}")
+        traceback.print_exc()
+        sys.exit(1) 

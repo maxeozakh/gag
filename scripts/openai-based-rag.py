@@ -5,7 +5,7 @@ import sys
 import time
 import traceback
 import logging
-from typing import List, Dict, Any, Optional, Tuple, Union
+from typing import List, Dict, Any, Optional, Tuple, Union, cast, Literal
 from dotenv import load_dotenv
 from openai import OpenAI
 import uuid
@@ -13,9 +13,11 @@ import csv
 import re
 
 # Configure logging with a null handler by default
-logging.basicConfig(level=logging.CRITICAL)
+logging.basicConfig(level=logging.CRITICAL, handlers=[])  # Prevent root logger from handling logs
 logger = logging.getLogger("openai-rag")
+logger.setLevel(logging.CRITICAL)  # Default to critical only
 logger.addHandler(logging.NullHandler())
+logger.propagate = False  # Prevent propagation to root logger
 
 # Load environment variables from .env file
 load_dotenv()
@@ -127,7 +129,6 @@ class OpenAIAssistantManager:
         self.model = model
         self.assistant_id: Optional[str] = None
         self.assistant_name = f"RAG-Assistant-{str(uuid.uuid4())[:8]}"
-        # No need to store product_data since we're using pure file search
         
     def create_assistant(self, vector_store_id: str) -> str:
         """
@@ -141,13 +142,27 @@ class OpenAIAssistantManager:
         """
         try:
             logger.info(f"Creating assistant with name: {self.assistant_name}")
+            
+            # Create assistant using proper tool type format
             assistant = self.client.beta.assistants.create(
                 name=self.assistant_name,
                 instructions="""You are a helpful product information assistant. 
                 Use the provided documents to answer questions about products.
                 If you don't know the answer, say so. Do not make up information.""",
                 model=self.model,
-                tools=[{"type": "file_search"}],
+                tools=[
+                    {
+                        "type": "file_search",
+                        # Use extended parameters as keyword arguments
+                        "file_search": {
+                            "max_num_results": 20 if self.model.startswith(("gpt-4", "gpt-4o")) else 5,
+                            "ranking_options": {
+                                "ranker": "auto",
+                                "score_threshold": 0.7
+                            }
+                        }
+                    }
+                ],
                 tool_resources={
                     "file_search": {
                         "vector_store_ids": [vector_store_id]
@@ -178,6 +193,60 @@ class OpenAIAssistantManager:
                 logger.error(f"Error deleting assistant: {e}")
                 logger.error(traceback.format_exc())
 
+    def _process_file_search_results(self, results) -> List[Dict[str, Any]]:
+        """
+        Process file search results into a consistent format.
+        
+        Args:
+            results: File search results from the API
+            
+        Returns:
+            List of normalized result dictionaries with content, file_id, and score
+        """
+        normalized_results: List[Dict[str, Any]] = []
+        
+        if not results:
+            logger.warning("No results to process")
+            return normalized_results
+            
+        for result in results:
+            try:
+                # Skip results without required attributes
+                if not hasattr(result, "file_id") or not hasattr(result, "content"):
+                    logger.warning("Result missing required attributes, skipping")
+                    continue
+                    
+                file_id = result.file_id
+                content = result.content
+                score = getattr(result, "score", 0.0)
+                
+                # Process different content formats
+                if isinstance(content, str):
+                    # String content is already in the right format
+                    pass
+                elif isinstance(content, list) and content and isinstance(content[0], dict) and "text" in content[0]:
+                    # Handle content as a list of dictionaries with text field
+                    content = content[0].get("text", "")
+                    logger.info(f"Extracted text content from structured content for file {file_id}")
+                elif isinstance(content, dict) and "text" in content:
+                    # Handle content as a dictionary with text field
+                    content = content.get("text", "")
+                    logger.info(f"Extracted text from dictionary content for file {file_id}")
+                
+                # Add normalized result
+                normalized_results.append({
+                    "file_id": file_id,
+                    "content": content,
+                    "score": score
+                })
+                
+                logger.info(f"Processed result for file {file_id} with score {score}")
+            except Exception as e:
+                logger.warning(f"Error processing search result: {e}")
+                continue
+                
+        return normalized_results
+
     def search_and_generate(self, query: str) -> Tuple[str, Dict[str, Any]]:
         """
         Use the assistant to search files and generate a response.
@@ -195,23 +264,22 @@ class OpenAIAssistantManager:
             "metadata": []
         }
         
-        logger.info(f"Searching for content related to query: '{query}'")
-        
-        # Use the OpenAI Assistant API for file search
         if not self.assistant_id:
-            logger.error("Assistant not created")
-            raise Exception("Assistant not created")
+            error_msg = "Assistant not created"
+            logger.error(error_msg)
+            raise ValueError(error_msg)
         
         try:
             # Create a thread for search and generate
             logger.info("Creating thread for search and generate")
             thread = self.client.beta.threads.create()
-            logger.info(f"Thread created with ID: {thread.id}")
+            thread_id = thread.id
+            logger.info(f"Thread created with ID: {thread_id}")
             
             # Add user message to thread
             logger.info(f"Adding user message to thread: '{query}'")
             self.client.beta.threads.messages.create(
-                thread_id=thread.id,
+                thread_id=thread_id,
                 role="user",
                 content=query
             )
@@ -219,198 +287,154 @@ class OpenAIAssistantManager:
             # Run the assistant on the thread
             logger.info(f"Running assistant (ID: {self.assistant_id}) on thread")
             run = self.client.beta.threads.runs.create(
-                thread_id=thread.id,
+                thread_id=thread_id,
                 assistant_id=self.assistant_id
             )
-            logger.info(f"Run created with ID: {run.id}")
+            run_id = run.id
+            logger.info(f"Run created with ID: {run_id}")
             
-            # Initialize counters
-            total_tool_calls = 0
-            total_file_searches = 0
-            total_results = 0
-            
-            # Poll for run completion
+            # Poll for run completion with proper error handling
             while True:
                 run = self.client.beta.threads.runs.retrieve(
-                    thread_id=thread.id,
-                    run_id=run.id
+                    thread_id=thread_id,
+                    run_id=run_id
                 )
                 logger.info(f"Run status: {run.status}")
                 
                 if run.status == "completed":
                     logger.info("Run completed successfully")
                     break
+                elif run.status == "requires_action":
+                    logger.error("Run requires action but this is not supported in this implementation")
+                    raise ValueError("Run requires action but this is not supported")
                 elif run.status in ["failed", "cancelled", "expired"]:
-                    logger.error(f"Run ended with status: {run.status}")
+                    error_details = ""
                     if hasattr(run, "last_error") and run.last_error:
-                        logger.error(f"Error: {run.last_error}")
-                    raise Exception(f"Run ended with status: {run.status}")
+                        error_details = f": {run.last_error.code} - {run.last_error.message}"
+                    error_msg = f"Run ended with status: {run.status}{error_details}"
+                    logger.error(error_msg)
+                    raise RuntimeError(error_msg)
                 
                 # Wait before polling again
                 logger.info("Waiting for run to complete...")
                 time.sleep(1)
             
             # Get run steps to extract file search results
-            logger.info(f"Retrieving run steps to extract context")
-            run_steps = self.client.beta.threads.runs.steps.list(
-                thread_id=thread.id,
-                run_id=run.id,
-                include=["step_details.tool_calls[*].file_search.results[*].content"]
-            )
+            logger.info("Retrieving run steps to extract context")
+            try:
+                run_steps = self.client.beta.threads.runs.steps.list(
+                    thread_id=thread_id,
+                    run_id=run_id,
+                    include=["step_details.tool_calls[*].file_search.results[*].content"]
+                )
+            except Exception as e:
+                logger.error(f"Error retrieving run steps: {e}")
+                raise RuntimeError(f"Failed to retrieve run steps: {str(e)}")
             
             logger.info(f"Found {len(run_steps.data)} run steps")
             
             # Process run steps to extract context
+            search_results_found = False
             for step in run_steps.data:
-                logger.info(f"Processing step: {step.type}")
+                if step.type != "tool_calls":
+                    logger.info(f"Skipping non-tool-calls step of type: {step.type}")
+                    continue
                 
-                if step.type == "tool_calls" and hasattr(step, "step_details"):
-                    # Check if step_details has tool_calls attribute
-                    if not hasattr(step.step_details, "tool_calls"):
-                        logger.info("Step details has no tool_calls attribute")
+                if not hasattr(step, "step_details") or not hasattr(step.step_details, "tool_calls"):
+                    logger.info("Step has no tool_calls attribute, skipping")
+                    continue
+                
+                # Process file search tool calls
+                for tool_call in step.step_details.tool_calls:
+                    # Skip non-file-search tool calls
+                    if not hasattr(tool_call, "type") or tool_call.type != "file_search":
+                        logger.info(f"Skipping non-file-search tool call of type: {getattr(tool_call, 'type', 'unknown')}")
                         continue
                     
-                    tool_calls = step.step_details.tool_calls
-                    logger.info(f"Found {len(tool_calls)} tool calls in step")
-                    total_tool_calls += len(tool_calls)
+                    # Ensure file_search attribute exists - we've verified this is a file_search type
+                    if not hasattr(tool_call, "file_search"):
+                        logger.warning("File search tool call missing file_search attribute")
+                        continue
                     
-                    for tool_call in tool_calls:
-                        # Detailed logging of tool call structure
-                        logger.info(f"Tool call object type: {type(tool_call)}")
+                    # Process file search results
+                    file_search = getattr(tool_call, "file_search", None)
+                    if not file_search or not hasattr(file_search, "results"):
+                        logger.warning("File search missing results attribute")
+                        continue
+                    
+                    results = file_search.results
+                    if not results:
+                        logger.info("File search returned no results")
+                        continue
+                    
+                    search_results_found = True
+                    logger.info(f"Found {len(results)} results in file search")
+                    
+                    # Process results using the helper method
+                    normalized_results = self._process_file_search_results(results)
+                    logger.info(f"Processed {len(normalized_results)} valid results")
+                    
+                    # Add results to context info
+                    for result in normalized_results:
+                        file_id = result["file_id"]
+                        content = result["content"]
+                        score = result["score"]
                         
-                        # For dictionary type tool calls
-                        if isinstance(tool_call, dict):
-                            logger.info(f"Tool call keys: {tool_call.keys()}")
-                            
-                            # Handle new API format with 'id', 'type', 'file_search' keys
-                            if 'type' in tool_call and tool_call['type'] == 'file_search' and 'file_search' in tool_call:
-                                logger.info(f"Processing file_search tool call with id: {tool_call.get('id')}")
-                                total_file_searches += 1
-                                
-                                file_search_data = tool_call['file_search']
-                                if isinstance(file_search_data, dict) and 'results' in file_search_data:
-                                    results = file_search_data['results']
-                                    if isinstance(results, list):
-                                        logger.info(f"Found {len(results)} results in file_search")
-                                        total_results += len(results)
-                                        
-                                        for result in results:
-                                            if isinstance(result, dict):
-                                                file_id = result.get('file_id', 'unknown')
-                                                file_name = result.get('file_name', 'unknown_file')
-                                                score = result.get('score', 0.0)
-                                                
-                                                # Extract content from the result
-                                                content = result.get('content', '')
-                                                
-                                                # Handle case where content is a list of dictionaries with text field
-                                                if isinstance(content, list) and content and isinstance(content[0], dict) and 'text' in content[0]:
-                                                    # Extract the text from the first dictionary in the list
-                                                    content = content[0].get('text', '')
-                                                    logger.info(f"Extracted text content from dictionary: {content[:50]}...")
-                                                
-                                                # Log search result details
-                                                content_preview = content[:100] + "..." if len(content) > 100 else content
-                                                logger.info(f"  File ID: {file_id}, File: {file_name}, Score: {score}")
-                                                logger.info(f"  Content preview: {content_preview}")
-                                                
-                                                # Add content to context
-                                                context_info["context_text"].append(content)
-                                                context_info["similarity_scores"].append(score)
-                                                context_info["metadata"].append({
-                                                    "source": file_name,
-                                                    "file_id": file_id
-                                                })
-                                else:
-                                    logger.warning("No results found in file_search data")
-                                    logger.info(f"file_search data: {file_search_data}")
-                                
-                                continue
-                            
-                        # Handle object-style tool call with no type attribute
-                        if not hasattr(tool_call, "type"):
-                            logger.info("Tool call has no type attribute")
-                            
-                            # Try to access common attributes/structure
-                            if hasattr(tool_call, "id"):
-                                logger.info(f"Tool call id: {tool_call.id}")
-                            
-                            # Check if it has a file_search attribute
-                            if hasattr(tool_call, "file_search"):
-                                logger.info("Tool call has file_search attribute")
-                                file_search = tool_call.file_search
-                                logger.info(f"File search type: {type(file_search)}")
-                                logger.info(f"File search attributes: {dir(file_search)}")
-                                
-                                # Check for results
-                                if hasattr(file_search, "results"):
-                                    results = file_search.results
-                                    logger.info(f"File search results found: {len(results)}")
-                                    
-                                    # Process the results
-                                    for result in results:
-                                        logger.info(f"Result type: {type(result)}")
-                                        logger.info(f"Result attributes: {dir(result)}")
-                                        
-                                        # Extract file_id and content
-                                        file_id = getattr(result, "file_id", "unknown")
-                                        content = getattr(result, "content", "")
-                                        
-                                        # Handle case where content is a list of dictionaries with text field
-                                        if isinstance(content, list) and content and isinstance(content[0], dict) and 'text' in content[0]:
-                                            # Extract the text from the first dictionary in the list
-                                            content = content[0].get('text', '')
-                                            logger.info(f"Extracted text content from dictionary: {content[:50]}...")
-                                        
-                                        logger.info(f"Found result - file_id: {file_id}")
-                                        logger.info(f"Content preview: {content[:100]}...")
-                                        
-                                        # Add to context
-                                        context_info["context_text"].append(content)
-                                        context_info["similarity_scores"].append(0.95)
-                                        context_info["metadata"].append({
-                                            "source": "file_search",
-                                            "file_id": file_id
-                                        })
-                                        
-                                        total_results += 1
-                            else:
-                                logger.info("Tool call doesn't have file_search attribute")
-                            
-                            continue
+                        # Add content to context info
+                        context_info["context_text"].append(content)
+                        context_info["similarity_scores"].append(score)
+                        
+                        # Get file metadata if available
+                        try:
+                            file_info = self.client.files.retrieve(file_id)
+                            file_name = file_info.filename
+                        except Exception as e:
+                            logger.warning(f"Could not retrieve file info for {file_id}: {e}")
+                            file_name = "unknown_file"
+                        
+                        context_info["metadata"].append({
+                            "source": file_name,
+                            "file_id": file_id
+                        })
+                        
+                        logger.info(f"Added content from {file_id} ({file_name}) with score {score}")
             
-            # Log search statistics
-            logger.info(f"Search summary: {total_tool_calls} tool calls, {total_file_searches} file searches, {total_results} total results")
+            if not search_results_found:
+                logger.warning("No file search results found in any run steps")
             
-            # If no context items were found, add a note
-            if not context_info["context_text"]:
-                logger.warning("No context items found")
-            
-            # Get messages
-            logger.info("Retrieving messages from thread")
-            messages = self.client.beta.threads.messages.list(
-                thread_id=thread.id
-            )
-            
-            # Get assistant's reply (most recent message from assistant)
-            assistant_messages = [msg for msg in messages.data if msg.role == "assistant"]
-            if not assistant_messages:
-                logger.error("No assistant response found")
-                raise Exception("No assistant response found")
-            
-            # Extract the most recent assistant message
-            assistant_message = assistant_messages[0]
-            
-            # Extract text content from the message
-            response_text = ""
-            if hasattr(assistant_message, "content") and assistant_message.content:
-                for content_item in assistant_message.content:
-                    if hasattr(content_item, "text") and content_item.text:
-                        response_text += content_item.text.value
+            # Get assistant's response
+            try:
+                messages = self.client.beta.threads.messages.list(
+                    thread_id=thread_id
+                )
+                
+                # Get assistant's reply (most recent message from assistant)
+                assistant_messages = [msg for msg in messages.data if msg.role == "assistant"]
+                if not assistant_messages:
+                    error_msg = "No assistant response found"
+                    logger.error(error_msg)
+                    raise ValueError(error_msg)
+                
+                # Extract the most recent assistant message
+                assistant_message = assistant_messages[0]
+                
+                # Extract text content from the message
+                response_text = self._extract_message_text(assistant_message)
+                
+                if not response_text:
+                    logger.warning("Assistant response contained no text content")
+                    response_text = "No text content found in assistant response."
+            except Exception as e:
+                logger.error(f"Error retrieving assistant response: {e}")
+                raise RuntimeError(f"Failed to retrieve assistant response: {str(e)}")
             
             # Clean up: delete the thread
-            logger.info(f"Deleting thread: {thread.id}")
-            self.client.beta.threads.delete(thread.id)
+            try:
+                logger.info(f"Deleting thread: {thread_id}")
+                self.client.beta.threads.delete(thread_id)
+            except Exception as e:
+                logger.warning(f"Failed to delete thread {thread_id}: {e}")
+                # Don't raise an exception here, as we already have our response
             
             return response_text, context_info
         
@@ -418,6 +442,34 @@ class OpenAIAssistantManager:
             logger.error(f"Error during search and generate: {e}")
             logger.error(traceback.format_exc())
             return f"Error during search: {str(e)}", context_info
+            
+    def _extract_message_text(self, message) -> str:
+        """
+        Extract text content from an assistant message.
+        
+        Args:
+            message: The message object from the API
+            
+        Returns:
+            The extracted text content
+        """
+        response_text = ""
+        
+        # Check if message has content
+        if not hasattr(message, "content") or not message.content:
+            logger.warning("Message has no content")
+            return response_text
+            
+        # Process each content item
+        for content_item in message.content:
+            # Handle text content
+            if hasattr(content_item, "type") and content_item.type == "text":
+                if hasattr(content_item, "text") and hasattr(content_item.text, "value"):
+                    response_text += content_item.text.value
+            else:
+                logger.info(f"Skipping non-text content item of type: {getattr(content_item, 'type', 'unknown')}")
+                
+        return response_text
 
 def call_openai(client: OpenAI, prompt: str, model: str = "gpt-4o") -> str:
     """
@@ -469,11 +521,13 @@ def format_context(context_info: Dict[str, Any]) -> str:
     
     for i, text in enumerate(context_info.get("context_text", []), 1):
         if text:
-            # Handle case where text is a list of dictionaries with text field
-            if isinstance(text, list) and text and isinstance(text[0], dict) and 'text' in text[0]:
-                # Extract the text from the first dictionary in the list
-                text = text[0].get('text', '')
-                logger.debug(f"Extracted text content from dictionary in format_context: {text[:50]}...")
+            # Ensure text is a string
+            if not isinstance(text, str):
+                try:
+                    text = str(text)
+                except Exception as e:
+                    logger.warning(f"Could not convert text to string: {e}")
+                    continue
             
             # Format context with numbers
             context_parts.append(f"[{i}] {text}")
@@ -481,6 +535,39 @@ def format_context(context_info: Dict[str, Any]) -> str:
     formatted_context = "\n\n".join(context_parts)
     logger.info(f"Formatted context of length {len(formatted_context)}")
     return formatted_context
+
+def ensure_json_serializable(obj):
+    """
+    Recursively convert objects to JSON-serializable types.
+    
+    Args:
+        obj: The object to convert
+        
+    Returns:
+        A JSON-serializable version of the object
+    """
+    if isinstance(obj, dict):
+        return {ensure_json_serializable(k): ensure_json_serializable(v) for k, v in obj.items()}
+    elif isinstance(obj, list):
+        return [ensure_json_serializable(item) for item in obj]
+    elif isinstance(obj, tuple):
+        return [ensure_json_serializable(item) for item in obj]
+    elif hasattr(obj, "__dict__"):
+        # Convert objects to dictionaries
+        return ensure_json_serializable(obj.__dict__)
+    elif hasattr(obj, "to_dict") and callable(getattr(obj, "to_dict")):
+        # Handle objects with to_dict method
+        return ensure_json_serializable(obj.to_dict())
+    elif hasattr(obj, "__str__"):
+        # Try converting to string as a last resort
+        try:
+            json.dumps(obj)
+            return obj
+        except (TypeError, OverflowError):
+            return str(obj)
+    else:
+        # Return the object if it's a primitive type
+        return obj
 
 def main():
     parser = argparse.ArgumentParser(description="OpenAI-based Retrieval-Augmented Generation (RAG)")
@@ -507,19 +594,23 @@ def main():
     if args.terminal_output:
         # Configure detailed logging for terminal mode
         logger.setLevel(logging.INFO)
+        # Clear any existing handlers
+        for handler in logger.handlers[:]:
+            logger.removeHandler(handler)
+        # Add new handler
         handler = logging.StreamHandler(sys.stdout)
         handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
-        logger.handlers = [handler]
+        logger.addHandler(handler)
         logger.info(f"Starting OpenAI-based RAG with query: {args.query}")
         logger.info(f"Arguments: {args}")
     else:
         # Ensure ALL logging is disabled when not in terminal mode
         logger.setLevel(logging.CRITICAL)
-        logger.handlers = [logging.NullHandler()]
+        for handler in logger.handlers[:]:
+            logger.removeHandler(handler)
+        logger.addHandler(logging.NullHandler())
         # Also disable other libraries' logging
         logging.getLogger().setLevel(logging.CRITICAL)
-        logging.getLogger("httpx").setLevel(logging.CRITICAL)
-        logging.getLogger("openai").setLevel(logging.CRITICAL)
     
     try:
         # Determine which file to use (prioritize input_file if both are provided)
@@ -594,8 +685,11 @@ def main():
         # Upload file to vector store
         if args.terminal_output:
             logger.info(f"Uploading file to vector store: {file_to_use}")
-        if not vector_store_manager.upload_file_to_vector_store(vector_store_id, file_to_use):
-            error_msg = "Error: Failed to upload file to vector store"
+        
+        try:
+            vector_store_manager.upload_file_to_vector_store(vector_store_id, file_to_use)
+        except Exception as e:
+            error_msg = f"Error: Failed to upload file to vector store: {e}"
             if args.terminal_output:
                 logger.error(error_msg)
                 return 1
@@ -641,6 +735,9 @@ def main():
         output_data["generation_time"] = 'N/A'
         output_data["total_time"] = round(output_data["search_time"], 2)
         
+        # Ensure output_data is JSON serializable
+        serializable_output = ensure_json_serializable(output_data)
+        
         # Output based on mode
         if args.terminal_output:
             # Human-readable format for terminal
@@ -651,7 +748,7 @@ def main():
             
             # Also print JSON for completeness
             logger.info("\n=== JSON OUTPUT ===")
-            print(json.dumps(output_data))
+            print(json.dumps(serializable_output))
             
             # Clean up resources
             logger.info("Cleaning up resources...")
@@ -661,7 +758,7 @@ def main():
             # Clean up resources first to avoid any logs after JSON
             assistant_manager.delete_assistant()
             # Now print the clean JSON output
-            sys.stdout.write(json.dumps(output_data))
+            sys.stdout.write(json.dumps(serializable_output))
             sys.stdout.flush()
             return 0
         
@@ -687,6 +784,7 @@ def main():
             print(json.dumps(error_data))
         else:
             # ONLY output clean JSON error with no other output
+            error_data = ensure_json_serializable(error_data)
             sys.stdout.write(json.dumps(error_data))
             sys.stdout.flush()
         

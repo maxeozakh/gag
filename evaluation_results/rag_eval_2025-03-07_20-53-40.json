@@ -1,0 +1,23 @@
+{
+  "timestamp": "2025-03-07_20-53-40",
+  "config": {
+    "rag_script": "scripts/openai-based-rag.py",
+    "qa_file": "data/generated_qa_pairs.csv",
+    "embeddings_file": "product_embeddings.json",
+    "products_file": "data/ecommerce_products_test.csv",
+    "llm_model": "gpt-4o-mini",
+    "eval_model": "gpt-4o-mini",
+    "sample_size": 5,
+    "actual_samples": 5
+  },
+  "avg_response_time": 17.36292943954468,
+  "sample_size": 5,
+  "ragas_results": {
+    "user_input": 0.0,
+    "retrieved_contexts": 0.0,
+    "response": 0.0,
+    "faithfulness": 0.5533333333333333,
+    "answer_relevancy": 0.3957973514794567,
+    "context_recall": 0.047058823529411764
+  }
+}

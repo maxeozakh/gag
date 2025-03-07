@@ -1,1091 +1,398 @@
 [
   {
     "id": "doc_0",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Color Block Casual Shirt\nprice: ₹349\ncolors: Dark Green and  Black\npattern: Color Block\ndescription: Blive High quality premium Full sleeves printed Shirt direct from the manufacturers.Gives you a clean and classy look while also making you feel comfortable.Trusted brand online and no compromise on quality.\nClipinfo: Dark Green and  Black Color Block Men Regular Fit Color Block Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 0,
-      "product_name": "Men Regular Fit Color Block Casual Shirt",
-      "price": "₹349",
-      "colors": "Dark Green and  Black"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Color Block Casual Shirt\nprice: ₹349\ncolors: Dark Green and  Black\npattern: Color Block\ndescription: Blive High quality premium Full sleeves printed Shirt direct from the manufacturers.Gives you a clean and classy look while also making you feel comfortable.Trusted brand online and no compromise on quality.\nClipinfo: Dark Green and  Black Color Block Men Regular Fit Color Block Casual Shirt\n"
   },
   {
     "id": "doc_1",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Printed Casual Shirt\nprice: ₹959\ncolors: Black\npattern: Printed\nClipinfo: Black Printed Men Regular Fit Printed Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 1,
-      "product_name": "Men Regular Fit Printed Casual Shirt",
-      "price": "₹959",
-      "colors": "Black"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Printed Casual Shirt\nprice: ₹959\ncolors: Black\npattern: Printed\nClipinfo: Black Printed Men Regular Fit Printed Casual Shirt\n"
   },
   {
     "id": "doc_2",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Solid Mandarin Collar Casual Shirt\nprice: ₹339\ncolors: Grey\npattern: Solid\nClipinfo: Grey Solid Men Regular Fit Solid Mandarin Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 2,
-      "product_name": "Men Regular Fit Solid Mandarin Collar Casual Shirt",
-      "price": "₹339",
-      "colors": "Grey"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Solid Mandarin Collar Casual Shirt\nprice: ₹339\ncolors: Grey\npattern: Solid\nClipinfo: Grey Solid Men Regular Fit Solid Mandarin Collar Casual Shirt\n"
   },
   {
     "id": "doc_3",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Solid Mandarin Collar Casual Shirt\nprice: ₹339\ncolors: Light Blue\npattern: Solid\ndescription: Prime quality Full sleeves Plain Shirt direct from the manufacturer which gives you perfect fit, comfort feeling with handsome look. Wear it with some slacks to the office and throw on some jeans at night for drinks with the guys. The style you want and the feel you need all rolled into this shirt.\nOther Details: shirt for men look\nClipinfo: Light Blue Solid Men Regular Fit Solid Mandarin Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 3,
-      "product_name": "Men Regular Fit Solid Mandarin Collar Casual Shirt",
-      "price": "₹339",
-      "colors": "Light Blue"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Solid Mandarin Collar Casual Shirt\nprice: ₹339\ncolors: Light Blue\npattern: Solid\ndescription: Prime quality Full sleeves Plain Shirt direct from the manufacturer which gives you perfect fit, comfort feeling with handsome look. Wear it with some slacks to the office and throw on some jeans at night for drinks with the guys. The style you want and the feel you need all rolled into this shirt.\nOther Details: shirt for men look\nClipinfo: Light Blue Solid Men Regular Fit Solid Mandarin Collar Casual Shirt\n"
   },
   {
     "id": "doc_4",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Solid Mandarin Collar Casual Shirt\nprice: ₹339\ncolors: Black\npattern: Solid\ndescription: Prime quality Full sleeves Plain Shirt direct from the manufacturer which gives you perfect fit, comfort feeling with handsome look. Wear it with some slacks to the office and throw on some jeans at night for drinks with the guys. The style you want and the feel you need all rolled into this shirt.\nOther Details: shirt for men look\nClipinfo: Black Solid Men Regular Fit Solid Mandarin Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 4,
-      "product_name": "Men Regular Fit Solid Mandarin Collar Casual Shirt",
-      "price": "₹339",
-      "colors": "Black"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Solid Mandarin Collar Casual Shirt\nprice: ₹339\ncolors: Black\npattern: Solid\ndescription: Prime quality Full sleeves Plain Shirt direct from the manufacturer which gives you perfect fit, comfort feeling with handsome look. Wear it with some slacks to the office and throw on some jeans at night for drinks with the guys. The style you want and the feel you need all rolled into this shirt.\nOther Details: shirt for men look\nClipinfo: Black Solid Men Regular Fit Solid Mandarin Collar Casual Shirt\n"
   },
   {
     "id": "doc_5",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Printed Cut Away Collar Casual Shirt\nprice: ₹298\ncolors: White and  Black\npattern: Printed\nClipinfo: White and  Black Printed Men Regular Fit Printed Cut Away Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 5,
-      "product_name": "Men Regular Fit Printed Cut Away Collar Casual Shirt",
-      "price": "₹298",
-      "colors": "White and  Black"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Printed Cut Away Collar Casual Shirt\nprice: ₹298\ncolors: White and  Black\npattern: Printed\nClipinfo: White and  Black Printed Men Regular Fit Printed Cut Away Collar Casual Shirt\n"
   },
   {
     "id": "doc_6",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Solid Spread Collar Formal Shirt\nprice: ₹288\ncolors: Maroon\npattern: Solid\ndescription: VTEXX is known for Stylish attire of Formal Shirts and Kurtas. High Quality fabric cotton, Slim-fit, Full Sleeves, Directly From manufacturer at reasonable Prices. Button Design may be change. Color may slightly vary due to Graphics Lighting or your system glow. Order According to your chest size or according to your any branded product to avoid returns. Size Guide: Product is in 1 inches loosing i.e. chest measurements will be S = (35 - 36) Inches, M = (37 - 38) Inches, L= (39- 40) inches, XL= (41- 42) inches, XXL = (43 - 44) Inches, respectively. It is also suitable for Party Wear and Light Weight. Please go for above Brand Name \"VTEXX Kurta / Shirt\" For more products.\nClipinfo: Maroon Solid Men Regular Fit Solid Spread Collar Formal Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 6,
-      "product_name": "Men Regular Fit Solid Spread Collar Formal Shirt",
-      "price": "₹288",
-      "colors": "Maroon"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Solid Spread Collar Formal Shirt\nprice: ₹288\ncolors: Maroon\npattern: Solid\ndescription: VTEXX is known for Stylish attire of Formal Shirts and Kurtas. High Quality fabric cotton, Slim-fit, Full Sleeves, Directly From manufacturer at reasonable Prices. Button Design may be change. Color may slightly vary due to Graphics Lighting or your system glow. Order According to your chest size or according to your any branded product to avoid returns. Size Guide: Product is in 1 inches loosing i.e. chest measurements will be S = (35 - 36) Inches, M = (37 - 38) Inches, L= (39- 40) inches, XL= (41- 42) inches, XXL = (43 - 44) Inches, respectively. It is also suitable for Party Wear and Light Weight. Please go for above Brand Name \"VTEXX Kurta / Shirt\" For more products.\nClipinfo: Maroon Solid Men Regular Fit Solid Spread Collar Formal Shirt\n"
   },
   {
     "id": "doc_7",
-    "text": "Product Information:\nproduct_name: Men Slim Fit Checkered Casual Shirt\nprice: ₹849\ncolors: Red\npattern: Checkered\ndescription: Parx Dark Red Shirt\nClipinfo: Red Checkered Men Slim Fit Checkered Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 7,
-      "product_name": "Men Slim Fit Checkered Casual Shirt",
-      "price": "₹849",
-      "colors": "Red"
-    }
+    "text": "Product Information:\nproduct_name: Men Slim Fit Checkered Casual Shirt\nprice: ₹849\ncolors: Red\npattern: Checkered\ndescription: Parx Dark Red Shirt\nClipinfo: Red Checkered Men Slim Fit Checkered Casual Shirt\n"
   },
   {
     "id": "doc_8",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Solid Mandarin Collar Casual Shirt\nprice: ₹339\ncolors: White\npattern: Solid\ndescription: Prime quality Full sleeves Plain Shirt direct from the manufacturer which gives you perfect fit, comfort feeling with handsome look. Wear it with some slacks to the office and throw on some jeans at night for drinks with the guys. The style you want and the feel you need all rolled into this shirt.\nOther Details: shirt for men look\nClipinfo: White Solid Men Regular Fit Solid Mandarin Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 8,
-      "product_name": "Men Regular Fit Solid Mandarin Collar Casual Shirt",
-      "price": "₹339",
-      "colors": "White"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Solid Mandarin Collar Casual Shirt\nprice: ₹339\ncolors: White\npattern: Solid\ndescription: Prime quality Full sleeves Plain Shirt direct from the manufacturer which gives you perfect fit, comfort feeling with handsome look. Wear it with some slacks to the office and throw on some jeans at night for drinks with the guys. The style you want and the feel you need all rolled into this shirt.\nOther Details: shirt for men look\nClipinfo: White Solid Men Regular Fit Solid Mandarin Collar Casual Shirt\n"
   },
   {
     "id": "doc_9",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Solid Mandarin Collar Casual Shirt\nprice: ₹289\ncolors: White\npattern: Solid\ndescription: Good quality product.\nClipinfo: White Solid Men Regular Fit Solid Mandarin Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 9,
-      "product_name": "Men Regular Fit Solid Mandarin Collar Casual Shirt",
-      "price": "₹289",
-      "colors": "White"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Solid Mandarin Collar Casual Shirt\nprice: ₹289\ncolors: White\npattern: Solid\ndescription: Good quality product.\nClipinfo: White Solid Men Regular Fit Solid Mandarin Collar Casual Shirt\n"
   },
   {
     "id": "doc_10",
-    "text": "Product Information:\nproduct_name: Men Slim Fit Checkered Casual Shirt\nprice: ₹799\ncolors: Blue\npattern: Checkered\ndescription: Parx Medium Blue Shirt\nClipinfo: Blue Checkered Men Slim Fit Checkered Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 10,
-      "product_name": "Men Slim Fit Checkered Casual Shirt",
-      "price": "₹799",
-      "colors": "Blue"
-    }
+    "text": "Product Information:\nproduct_name: Men Slim Fit Checkered Casual Shirt\nprice: ₹799\ncolors: Blue\npattern: Checkered\ndescription: Parx Medium Blue Shirt\nClipinfo: Blue Checkered Men Slim Fit Checkered Casual Shirt\n"
   },
   {
     "id": "doc_11",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Printed Spread Collar Casual Shirt\nprice: ₹389\ncolors: White\npattern: Printed\ndescription: Hanumntra is known for Trendy settlement of.Shirt High Quality fabric cotton 94% + 6% mixes other fabric, Slim-fit, Full Sleeve, Directly From manufacturer at affordable Prices. Button Design may be change. Colour may slightly vary due to Photographic Lighting or your system brightness. Order According to your chest size or according to your any branded product to avoid returns. Size Guide :Product is in 1 inches loosing i.e. chest measurements will be M = (37.5 – 38.5)inches , L = (39.5 – 40.5), XL= (41.5– 42.5) inches respectively. It is also suitable for Daily Wear and Rough & Tough use, Light Weight. Please Search above Brand Name HANUMANTRA “Kurta / Shirt / Kurti women/men.kurti and palazzo set” For more productscc\nOther Details: Shirts Quality Very Good\nClipinfo: White Printed Men Regular Fit Printed Spread Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 11,
-      "product_name": "Men Regular Fit Printed Spread Collar Casual Shirt",
-      "price": "₹389",
-      "colors": "White"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Printed Spread Collar Casual Shirt\nprice: ₹389\ncolors: White\npattern: Printed\ndescription: Hanumntra is known for Trendy settlement of.Shirt High Quality fabric cotton 94% + 6% mixes other fabric, Slim-fit, Full Sleeve, Directly From manufacturer at affordable Prices. Button Design may be change. Colour may slightly vary due to Photographic Lighting or your system brightness. Order According to your chest size or according to your any branded product to avoid returns. Size Guide :Product is in 1 inches loosing i.e. chest measurements will be M = (37.5 – 38.5)inches , L = (39.5 – 40.5), XL= (41.5– 42.5) inches respectively. It is also suitable for Daily Wear and Rough & Tough use, Light Weight. Please Search above Brand Name HANUMANTRA “Kurta / Shirt / Kurti women/men.kurti and palazzo set” For more productscc\nOther Details: Shirts Quality Very Good\nClipinfo: White Printed Men Regular Fit Printed Spread Collar Casual Shirt\n"
   },
   {
     "id": "doc_12",
-    "text": "Product Information:\nproduct_name: Men Slim Fit Striped Mandarin Collar Casual Shirt\nprice: ₹379\ncolors: Maroon\npattern: Striped\ndescription: ThisFUBAR Party wear shirt is made of cotton  fabric .This shirt will give you immense comfort &  it is safe for the skin. You can pair this stylish mandarian collar full sleeve shirt with any colour trouser or jeans and easily carry it off at office , day outing or even as partywear. This shirt will give you a new confidence in your dressing style.Also The design on pocket  gives it an amazing look .\nClipinfo: Maroon Striped Men Slim Fit Striped Mandarin Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 12,
-      "product_name": "Men Slim Fit Striped Mandarin Collar Casual Shirt",
-      "price": "₹379",
-      "colors": "Maroon"
-    }
+    "text": "Product Information:\nproduct_name: Men Slim Fit Striped Mandarin Collar Casual Shirt\nprice: ₹379\ncolors: Maroon\npattern: Striped\ndescription: ThisFUBAR Party wear shirt is made of cotton  fabric .This shirt will give you immense comfort &  it is safe for the skin. You can pair this stylish mandarian collar full sleeve shirt with any colour trouser or jeans and easily carry it off at office , day outing or even as partywear. This shirt will give you a new confidence in your dressing style.Also The design on pocket  gives it an amazing look .\nClipinfo: Maroon Striped Men Slim Fit Striped Mandarin Collar Casual Shirt\n"
   },
   {
     "id": "doc_13",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Solid Mandarin Collar Casual Shirt\nprice: ₹339\ncolors: Grey\npattern: Solid\nOther Details: shirt for men look\nClipinfo: Grey Solid Men Regular Fit Solid Mandarin Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 13,
-      "product_name": "Men Regular Fit Solid Mandarin Collar Casual Shirt",
-      "price": "₹339",
-      "colors": "Grey"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Solid Mandarin Collar Casual Shirt\nprice: ₹339\ncolors: Grey\npattern: Solid\nOther Details: shirt for men look\nClipinfo: Grey Solid Men Regular Fit Solid Mandarin Collar Casual Shirt\n"
   },
   {
     "id": "doc_14",
-    "text": "Product Information:\nproduct_name: Men Slim Fit Solid Spread Collar Casual Shirt\nprice: ₹329\ncolors: White\npattern: Solid\ndescription: Tanip presents to you a new range of stylish and cool new shirts yet which are affordable for everyone. This fashionable and stylish Tanip men shirt makes your look cool and attractive. It is perfect for your summer attire.\nOther Details: This shirt from Tanip will give you the perfect amount of comfort and durability. Wear it with a pair of denims and sneakers for a casual look or with chinos and loafers for the fomal/party look\nClipinfo: White Solid Men Slim Fit Solid Spread Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 14,
-      "product_name": "Men Slim Fit Solid Spread Collar Casual Shirt",
-      "price": "₹329",
-      "colors": "White"
-    }
+    "text": "Product Information:\nproduct_name: Men Slim Fit Solid Spread Collar Casual Shirt\nprice: ₹329\ncolors: White\npattern: Solid\ndescription: Tanip presents to you a new range of stylish and cool new shirts yet which are affordable for everyone. This fashionable and stylish Tanip men shirt makes your look cool and attractive. It is perfect for your summer attire.\nOther Details: This shirt from Tanip will give you the perfect amount of comfort and durability. Wear it with a pair of denims and sneakers for a casual look or with chinos and loafers for the fomal/party look\nClipinfo: White Solid Men Slim Fit Solid Spread Collar Casual Shirt\n"
   },
   {
     "id": "doc_15",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Checkered Slim Collar Casual Shirt\nprice: ₹449\ncolors: Blue\npattern: Checkered\ndescription: Tallwalker presents to you a new range of stylish and cool new Checkered Shirts yet which are affordable for everyone .These comes in different sizes and colors, for everybody's taste\nClipinfo: Blue Checkered Men Regular Fit Checkered Slim Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 15,
-      "product_name": "Men Regular Fit Checkered Slim Collar Casual Shirt",
-      "price": "₹449",
-      "colors": "Blue"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Checkered Slim Collar Casual Shirt\nprice: ₹449\ncolors: Blue\npattern: Checkered\ndescription: Tallwalker presents to you a new range of stylish and cool new Checkered Shirts yet which are affordable for everyone .These comes in different sizes and colors, for everybody's taste\nClipinfo: Blue Checkered Men Regular Fit Checkered Slim Collar Casual Shirt\n"
   },
   {
     "id": "doc_16",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Checkered Casual Shirt\nprice: ₹1,039\ncolors: Blue\npattern: Checkered\nClipinfo: Blue Checkered Men Regular Fit Checkered Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 16,
-      "product_name": "Men Regular Fit Checkered Casual Shirt",
-      "price": "₹1,039",
-      "colors": "Blue"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Checkered Casual Shirt\nprice: ₹1,039\ncolors: Blue\npattern: Checkered\nClipinfo: Blue Checkered Men Regular Fit Checkered Casual Shirt\n"
   },
   {
     "id": "doc_17",
-    "text": "Product Information:\nproduct_name: Men Slim Fit Striped Casual Shirt\nprice: ₹899\ncolors: Blue\npattern: Striped\ndescription: Parx Medium Blue Shirt\nClipinfo: Blue Striped Men Slim Fit Striped Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 17,
-      "product_name": "Men Slim Fit Striped Casual Shirt",
-      "price": "₹899",
-      "colors": "Blue"
-    }
+    "text": "Product Information:\nproduct_name: Men Slim Fit Striped Casual Shirt\nprice: ₹899\ncolors: Blue\npattern: Striped\ndescription: Parx Medium Blue Shirt\nClipinfo: Blue Striped Men Slim Fit Striped Casual Shirt\n"
   },
   {
     "id": "doc_18",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Printed Casual Shirt\nprice: ₹399\ncolors: Light Blue\npattern: Printed\nClipinfo: Light Blue Printed Men Regular Fit Printed Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 18,
-      "product_name": "Men Regular Fit Printed Casual Shirt",
-      "price": "₹399",
-      "colors": "Light Blue"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Printed Casual Shirt\nprice: ₹399\ncolors: Light Blue\npattern: Printed\nClipinfo: Light Blue Printed Men Regular Fit Printed Casual Shirt\n"
   },
   {
     "id": "doc_19",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Checkered Slim Collar Casual Shirt\nprice: ₹429\ncolors: Blue and  Black\npattern: Checkered\ndescription: Casual LYCRA Shirt that can be worn for light workouts, Travling, Party Wear or to relax and lounge in at home. CAPKIN presents to you a new range of stylish and cool new shirts yet which are affordable for everyone. This fashionable and stylish Surhi men shirt makes your look cool and attractive. It is perfect for your summer attire.\nClipinfo: Blue and  Black Checkered Men Regular Fit Checkered Slim Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 19,
-      "product_name": "Men Regular Fit Checkered Slim Collar Casual Shirt",
-      "price": "₹429",
-      "colors": "Blue and  Black"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Checkered Slim Collar Casual Shirt\nprice: ₹429\ncolors: Blue and  Black\npattern: Checkered\ndescription: Casual LYCRA Shirt that can be worn for light workouts, Travling, Party Wear or to relax and lounge in at home. CAPKIN presents to you a new range of stylish and cool new shirts yet which are affordable for everyone. This fashionable and stylish Surhi men shirt makes your look cool and attractive. It is perfect for your summer attire.\nClipinfo: Blue and  Black Checkered Men Regular Fit Checkered Slim Collar Casual Shirt\n"
   },
   {
     "id": "doc_20",
-    "text": "Product Information:\nproduct_name: Men Slim Fit Floral Print Casual Shirt\nprice: ₹791\ncolors: Dark Green\npattern: Floral Print\nClipinfo: Dark Green Floral Print Men Slim Fit Floral Print Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 20,
-      "product_name": "Men Slim Fit Floral Print Casual Shirt",
-      "price": "₹791",
-      "colors": "Dark Green"
-    }
+    "text": "Product Information:\nproduct_name: Men Slim Fit Floral Print Casual Shirt\nprice: ₹791\ncolors: Dark Green\npattern: Floral Print\nClipinfo: Dark Green Floral Print Men Slim Fit Floral Print Casual Shirt\n"
   },
   {
     "id": "doc_21",
-    "text": "Product Information:\nproduct_name: Men Slim Fit Printed Spread Collar Casual Shirt\nprice: ₹1,039\ncolors: Blue\npattern: Printed\ndescription: Killer Mens Full Sleeve Printed SMU Shirts\nOther Details: Killer Mens Full Sleeve Printed SMU Shirts\nClipinfo: Blue Printed Men Slim Fit Printed Spread Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 21,
-      "product_name": "Men Slim Fit Printed Spread Collar Casual Shirt",
-      "price": "₹1,039",
-      "colors": "Blue"
-    }
+    "text": "Product Information:\nproduct_name: Men Slim Fit Printed Spread Collar Casual Shirt\nprice: ₹1,039\ncolors: Blue\npattern: Printed\ndescription: Killer Mens Full Sleeve Printed SMU Shirts\nOther Details: Killer Mens Full Sleeve Printed SMU Shirts\nClipinfo: Blue Printed Men Slim Fit Printed Spread Collar Casual Shirt\n"
   },
   {
     "id": "doc_22",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Solid Spread Collar Casual Shirt\nprice: ₹288\ncolors: Grey\npattern: Solid\ndescription: V-Tex is known for Stylish attire of Shirts and Kurtas. High Quality fabric cotton 95% + 5% mixes other fabric, Slim-fit, Full Sleeve, Directly From manufacturer at reasonable Prices. Button Design may be change. Color may slightly vary due to Graphics Lighting or your system glow. Order According to your chest size or according to your any branded product to avoid returns. Size Guide: Product is in 1 inches loosing i.e. chest measurements will be S = (35 - 36) Inches, M = (37 - 38) Inches, L= (39- 40) inches, XL= (41- 42) inches, XXL = (43 - 44) Inches, respectively. It is also suitable for Party Wear and Light Weight. Please go for above Brand Name \"V-Tex Kurta / Shirt\" For more products.\nClipinfo: Grey Solid Men Regular Fit Solid Spread Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 22,
-      "product_name": "Men Regular Fit Solid Spread Collar Casual Shirt",
-      "price": "₹288",
-      "colors": "Grey"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Solid Spread Collar Casual Shirt\nprice: ₹288\ncolors: Grey\npattern: Solid\ndescription: V-Tex is known for Stylish attire of Shirts and Kurtas. High Quality fabric cotton 95% + 5% mixes other fabric, Slim-fit, Full Sleeve, Directly From manufacturer at reasonable Prices. Button Design may be change. Color may slightly vary due to Graphics Lighting or your system glow. Order According to your chest size or according to your any branded product to avoid returns. Size Guide: Product is in 1 inches loosing i.e. chest measurements will be S = (35 - 36) Inches, M = (37 - 38) Inches, L= (39- 40) inches, XL= (41- 42) inches, XXL = (43 - 44) Inches, respectively. It is also suitable for Party Wear and Light Weight. Please go for above Brand Name \"V-Tex Kurta / Shirt\" For more products.\nClipinfo: Grey Solid Men Regular Fit Solid Spread Collar Casual Shirt\n"
   },
   {
     "id": "doc_23",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Solid Spread Collar Formal Shirt\nprice: ₹288\ncolors: Grey\npattern: Solid\ndescription: VTEXX is known for Stylish attire of Formal Shirts and Kurtas. High Quality fabric cotton, Slim-fit, Full Sleeves, Directly From manufacturer at reasonable Prices. Button Design may be change. Color may slightly vary due to Graphics Lighting or your system glow. Order According to your chest size or according to your any branded product to avoid returns. Size Guide: Product is in 1 inches loosing i.e. chest measurements will be S = (35 - 36) Inches, M = (37 - 38) Inches, L= (39- 40) inches, XL= (41- 42) inches, XXL = (43 - 44) Inches, respectively. It is also suitable for Party Wear and Light Weight. Please go for above Brand Name \"VTEXX Kurta / Shirt\" For more products.\nClipinfo: Grey Solid Men Regular Fit Solid Spread Collar Formal Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 23,
-      "product_name": "Men Regular Fit Solid Spread Collar Formal Shirt",
-      "price": "₹288",
-      "colors": "Grey"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Solid Spread Collar Formal Shirt\nprice: ₹288\ncolors: Grey\npattern: Solid\ndescription: VTEXX is known for Stylish attire of Formal Shirts and Kurtas. High Quality fabric cotton, Slim-fit, Full Sleeves, Directly From manufacturer at reasonable Prices. Button Design may be change. Color may slightly vary due to Graphics Lighting or your system glow. Order According to your chest size or according to your any branded product to avoid returns. Size Guide: Product is in 1 inches loosing i.e. chest measurements will be S = (35 - 36) Inches, M = (37 - 38) Inches, L= (39- 40) inches, XL= (41- 42) inches, XXL = (43 - 44) Inches, respectively. It is also suitable for Party Wear and Light Weight. Please go for above Brand Name \"VTEXX Kurta / Shirt\" For more products.\nClipinfo: Grey Solid Men Regular Fit Solid Spread Collar Formal Shirt\n"
   },
   {
     "id": "doc_24",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Color Block Casual Shirt\nprice: ₹349\ncolors: White and  Black\npattern: Color Block\nClipinfo: White and  Black Color Block Men Regular Fit Color Block Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 24,
-      "product_name": "Men Regular Fit Color Block Casual Shirt",
-      "price": "₹349",
-      "colors": "White and  Black"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Color Block Casual Shirt\nprice: ₹349\ncolors: White and  Black\npattern: Color Block\nClipinfo: White and  Black Color Block Men Regular Fit Color Block Casual Shirt\n"
   },
   {
     "id": "doc_25",
-    "text": "Product Information:\nproduct_name: Men Slim Fit Checkered Casual Shirt\nprice: ₹429\ncolors: White and  Black\npattern: Checkered\ndescription: Step up your Style Quotient by wearing this Casual T-shirt from LEWEL. Team it up with your favourite pair of jeans, denim shorts and sneakers when you head out to work, party, vacation or anything your heart desires. It’s your Life, your Rules and we will be all the way with you in style.\nClipinfo: White and  Black Checkered Men Slim Fit Checkered Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 25,
-      "product_name": "Men Slim Fit Checkered Casual Shirt",
-      "price": "₹429",
-      "colors": "White and  Black"
-    }
+    "text": "Product Information:\nproduct_name: Men Slim Fit Checkered Casual Shirt\nprice: ₹429\ncolors: White and  Black\npattern: Checkered\ndescription: Step up your Style Quotient by wearing this Casual T-shirt from LEWEL. Team it up with your favourite pair of jeans, denim shorts and sneakers when you head out to work, party, vacation or anything your heart desires. It’s your Life, your Rules and we will be all the way with you in style.\nClipinfo: White and  Black Checkered Men Slim Fit Checkered Casual Shirt\n"
   },
   {
     "id": "doc_26",
-    "text": "Product Information:\nproduct_name: Men Slim Fit Checkered Casual Shirt\nprice: ₹799\ncolors: Blue\npattern: Checkered\ndescription: Parx Light Blue Shirt\nClipinfo: Blue Checkered Men Slim Fit Checkered Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 26,
-      "product_name": "Men Slim Fit Checkered Casual Shirt",
-      "price": "₹799",
-      "colors": "Blue"
-    }
+    "text": "Product Information:\nproduct_name: Men Slim Fit Checkered Casual Shirt\nprice: ₹799\ncolors: Blue\npattern: Checkered\ndescription: Parx Light Blue Shirt\nClipinfo: Blue Checkered Men Slim Fit Checkered Casual Shirt\n"
   },
   {
     "id": "doc_27",
-    "text": "Product Information:\nproduct_name: Men Slim Fit Checkered Casual Shirt\nprice: ₹999\ncolors: Red and  Blue\npattern: Checkered\nClipinfo: Red and  Blue Checkered Men Slim Fit Checkered Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 27,
-      "product_name": "Men Slim Fit Checkered Casual Shirt",
-      "price": "₹999",
-      "colors": "Red and  Blue"
-    }
+    "text": "Product Information:\nproduct_name: Men Slim Fit Checkered Casual Shirt\nprice: ₹999\ncolors: Red and  Blue\npattern: Checkered\nClipinfo: Red and  Blue Checkered Men Slim Fit Checkered Casual Shirt\n"
   },
   {
     "id": "doc_28",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Striped Spread Collar Casual Shirt\nprice: ₹289\ncolors: Red\npattern: Striped\ndescription: GONSGADAPP Pump up your style statement with this shirt in any formal or casual occasion. Shirts will always come to your rescue when you are confused with your outfit. If you heading for a Sunday outing with friends or family, team this shirt with a pair of jeans and sneakers and build your cool and casual personality.\nOther Details: Note: product color may slightly vary due to photographic lighting sources or your monitor setting\nClipinfo: Red Striped Men Regular Fit Striped Spread Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 28,
-      "product_name": "Men Regular Fit Striped Spread Collar Casual Shirt",
-      "price": "₹289",
-      "colors": "Red"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Striped Spread Collar Casual Shirt\nprice: ₹289\ncolors: Red\npattern: Striped\ndescription: GONSGADAPP Pump up your style statement with this shirt in any formal or casual occasion. Shirts will always come to your rescue when you are confused with your outfit. If you heading for a Sunday outing with friends or family, team this shirt with a pair of jeans and sneakers and build your cool and casual personality.\nOther Details: Note: product color may slightly vary due to photographic lighting sources or your monitor setting\nClipinfo: Red Striped Men Regular Fit Striped Spread Collar Casual Shirt\n"
   },
   {
     "id": "doc_29",
-    "text": "Product Information:\nproduct_name: Men Slim Fit Solid Spread Collar Casual Shirt\nprice: ₹398\ncolors: Black\npattern: Solid\nClipinfo: Black Solid Men Slim Fit Solid Spread Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 29,
-      "product_name": "Men Slim Fit Solid Spread Collar Casual Shirt",
-      "price": "₹398",
-      "colors": "Black"
-    }
+    "text": "Product Information:\nproduct_name: Men Slim Fit Solid Spread Collar Casual Shirt\nprice: ₹398\ncolors: Black\npattern: Solid\nClipinfo: Black Solid Men Slim Fit Solid Spread Collar Casual Shirt\n"
   },
   {
     "id": "doc_30",
-    "text": "Product Information:\nproduct_name: Men Slim Fit Solid Casual Shirt\nprice: ₹959\ncolors: Green\npattern: Solid\nClipinfo: Green Solid Men Slim Fit Solid Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 30,
-      "product_name": "Men Slim Fit Solid Casual Shirt",
-      "price": "₹959",
-      "colors": "Green"
-    }
+    "text": "Product Information:\nproduct_name: Men Slim Fit Solid Casual Shirt\nprice: ₹959\ncolors: Green\npattern: Solid\nClipinfo: Green Solid Men Slim Fit Solid Casual Shirt\n"
   },
   {
     "id": "doc_31",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Striped Spread Collar Casual Shirt\nprice: ₹959\ncolors: White and  Blue\npattern: Striped\nClipinfo: White and  Blue Striped Men Regular Fit Striped Spread Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 31,
-      "product_name": "Men Regular Fit Striped Spread Collar Casual Shirt",
-      "price": "₹959",
-      "colors": "White and  Blue"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Striped Spread Collar Casual Shirt\nprice: ₹959\ncolors: White and  Blue\npattern: Striped\nClipinfo: White and  Blue Striped Men Regular Fit Striped Spread Collar Casual Shirt\n"
   },
   {
     "id": "doc_32",
-    "text": "Product Information:\nproduct_name: Men Slim Fit Checkered Spread Collar Casual Shirt\nprice: ₹329\ncolors: Brown\npattern: Checkered\ndescription: Tanip- This Casual Shirt has a Standard collar , long sleeves with button cuffs , full buttoned placket on the front, yoke on the back, curved hem. Pair this along with a good pair of denim or chinos and loafers / Espadrilles for a Sharp and Dapper look .This material comes with 100 % Premium Cotton.Cotton rich fabric for crisp Casual look.Wash care : Machine Wash/Hand Wash. Fit - Regular Fit.\nOther Details: Stylish & Comfortable Shirts You can use at any occasion like Party, Formal meating and Casual visit.\nClipinfo: Brown Checkered Men Slim Fit Checkered Spread Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 32,
-      "product_name": "Men Slim Fit Checkered Spread Collar Casual Shirt",
-      "price": "₹329",
-      "colors": "Brown"
-    }
+    "text": "Product Information:\nproduct_name: Men Slim Fit Checkered Spread Collar Casual Shirt\nprice: ₹329\ncolors: Brown\npattern: Checkered\ndescription: Tanip- This Casual Shirt has a Standard collar , long sleeves with button cuffs , full buttoned placket on the front, yoke on the back, curved hem. Pair this along with a good pair of denim or chinos and loafers / Espadrilles for a Sharp and Dapper look .This material comes with 100 % Premium Cotton.Cotton rich fabric for crisp Casual look.Wash care : Machine Wash/Hand Wash. Fit - Regular Fit.\nOther Details: Stylish & Comfortable Shirts You can use at any occasion like Party, Formal meating and Casual visit.\nClipinfo: Brown Checkered Men Slim Fit Checkered Spread Collar Casual Shirt\n"
   },
   {
     "id": "doc_33",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Solid Mandarin Collar Casual Shirt\nprice: ₹289\ncolors: Red\npattern: Solid\ndescription: Good quality product.\nClipinfo: Red Solid Men Regular Fit Solid Mandarin Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 33,
-      "product_name": "Men Regular Fit Solid Mandarin Collar Casual Shirt",
-      "price": "₹289",
-      "colors": "Red"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Solid Mandarin Collar Casual Shirt\nprice: ₹289\ncolors: Red\npattern: Solid\ndescription: Good quality product.\nClipinfo: Red Solid Men Regular Fit Solid Mandarin Collar Casual Shirt\n"
   },
   {
     "id": "doc_34",
-    "text": "Product Information:\nproduct_name: Men Slim Fit Graphic Print Ribbed Collar Casual Shirt\nprice: ₹388\ncolors: Black\npattern: Graphic Print\ndescription: Latest Designer Shirt with comfortable And Soft Fabric, Shirt Design Formal And Casual To Daily Wear.\nClipinfo: Black Graphic Print Men Slim Fit Graphic Print Ribbed Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 34,
-      "product_name": "Men Slim Fit Graphic Print Ribbed Collar Casual Shirt",
-      "price": "₹388",
-      "colors": "Black"
-    }
+    "text": "Product Information:\nproduct_name: Men Slim Fit Graphic Print Ribbed Collar Casual Shirt\nprice: ₹388\ncolors: Black\npattern: Graphic Print\ndescription: Latest Designer Shirt with comfortable And Soft Fabric, Shirt Design Formal And Casual To Daily Wear.\nClipinfo: Black Graphic Print Men Slim Fit Graphic Print Ribbed Collar Casual Shirt\n"
   },
   {
     "id": "doc_35",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Color Block Casual Shirt\nprice: ₹349\ncolors: White and  Black\npattern: Color Block\nClipinfo: White and  Black Color Block Men Regular Fit Color Block Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 35,
-      "product_name": "Men Regular Fit Color Block Casual Shirt",
-      "price": "₹349",
-      "colors": "White and  Black"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Color Block Casual Shirt\nprice: ₹349\ncolors: White and  Black\npattern: Color Block\nClipinfo: White and  Black Color Block Men Regular Fit Color Block Casual Shirt\n"
   },
   {
     "id": "doc_36",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Checkered Casual Shirt\nprice: ₹1,039\ncolors: Brown\npattern: Checkered\nClipinfo: Brown Checkered Men Regular Fit Checkered Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 36,
-      "product_name": "Men Regular Fit Checkered Casual Shirt",
-      "price": "₹1,039",
-      "colors": "Brown"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Checkered Casual Shirt\nprice: ₹1,039\ncolors: Brown\npattern: Checkered\nClipinfo: Brown Checkered Men Regular Fit Checkered Casual Shirt\n"
   },
   {
     "id": "doc_37",
-    "text": "Product Information:\nproduct_name: Men Slim Fit Printed Casual Shirt\nprice: ₹849\ncolors: Blue\npattern: Printed\ndescription: Parx Dark Blue Shirts\nClipinfo: Blue Printed Men Slim Fit Printed Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 37,
-      "product_name": "Men Slim Fit Printed Casual Shirt",
-      "price": "₹849",
-      "colors": "Blue"
-    }
+    "text": "Product Information:\nproduct_name: Men Slim Fit Printed Casual Shirt\nprice: ₹849\ncolors: Blue\npattern: Printed\ndescription: Parx Dark Blue Shirts\nClipinfo: Blue Printed Men Slim Fit Printed Casual Shirt\n"
   },
   {
     "id": "doc_38",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Checkered Mandarin Collar Casual Shirt\nprice: ₹399\ncolors: Light Blue\npattern: Checkered\ndescription: Rock the fashion world as you adorn this cotton shirt. This men's shirt is fashioned on pure cotton fabric which is lightweight and assures the wearer a perfect fit & comfort.Perfect for your everyday use, you could pair it with a stylish pair of Jeans or Trousers complete the look. This shirt offers a professional look for the true business man. It's the perfect day-to-night shirt.Whatever the occasion this shirt will be your go-to. The style you want and the feel you need all rolled into this shirt.\nOther Details: Rich pure cotton full sleeve regular fit shirt for men\nClipinfo: Light Blue Checkered Men Regular Fit Checkered Mandarin Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 38,
-      "product_name": "Men Regular Fit Checkered Mandarin Collar Casual Shirt",
-      "price": "₹399",
-      "colors": "Light Blue"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Checkered Mandarin Collar Casual Shirt\nprice: ₹399\ncolors: Light Blue\npattern: Checkered\ndescription: Rock the fashion world as you adorn this cotton shirt. This men's shirt is fashioned on pure cotton fabric which is lightweight and assures the wearer a perfect fit & comfort.Perfect for your everyday use, you could pair it with a stylish pair of Jeans or Trousers complete the look. This shirt offers a professional look for the true business man. It's the perfect day-to-night shirt.Whatever the occasion this shirt will be your go-to. The style you want and the feel you need all rolled into this shirt.\nOther Details: Rich pure cotton full sleeve regular fit shirt for men\nClipinfo: Light Blue Checkered Men Regular Fit Checkered Mandarin Collar Casual Shirt\n"
   },
   {
     "id": "doc_39",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Striped Spread Collar Casual Shirt\nprice: ₹289\ncolors: Black\npattern: Striped\ndescription: GONSGADAPP Pump up your style statement with this shirt in any formal or casual occasion. Shirts will always come to your rescue when you are confused with your outfit. If you heading for a Sunday outing with friends or family, team this shirt with a pair of jeans and sneakers and build your cool and casual personality.\nOther Details: Note: product color may slightly vary due to photographic lighting sources or your monitor setting\nClipinfo: Black Striped Men Regular Fit Striped Spread Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 39,
-      "product_name": "Men Regular Fit Striped Spread Collar Casual Shirt",
-      "price": "₹289",
-      "colors": "Black"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Striped Spread Collar Casual Shirt\nprice: ₹289\ncolors: Black\npattern: Striped\ndescription: GONSGADAPP Pump up your style statement with this shirt in any formal or casual occasion. Shirts will always come to your rescue when you are confused with your outfit. If you heading for a Sunday outing with friends or family, team this shirt with a pair of jeans and sneakers and build your cool and casual personality.\nOther Details: Note: product color may slightly vary due to photographic lighting sources or your monitor setting\nClipinfo: Black Striped Men Regular Fit Striped Spread Collar Casual Shirt\n"
   },
   {
     "id": "doc_40",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Color Block Casual Shirt\nprice: ₹349\ncolors: Dark Green and  Black\npattern: Color Block\ndescription: Blive High quality premium Full sleeves printed Shirt direct from the manufacturers.Gives you a clean and classy look while also making you feel comfortable.Trusted brand online and no compromise on quality.\nClipinfo: Dark Green and  Black Color Block Men Regular Fit Color Block Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 40,
-      "product_name": "Men Regular Fit Color Block Casual Shirt",
-      "price": "₹349",
-      "colors": "Dark Green and  Black"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Color Block Casual Shirt\nprice: ₹349\ncolors: Dark Green and  Black\npattern: Color Block\ndescription: Blive High quality premium Full sleeves printed Shirt direct from the manufacturers.Gives you a clean and classy look while also making you feel comfortable.Trusted brand online and no compromise on quality.\nClipinfo: Dark Green and  Black Color Block Men Regular Fit Color Block Casual Shirt\n"
   },
   {
     "id": "doc_41",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Printed Casual Shirt\nprice: ₹959\ncolors: Black\npattern: Printed\nClipinfo: Black Printed Men Regular Fit Printed Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 41,
-      "product_name": "Men Regular Fit Printed Casual Shirt",
-      "price": "₹959",
-      "colors": "Black"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Printed Casual Shirt\nprice: ₹959\ncolors: Black\npattern: Printed\nClipinfo: Black Printed Men Regular Fit Printed Casual Shirt\n"
   },
   {
     "id": "doc_42",
-    "text": "Product Information:\nproduct_name: Men Slim Fit Checkered Casual Shirt\nprice: ₹385\ncolors: White\npattern: Checkered\nClipinfo: White Checkered Men Slim Fit Checkered Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 42,
-      "product_name": "Men Slim Fit Checkered Casual Shirt",
-      "price": "₹385",
-      "colors": "White"
-    }
+    "text": "Product Information:\nproduct_name: Men Slim Fit Checkered Casual Shirt\nprice: ₹385\ncolors: White\npattern: Checkered\nClipinfo: White Checkered Men Slim Fit Checkered Casual Shirt\n"
   },
   {
     "id": "doc_43",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Solid Casual Shirt\nprice: ₹349\ncolors: Maroon\npattern: Solid\nClipinfo: Maroon Solid Men Regular Fit Solid Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 43,
-      "product_name": "Men Regular Fit Solid Casual Shirt",
-      "price": "₹349",
-      "colors": "Maroon"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Solid Casual Shirt\nprice: ₹349\ncolors: Maroon\npattern: Solid\nClipinfo: Maroon Solid Men Regular Fit Solid Casual Shirt\n"
   },
   {
     "id": "doc_44",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Striped Spread Collar Casual Shirt\nprice: ₹449\ncolors: Black\npattern: Striped\ndescription: Latest Shirt from Finivo Fashion, Its a perfect choice for your cart. We sell all genuine product with best quality and price to satisfy our valuable customer. This shirt offers a professional look for the true business man. It's the perfect day-to-night shirt. Wear it with some slacks to the office and throw on some jeans at night for drinks with the guys. Whatever the occasion this shirt will be your go-to. The style you want and the feel you need all rolled into this shirt.\nOther Details: CHECK YOUR SIZE BEFORE YOU ORDER. ( All Measurement are in Inches. ) [ S - 38 , M - 40 , L - 42 , XL - 44 ]. PRODUCT COLOUR MAY SLIGHTLY VARY DUE TO PHOTOGRAPHIC LIGHTING SOURCES OR YOUR MONITOR SETTINGS.\nClipinfo: Black Striped Men Regular Fit Striped Spread Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 44,
-      "product_name": "Men Regular Fit Striped Spread Collar Casual Shirt",
-      "price": "₹449",
-      "colors": "Black"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Striped Spread Collar Casual Shirt\nprice: ₹449\ncolors: Black\npattern: Striped\ndescription: Latest Shirt from Finivo Fashion, Its a perfect choice for your cart. We sell all genuine product with best quality and price to satisfy our valuable customer. This shirt offers a professional look for the true business man. It's the perfect day-to-night shirt. Wear it with some slacks to the office and throw on some jeans at night for drinks with the guys. Whatever the occasion this shirt will be your go-to. The style you want and the feel you need all rolled into this shirt.\nOther Details: CHECK YOUR SIZE BEFORE YOU ORDER. ( All Measurement are in Inches. ) [ S - 38 , M - 40 , L - 42 , XL - 44 ]. PRODUCT COLOUR MAY SLIGHTLY VARY DUE TO PHOTOGRAPHIC LIGHTING SOURCES OR YOUR MONITOR SETTINGS.\nClipinfo: Black Striped Men Regular Fit Striped Spread Collar Casual Shirt\n"
   },
   {
     "id": "doc_45",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Solid Casual Shirt\nprice: ₹289\ncolors: Black\npattern: Solid\nClipinfo: Black Solid Men Regular Fit Solid Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 45,
-      "product_name": "Men Regular Fit Solid Casual Shirt",
-      "price": "₹289",
-      "colors": "Black"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Solid Casual Shirt\nprice: ₹289\ncolors: Black\npattern: Solid\nClipinfo: Black Solid Men Regular Fit Solid Casual Shirt\n"
   },
   {
     "id": "doc_46",
-    "text": "Product Information:\nproduct_name: Men Slim Fit Checkered Casual Shirt\nprice: ₹849\ncolors: Red\npattern: Checkered\ndescription: Parx Dark Red Shirt\nClipinfo: Red Checkered Men Slim Fit Checkered Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 46,
-      "product_name": "Men Slim Fit Checkered Casual Shirt",
-      "price": "₹849",
-      "colors": "Red"
-    }
+    "text": "Product Information:\nproduct_name: Men Slim Fit Checkered Casual Shirt\nprice: ₹849\ncolors: Red\npattern: Checkered\ndescription: Parx Dark Red Shirt\nClipinfo: Red Checkered Men Slim Fit Checkered Casual Shirt\n"
   },
   {
     "id": "doc_47",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Printed Spread Collar Casual Shirt\nprice: ₹389\ncolors: White\npattern: Printed\ndescription: Hanumntra is known for Trendy settlement of.Shirt High Quality fabric cotton 94% + 6% mixes other fabric, Slim-fit, Full Sleeve, Directly From manufacturer at affordable Prices. Button Design may be change. Colour may slightly vary due to Photographic Lighting or your system brightness. Order According to your chest size or according to your any branded product to avoid returns. Size Guide :Product is in 1 inches loosing i.e. chest measurements will be M = (37.5 – 38.5)inches , L = (39.5 – 40.5), XL= (41.5– 42.5) inches respectively. It is also suitable for Daily Wear and Rough & Tough use, Light Weight. Please Search above Brand Name HANUMANTRA “Kurta / Shirt / Kurti women/men.kurti and palazzo set” For more productscc\nOther Details: Shirts Quality Very Good\nClipinfo: White Printed Men Regular Fit Printed Spread Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 47,
-      "product_name": "Men Regular Fit Printed Spread Collar Casual Shirt",
-      "price": "₹389",
-      "colors": "White"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Printed Spread Collar Casual Shirt\nprice: ₹389\ncolors: White\npattern: Printed\ndescription: Hanumntra is known for Trendy settlement of.Shirt High Quality fabric cotton 94% + 6% mixes other fabric, Slim-fit, Full Sleeve, Directly From manufacturer at affordable Prices. Button Design may be change. Colour may slightly vary due to Photographic Lighting or your system brightness. Order According to your chest size or according to your any branded product to avoid returns. Size Guide :Product is in 1 inches loosing i.e. chest measurements will be M = (37.5 – 38.5)inches , L = (39.5 – 40.5), XL= (41.5– 42.5) inches respectively. It is also suitable for Daily Wear and Rough & Tough use, Light Weight. Please Search above Brand Name HANUMANTRA “Kurta / Shirt / Kurti women/men.kurti and palazzo set” For more productscc\nOther Details: Shirts Quality Very Good\nClipinfo: White Printed Men Regular Fit Printed Spread Collar Casual Shirt\n"
   },
   {
     "id": "doc_48",
-    "text": "Product Information:\nproduct_name: Men Slim Fit Solid Casual Shirt\nprice: ₹358\ncolors: Light Blue\npattern: Solid\nClipinfo: Light Blue Solid Men Slim Fit Solid Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 48,
-      "product_name": "Men Slim Fit Solid Casual Shirt",
-      "price": "₹358",
-      "colors": "Light Blue"
-    }
+    "text": "Product Information:\nproduct_name: Men Slim Fit Solid Casual Shirt\nprice: ₹358\ncolors: Light Blue\npattern: Solid\nClipinfo: Light Blue Solid Men Slim Fit Solid Casual Shirt\n"
   },
   {
     "id": "doc_49",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Solid Mandarin Collar Casual Shirt\nprice: ₹339\ncolors: Blue\npattern: Solid\nClipinfo: Blue Solid Men Regular Fit Solid Mandarin Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 49,
-      "product_name": "Men Regular Fit Solid Mandarin Collar Casual Shirt",
-      "price": "₹339",
-      "colors": "Blue"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Solid Mandarin Collar Casual Shirt\nprice: ₹339\ncolors: Blue\npattern: Solid\nClipinfo: Blue Solid Men Regular Fit Solid Mandarin Collar Casual Shirt\n"
   },
   {
     "id": "doc_50",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Checkered Casual Shirt\nprice: ₹1,039\ncolors: Blue\npattern: Checkered\nClipinfo: Blue Checkered Men Regular Fit Checkered Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 50,
-      "product_name": "Men Regular Fit Checkered Casual Shirt",
-      "price": "₹1,039",
-      "colors": "Blue"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Checkered Casual Shirt\nprice: ₹1,039\ncolors: Blue\npattern: Checkered\nClipinfo: Blue Checkered Men Regular Fit Checkered Casual Shirt\n"
   },
   {
     "id": "doc_51",
-    "text": "Product Information:\nproduct_name: Men Slim Fit Checkered Casual Shirt\nprice: ₹799\ncolors: Blue\npattern: Checkered\ndescription: Parx Medium Blue Shirt\nClipinfo: Blue Checkered Men Slim Fit Checkered Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 51,
-      "product_name": "Men Slim Fit Checkered Casual Shirt",
-      "price": "₹799",
-      "colors": "Blue"
-    }
+    "text": "Product Information:\nproduct_name: Men Slim Fit Checkered Casual Shirt\nprice: ₹799\ncolors: Blue\npattern: Checkered\ndescription: Parx Medium Blue Shirt\nClipinfo: Blue Checkered Men Slim Fit Checkered Casual Shirt\n"
   },
   {
     "id": "doc_52",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Solid Casual Shirt\nprice: ₹288\ncolors: Black\npattern: Solid\nClipinfo: Black Solid Men Regular Fit Solid Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 52,
-      "product_name": "Men Regular Fit Solid Casual Shirt",
-      "price": "₹288",
-      "colors": "Black"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Solid Casual Shirt\nprice: ₹288\ncolors: Black\npattern: Solid\nClipinfo: Black Solid Men Regular Fit Solid Casual Shirt\n"
   },
   {
     "id": "doc_53",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Color Block Casual Shirt\nprice: ₹349\ncolors: White and  Black\npattern: Color Block\ndescription: High quality premium Full sleeves Shirt direct from the manufacturers. Gives you perfect fit, comfort feel and handsome look. Trusted brand online and no compromise on quality.\nClipinfo: White and  Black Color Block Men Regular Fit Color Block Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 53,
-      "product_name": "Men Regular Fit Color Block Casual Shirt",
-      "price": "₹349",
-      "colors": "White and  Black"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Color Block Casual Shirt\nprice: ₹349\ncolors: White and  Black\npattern: Color Block\ndescription: High quality premium Full sleeves Shirt direct from the manufacturers. Gives you perfect fit, comfort feel and handsome look. Trusted brand online and no compromise on quality.\nClipinfo: White and  Black Color Block Men Regular Fit Color Block Casual Shirt\n"
   },
   {
     "id": "doc_54",
-    "text": "Product Information:\nproduct_name: Men Slim Fit Solid Mandarin Collar Casual Shirt\nprice: ₹368\ncolors: Black\npattern: Solid\nClipinfo: Black Solid Men Slim Fit Solid Mandarin Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 54,
-      "product_name": "Men Slim Fit Solid Mandarin Collar Casual Shirt",
-      "price": "₹368",
-      "colors": "Black"
-    }
+    "text": "Product Information:\nproduct_name: Men Slim Fit Solid Mandarin Collar Casual Shirt\nprice: ₹368\ncolors: Black\npattern: Solid\nClipinfo: Black Solid Men Slim Fit Solid Mandarin Collar Casual Shirt\n"
   },
   {
     "id": "doc_55",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Solid Mandarin Collar Casual Shirt\nprice: ₹339\ncolors: Green\npattern: Solid\nOther Details: shirt for men look\nClipinfo: Green Solid Men Regular Fit Solid Mandarin Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 55,
-      "product_name": "Men Regular Fit Solid Mandarin Collar Casual Shirt",
-      "price": "₹339",
-      "colors": "Green"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Solid Mandarin Collar Casual Shirt\nprice: ₹339\ncolors: Green\npattern: Solid\nOther Details: shirt for men look\nClipinfo: Green Solid Men Regular Fit Solid Mandarin Collar Casual Shirt\n"
   },
   {
     "id": "doc_56",
-    "text": "Product Information:\nproduct_name: Men Slim Fit Striped Casual Shirt\nprice: ₹899\ncolors: Blue\npattern: Striped\ndescription: Parx Medium Blue Shirt\nClipinfo: Blue Striped Men Slim Fit Striped Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 56,
-      "product_name": "Men Slim Fit Striped Casual Shirt",
-      "price": "₹899",
-      "colors": "Blue"
-    }
+    "text": "Product Information:\nproduct_name: Men Slim Fit Striped Casual Shirt\nprice: ₹899\ncolors: Blue\npattern: Striped\ndescription: Parx Medium Blue Shirt\nClipinfo: Blue Striped Men Slim Fit Striped Casual Shirt\n"
   },
   {
     "id": "doc_57",
-    "text": "Product Information:\nproduct_name: Men Slim Fit Floral Print Casual Shirt\nprice: ₹791\ncolors: Dark Green\npattern: Floral Print\nClipinfo: Dark Green Floral Print Men Slim Fit Floral Print Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 57,
-      "product_name": "Men Slim Fit Floral Print Casual Shirt",
-      "price": "₹791",
-      "colors": "Dark Green"
-    }
+    "text": "Product Information:\nproduct_name: Men Slim Fit Floral Print Casual Shirt\nprice: ₹791\ncolors: Dark Green\npattern: Floral Print\nClipinfo: Dark Green Floral Print Men Slim Fit Floral Print Casual Shirt\n"
   },
   {
     "id": "doc_58",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Solid Casual Shirt\nprice: ₹289\ncolors: Red\npattern: Solid\nClipinfo: Red Solid Men Regular Fit Solid Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 58,
-      "product_name": "Men Regular Fit Solid Casual Shirt",
-      "price": "₹289",
-      "colors": "Red"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Solid Casual Shirt\nprice: ₹289\ncolors: Red\npattern: Solid\nClipinfo: Red Solid Men Regular Fit Solid Casual Shirt\n"
   },
   {
     "id": "doc_59",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Checkered Slim Collar Casual Shirt\nprice: ₹388\ncolors: Grey and  Blue\npattern: Checkered\ndescription: Tallwalker presents to you a new range of stylish and cool new Checkered Shirts yet which are affordable for everyone .These comes in different sizes and colors, for everybody's taste\nClipinfo: Grey and  Blue Checkered Men Regular Fit Checkered Slim Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 59,
-      "product_name": "Men Regular Fit Checkered Slim Collar Casual Shirt",
-      "price": "₹388",
-      "colors": "Grey and  Blue"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Checkered Slim Collar Casual Shirt\nprice: ₹388\ncolors: Grey and  Blue\npattern: Checkered\ndescription: Tallwalker presents to you a new range of stylish and cool new Checkered Shirts yet which are affordable for everyone .These comes in different sizes and colors, for everybody's taste\nClipinfo: Grey and  Blue Checkered Men Regular Fit Checkered Slim Collar Casual Shirt\n"
   },
   {
     "id": "doc_60",
-    "text": "Product Information:\nproduct_name: Men Slim Fit Printed Spread Collar Casual Shirt\nprice: ₹1,039\ncolors: Blue\npattern: Printed\ndescription: Killer Mens Full Sleeve Printed SMU Shirts\nOther Details: Killer Mens Full Sleeve Printed SMU Shirts\nClipinfo: Blue Printed Men Slim Fit Printed Spread Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 60,
-      "product_name": "Men Slim Fit Printed Spread Collar Casual Shirt",
-      "price": "₹1,039",
-      "colors": "Blue"
-    }
+    "text": "Product Information:\nproduct_name: Men Slim Fit Printed Spread Collar Casual Shirt\nprice: ₹1,039\ncolors: Blue\npattern: Printed\ndescription: Killer Mens Full Sleeve Printed SMU Shirts\nOther Details: Killer Mens Full Sleeve Printed SMU Shirts\nClipinfo: Blue Printed Men Slim Fit Printed Spread Collar Casual Shirt\n"
   },
   {
     "id": "doc_61",
-    "text": "Product Information:\nproduct_name: Men Slim Fit Checkered Casual Shirt\nprice: ₹799\ncolors: Blue\npattern: Checkered\ndescription: Parx Light Blue Shirt\nClipinfo: Blue Checkered Men Slim Fit Checkered Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 61,
-      "product_name": "Men Slim Fit Checkered Casual Shirt",
-      "price": "₹799",
-      "colors": "Blue"
-    }
+    "text": "Product Information:\nproduct_name: Men Slim Fit Checkered Casual Shirt\nprice: ₹799\ncolors: Blue\npattern: Checkered\ndescription: Parx Light Blue Shirt\nClipinfo: Blue Checkered Men Slim Fit Checkered Casual Shirt\n"
   },
   {
     "id": "doc_62",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Solid Spread Collar Formal Shirt\nprice: ₹288\ncolors: Light Blue\npattern: Solid\ndescription: VTEXX is known for Stylish attire of Formal Shirts and Kurtas. High Quality fabric cotton, Slim-fit, Full Sleeves, Directly From manufacturer at reasonable Prices. Button Design may be change. Color may slightly vary due to Graphics Lighting or your system glow. Order According to your chest size or according to your any branded product to avoid returns. Size Guide: Product is in 1 inches loosing i.e. chest measurements will be S = (35 - 36) Inches, M = (37 - 38) Inches, L= (39- 40) inches, XL= (41- 42) inches, XXL = (43 - 44) Inches, respectively. It is also suitable for Party Wear and Light Weight. Please go for above Brand Name \"VTEXX Kurta / Shirt\" For more products.\nClipinfo: Light Blue Solid Men Regular Fit Solid Spread Collar Formal Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 62,
-      "product_name": "Men Regular Fit Solid Spread Collar Formal Shirt",
-      "price": "₹288",
-      "colors": "Light Blue"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Solid Spread Collar Formal Shirt\nprice: ₹288\ncolors: Light Blue\npattern: Solid\ndescription: VTEXX is known for Stylish attire of Formal Shirts and Kurtas. High Quality fabric cotton, Slim-fit, Full Sleeves, Directly From manufacturer at reasonable Prices. Button Design may be change. Color may slightly vary due to Graphics Lighting or your system glow. Order According to your chest size or according to your any branded product to avoid returns. Size Guide: Product is in 1 inches loosing i.e. chest measurements will be S = (35 - 36) Inches, M = (37 - 38) Inches, L= (39- 40) inches, XL= (41- 42) inches, XXL = (43 - 44) Inches, respectively. It is also suitable for Party Wear and Light Weight. Please go for above Brand Name \"VTEXX Kurta / Shirt\" For more products.\nClipinfo: Light Blue Solid Men Regular Fit Solid Spread Collar Formal Shirt\n"
   },
   {
     "id": "doc_63",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Striped Casual Shirt\nprice: ₹299\ncolors: White and  Black\npattern: Striped\nClipinfo: White and  Black Striped Men Regular Fit Striped Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 63,
-      "product_name": "Men Regular Fit Striped Casual Shirt",
-      "price": "₹299",
-      "colors": "White and  Black"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Striped Casual Shirt\nprice: ₹299\ncolors: White and  Black\npattern: Striped\nClipinfo: White and  Black Striped Men Regular Fit Striped Casual Shirt\n"
   },
   {
     "id": "doc_64",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Checkered Slim Collar Casual Shirt\nprice: ₹449\ncolors: Red\npattern: Checkered\ndescription: Tallwalker presents to you a new range of stylish and cool new Checkered Shirts yet which are affordable for everyone .These comes in different sizes and colors, for everybody's taste\nClipinfo: Red Checkered Men Regular Fit Checkered Slim Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 64,
-      "product_name": "Men Regular Fit Checkered Slim Collar Casual Shirt",
-      "price": "₹449",
-      "colors": "Red"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Checkered Slim Collar Casual Shirt\nprice: ₹449\ncolors: Red\npattern: Checkered\ndescription: Tallwalker presents to you a new range of stylish and cool new Checkered Shirts yet which are affordable for everyone .These comes in different sizes and colors, for everybody's taste\nClipinfo: Red Checkered Men Regular Fit Checkered Slim Collar Casual Shirt\n"
   },
   {
     "id": "doc_65",
-    "text": "Product Information:\nproduct_name: Men Slim Fit Color Block Spread Collar Casual Shirt\nprice: ₹319\ncolors: White and  Black\npattern: Color Block\ndescription: It's Waistcoat Style Shirt Not a Waistcoat. This Shirt is made up of 60% Cotton, 40% Polyester Single Jersey fabric. It is bio-washed and softener treated which makes the fabric ultra soft in touch and feel. The fabric does not pill and the color will not fade easily.The fabric GSM is 190. The first 3 butoons are openable and rest are fixed.\nClipinfo: White and  Black Color Block Men Slim Fit Color Block Spread Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 65,
-      "product_name": "Men Slim Fit Color Block Spread Collar Casual Shirt",
-      "price": "₹319",
-      "colors": "White and  Black"
-    }
+    "text": "Product Information:\nproduct_name: Men Slim Fit Color Block Spread Collar Casual Shirt\nprice: ₹319\ncolors: White and  Black\npattern: Color Block\ndescription: It's Waistcoat Style Shirt Not a Waistcoat. This Shirt is made up of 60% Cotton, 40% Polyester Single Jersey fabric. It is bio-washed and softener treated which makes the fabric ultra soft in touch and feel. The fabric does not pill and the color will not fade easily.The fabric GSM is 190. The first 3 butoons are openable and rest are fixed.\nClipinfo: White and  Black Color Block Men Slim Fit Color Block Spread Collar Casual Shirt\n"
   },
   {
     "id": "doc_66",
-    "text": "Product Information:\nproduct_name: Men Slim Fit Checkered Casual Shirt\nprice: ₹999\ncolors: Red and  Blue\npattern: Checkered\nClipinfo: Red and  Blue Checkered Men Slim Fit Checkered Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 66,
-      "product_name": "Men Slim Fit Checkered Casual Shirt",
-      "price": "₹999",
-      "colors": "Red and  Blue"
-    }
+    "text": "Product Information:\nproduct_name: Men Slim Fit Checkered Casual Shirt\nprice: ₹999\ncolors: Red and  Blue\npattern: Checkered\nClipinfo: Red and  Blue Checkered Men Slim Fit Checkered Casual Shirt\n"
   },
   {
     "id": "doc_67",
-    "text": "Product Information:\nproduct_name: Men Slim Fit Solid Casual Shirt\nprice: ₹959\ncolors: Green\npattern: Solid\nClipinfo: Green Solid Men Slim Fit Solid Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 67,
-      "product_name": "Men Slim Fit Solid Casual Shirt",
-      "price": "₹959",
-      "colors": "Green"
-    }
+    "text": "Product Information:\nproduct_name: Men Slim Fit Solid Casual Shirt\nprice: ₹959\ncolors: Green\npattern: Solid\nClipinfo: Green Solid Men Slim Fit Solid Casual Shirt\n"
   },
   {
     "id": "doc_68",
-    "text": "Product Information:\nproduct_name: Men Slim Fit Checkered Slim Collar Casual Shirt\nprice: ₹329\ncolors: Red and  Blue\npattern: Checkered\ndescription: Checkered Casual Shirt from the house of COMBRAIDED is ideal for the party, evening, valentines day, birthday, DJ night, etc.The Shirt is made of standard Imported Lycra Material which is very light weight and it's feels very smooth on skin.Shirt is perfect for western/Casual/Smart look.Also perefect for beach wear/sport wear/party wear\nOther Details: Half Sleeve Cotton Premium Shirt\nClipinfo: Red and  Blue Checkered Men Slim Fit Checkered Slim Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 68,
-      "product_name": "Men Slim Fit Checkered Slim Collar Casual Shirt",
-      "price": "₹329",
-      "colors": "Red and  Blue"
-    }
+    "text": "Product Information:\nproduct_name: Men Slim Fit Checkered Slim Collar Casual Shirt\nprice: ₹329\ncolors: Red and  Blue\npattern: Checkered\ndescription: Checkered Casual Shirt from the house of COMBRAIDED is ideal for the party, evening, valentines day, birthday, DJ night, etc.The Shirt is made of standard Imported Lycra Material which is very light weight and it's feels very smooth on skin.Shirt is perfect for western/Casual/Smart look.Also perefect for beach wear/sport wear/party wear\nOther Details: Half Sleeve Cotton Premium Shirt\nClipinfo: Red and  Blue Checkered Men Slim Fit Checkered Slim Collar Casual Shirt\n"
   },
   {
     "id": "doc_69",
-    "text": "Product Information:\nproduct_name: Men Slim Fit Checkered Spread Collar Casual Shirt\nprice: ₹284\ncolors: Light Green\npattern: Checkered\ndescription: Make a mark in the fashion style by wearing this checkered casual shirt by the brand BASE 41. This shirt features a checks pattern and button down collar to add casual touch in your look. The fine cotton blend fabric further ensures ultimate comfort and a soft feel. This slim fit shirt features regular classic collar. Pair it with denims and boots for a cool look.\nClipinfo: Light Green Checkered Men Slim Fit Checkered Spread Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 69,
-      "product_name": "Men Slim Fit Checkered Spread Collar Casual Shirt",
-      "price": "₹284",
-      "colors": "Light Green"
-    }
+    "text": "Product Information:\nproduct_name: Men Slim Fit Checkered Spread Collar Casual Shirt\nprice: ₹284\ncolors: Light Green\npattern: Checkered\ndescription: Make a mark in the fashion style by wearing this checkered casual shirt by the brand BASE 41. This shirt features a checks pattern and button down collar to add casual touch in your look. The fine cotton blend fabric further ensures ultimate comfort and a soft feel. This slim fit shirt features regular classic collar. Pair it with denims and boots for a cool look.\nClipinfo: Light Green Checkered Men Slim Fit Checkered Spread Collar Casual Shirt\n"
   },
   {
     "id": "doc_70",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Striped Spread Collar Casual Shirt\nprice: ₹959\ncolors: White and  Blue\npattern: Striped\nClipinfo: White and  Blue Striped Men Regular Fit Striped Spread Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 70,
-      "product_name": "Men Regular Fit Striped Spread Collar Casual Shirt",
-      "price": "₹959",
-      "colors": "White and  Blue"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Striped Spread Collar Casual Shirt\nprice: ₹959\ncolors: White and  Blue\npattern: Striped\nClipinfo: White and  Blue Striped Men Regular Fit Striped Spread Collar Casual Shirt\n"
   },
   {
     "id": "doc_71",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Checkered Casual Shirt\nprice: ₹1,039\ncolors: Brown\npattern: Checkered\nClipinfo: Brown Checkered Men Regular Fit Checkered Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 71,
-      "product_name": "Men Regular Fit Checkered Casual Shirt",
-      "price": "₹1,039",
-      "colors": "Brown"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Checkered Casual Shirt\nprice: ₹1,039\ncolors: Brown\npattern: Checkered\nClipinfo: Brown Checkered Men Regular Fit Checkered Casual Shirt\n"
   },
   {
     "id": "doc_72",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Striped Spread Collar Casual Shirt\nprice: ₹289\ncolors: Light Blue\npattern: Striped\ndescription: GONSGADAPP Pump up your style statement with this shirt in any formal or casual occasion. Shirts will always come to your rescue when you are confused with your outfit. If you heading for a Sunday outing with friends or family, team this shirt with a pair of jeans and sneakers and build your cool and casual personality.\nOther Details: Note: product color may slightly vary due to photographic lighting sources or your monitor setting\nClipinfo: Light Blue Striped Men Regular Fit Striped Spread Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 72,
-      "product_name": "Men Regular Fit Striped Spread Collar Casual Shirt",
-      "price": "₹289",
-      "colors": "Light Blue"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Striped Spread Collar Casual Shirt\nprice: ₹289\ncolors: Light Blue\npattern: Striped\ndescription: GONSGADAPP Pump up your style statement with this shirt in any formal or casual occasion. Shirts will always come to your rescue when you are confused with your outfit. If you heading for a Sunday outing with friends or family, team this shirt with a pair of jeans and sneakers and build your cool and casual personality.\nOther Details: Note: product color may slightly vary due to photographic lighting sources or your monitor setting\nClipinfo: Light Blue Striped Men Regular Fit Striped Spread Collar Casual Shirt\n"
   },
   {
     "id": "doc_73",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Solid Mandarin Collar Casual Shirt\nprice: ₹289\ncolors: Blue\npattern: Solid\ndescription: Good quality product.\nClipinfo: Blue Solid Men Regular Fit Solid Mandarin Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 73,
-      "product_name": "Men Regular Fit Solid Mandarin Collar Casual Shirt",
-      "price": "₹289",
-      "colors": "Blue"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Solid Mandarin Collar Casual Shirt\nprice: ₹289\ncolors: Blue\npattern: Solid\ndescription: Good quality product.\nClipinfo: Blue Solid Men Regular Fit Solid Mandarin Collar Casual Shirt\n"
   },
   {
     "id": "doc_74",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Solid Spread Collar Casual Shirt\nprice: ₹438\ncolors: Black\npattern: Solid\ndescription: MENS SOLID DOUBLE POCKET SHIRT\nClipinfo: Black Solid Men Regular Fit Solid Spread Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 74,
-      "product_name": "Men Regular Fit Solid Spread Collar Casual Shirt",
-      "price": "₹438",
-      "colors": "Black"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Solid Spread Collar Casual Shirt\nprice: ₹438\ncolors: Black\npattern: Solid\ndescription: MENS SOLID DOUBLE POCKET SHIRT\nClipinfo: Black Solid Men Regular Fit Solid Spread Collar Casual Shirt\n"
   },
   {
     "id": "doc_75",
-    "text": "Product Information:\nproduct_name: Men Slim Fit Solid Casual Shirt\nprice: ₹358\ncolors: Black\npattern: Solid\nClipinfo: Black Solid Men Slim Fit Solid Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 75,
-      "product_name": "Men Slim Fit Solid Casual Shirt",
-      "price": "₹358",
-      "colors": "Black"
-    }
+    "text": "Product Information:\nproduct_name: Men Slim Fit Solid Casual Shirt\nprice: ₹358\ncolors: Black\npattern: Solid\nClipinfo: Black Solid Men Slim Fit Solid Casual Shirt\n"
   },
   {
     "id": "doc_76",
-    "text": "Product Information:\nproduct_name: Men Slim Fit Checkered Casual Shirt\nprice: ₹949\ncolors: Black\npattern: Checkered\ndescription: Parx Black Shirt\nClipinfo: Black Checkered Men Slim Fit Checkered Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 76,
-      "product_name": "Men Slim Fit Checkered Casual Shirt",
-      "price": "₹949",
-      "colors": "Black"
-    }
+    "text": "Product Information:\nproduct_name: Men Slim Fit Checkered Casual Shirt\nprice: ₹949\ncolors: Black\npattern: Checkered\ndescription: Parx Black Shirt\nClipinfo: Black Checkered Men Slim Fit Checkered Casual Shirt\n"
   },
   {
     "id": "doc_77",
-    "text": "Product Information:\nproduct_name: Men Slim Fit Solid Spread Collar Casual Shirt\nprice: ₹758\ncolors: Dark Blue\npattern: Solid\nClipinfo: Dark Blue Solid Men Slim Fit Solid Spread Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 77,
-      "product_name": "Men Slim Fit Solid Spread Collar Casual Shirt",
-      "price": "₹758",
-      "colors": "Dark Blue"
-    }
+    "text": "Product Information:\nproduct_name: Men Slim Fit Solid Spread Collar Casual Shirt\nprice: ₹758\ncolors: Dark Blue\npattern: Solid\nClipinfo: Dark Blue Solid Men Slim Fit Solid Spread Collar Casual Shirt\n"
   },
   {
     "id": "doc_78",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Solid Spread Collar Casual Shirt\nprice: ₹288\ncolors: Light Blue\npattern: Solid\ndescription: V-Tex is known for Stylish attire of Shirts and Kurtas. High Quality fabric cotton 95% + 5% mixes other fabric, Slim-fit, Full Sleeve, Directly From manufacturer at reasonable Prices. Button Design may be change. Color may slightly vary due to Graphics Lighting or your system glow. Order According to your chest size or according to your any branded product to avoid returns. Size Guide: Product is in 1 inches loosing i.e. chest measurements will be S = (35 - 36) Inches, M = (37 - 38) Inches, L= (39- 40) inches, XL= (41- 42) inches, XXL = (43 - 44) Inches, respectively. It is also suitable for Party Wear and Light Weight. Please go for above Brand Name \"V-Tex Kurta / Shirt\" For more products.\nClipinfo: Light Blue Solid Men Regular Fit Solid Spread Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 78,
-      "product_name": "Men Regular Fit Solid Spread Collar Casual Shirt",
-      "price": "₹288",
-      "colors": "Light Blue"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Solid Spread Collar Casual Shirt\nprice: ₹288\ncolors: Light Blue\npattern: Solid\ndescription: V-Tex is known for Stylish attire of Shirts and Kurtas. High Quality fabric cotton 95% + 5% mixes other fabric, Slim-fit, Full Sleeve, Directly From manufacturer at reasonable Prices. Button Design may be change. Color may slightly vary due to Graphics Lighting or your system glow. Order According to your chest size or according to your any branded product to avoid returns. Size Guide: Product is in 1 inches loosing i.e. chest measurements will be S = (35 - 36) Inches, M = (37 - 38) Inches, L= (39- 40) inches, XL= (41- 42) inches, XXL = (43 - 44) Inches, respectively. It is also suitable for Party Wear and Light Weight. Please go for above Brand Name \"V-Tex Kurta / Shirt\" For more products.\nClipinfo: Light Blue Solid Men Regular Fit Solid Spread Collar Casual Shirt\n"
   },
   {
     "id": "doc_79",
-    "text": "Product Information:\nproduct_name: Men Slim Fit Striped Spread Collar Casual Shirt\nprice: ₹349\ncolors: White and  Black\npattern: Striped\ndescription: Casual & Party Wear Shirt , Full Sleeves Solid Mandarin Collar Shirt , Fit - Slim, IDEAL FOR - Men's\nOther Details: This Shirt is best Top wear in Shirts.\nClipinfo: White and  Black Striped Men Slim Fit Striped Spread Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 79,
-      "product_name": "Men Slim Fit Striped Spread Collar Casual Shirt",
-      "price": "₹349",
-      "colors": "White and  Black"
-    }
+    "text": "Product Information:\nproduct_name: Men Slim Fit Striped Spread Collar Casual Shirt\nprice: ₹349\ncolors: White and  Black\npattern: Striped\ndescription: Casual & Party Wear Shirt , Full Sleeves Solid Mandarin Collar Shirt , Fit - Slim, IDEAL FOR - Men's\nOther Details: This Shirt is best Top wear in Shirts.\nClipinfo: White and  Black Striped Men Slim Fit Striped Spread Collar Casual Shirt\n"
   },
   {
     "id": "doc_80",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Color Block Casual Shirt\nprice: ₹349\ncolors: Dark Green and  Black\npattern: Color Block\ndescription: Blive High quality premium Full sleeves printed Shirt direct from the manufacturers.Gives you a clean and classy look while also making you feel comfortable.Trusted brand online and no compromise on quality.\nClipinfo: Dark Green and  Black Color Block Men Regular Fit Color Block Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 80,
-      "product_name": "Men Regular Fit Color Block Casual Shirt",
-      "price": "₹349",
-      "colors": "Dark Green and  Black"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Color Block Casual Shirt\nprice: ₹349\ncolors: Dark Green and  Black\npattern: Color Block\ndescription: Blive High quality premium Full sleeves printed Shirt direct from the manufacturers.Gives you a clean and classy look while also making you feel comfortable.Trusted brand online and no compromise on quality.\nClipinfo: Dark Green and  Black Color Block Men Regular Fit Color Block Casual Shirt\n"
   },
   {
     "id": "doc_81",
-    "text": "Product Information:\nproduct_name: Men Slim Fit Striped Casual Shirt\nprice: ₹899\ncolors: Blue\npattern: Striped\ndescription: Parx Medium Blue Shirt\nClipinfo: Blue Striped Men Slim Fit Striped Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 81,
-      "product_name": "Men Slim Fit Striped Casual Shirt",
-      "price": "₹899",
-      "colors": "Blue"
-    }
+    "text": "Product Information:\nproduct_name: Men Slim Fit Striped Casual Shirt\nprice: ₹899\ncolors: Blue\npattern: Striped\ndescription: Parx Medium Blue Shirt\nClipinfo: Blue Striped Men Slim Fit Striped Casual Shirt\n"
   },
   {
     "id": "doc_82",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Printed Casual Shirt\nprice: ₹399\ncolors: Grey\npattern: Printed\nClipinfo: Grey Printed Men Regular Fit Printed Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 82,
-      "product_name": "Men Regular Fit Printed Casual Shirt",
-      "price": "₹399",
-      "colors": "Grey"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Printed Casual Shirt\nprice: ₹399\ncolors: Grey\npattern: Printed\nClipinfo: Grey Printed Men Regular Fit Printed Casual Shirt\n"
   },
   {
     "id": "doc_83",
-    "text": "Product Information:\nproduct_name: Men Slim Fit Striped Slim Collar Casual Shirt\nprice: ₹499\ncolors: Black\npattern: Striped\ndescription: This Stylish Casual Striped shirt has a Slim collar, Long Sleeves, and a curved hemline. Fabric & Care - 100% Premium Cotton (Machine Wash Regular), Guaranteed 0% shrinkage Post wash. Style Tip - Enhance your look by wearing this Casual Stylish / Latest  shirt for men. Team it with a pair of Chinos and white sneakers for a fun Smart Casual look. About the Brand DENNIS LINGO - Finding Basic Menswear for daily use can be hard among todays Fast fashion world, where trends change daily. That’s why we started Dennis Lingo, to create a one stop shop for premium essential clothing for everyday use at lowest prices and bring Basics back in trend.\nOther Details: The Model (height 6 foot and shoulders 18 inches is wearing size 40/M\nClipinfo: Black Striped Men Slim Fit Striped Slim Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 83,
-      "product_name": "Men Slim Fit Striped Slim Collar Casual Shirt",
-      "price": "₹499",
-      "colors": "Black"
-    }
+    "text": "Product Information:\nproduct_name: Men Slim Fit Striped Slim Collar Casual Shirt\nprice: ₹499\ncolors: Black\npattern: Striped\ndescription: This Stylish Casual Striped shirt has a Slim collar, Long Sleeves, and a curved hemline. Fabric & Care - 100% Premium Cotton (Machine Wash Regular), Guaranteed 0% shrinkage Post wash. Style Tip - Enhance your look by wearing this Casual Stylish / Latest  shirt for men. Team it with a pair of Chinos and white sneakers for a fun Smart Casual look. About the Brand DENNIS LINGO - Finding Basic Menswear for daily use can be hard among todays Fast fashion world, where trends change daily. That’s why we started Dennis Lingo, to create a one stop shop for premium essential clothing for everyday use at lowest prices and bring Basics back in trend.\nOther Details: The Model (height 6 foot and shoulders 18 inches is wearing size 40/M\nClipinfo: Black Striped Men Slim Fit Striped Slim Collar Casual Shirt\n"
   },
   {
     "id": "doc_84",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Checkered Mandarin Collar Casual Shirt\nprice: ₹399\ncolors: Dark Blue\npattern: Checkered\ndescription: Rock the fashion world as you adorn this cotton shirt. This men's shirt is fashioned on pure cotton fabric which is lightweight and assures the wearer a perfect fit & comfort.Perfect for your everyday use, you could pair it with a stylish pair of Jeans or Trousers complete the look. This shirt offers a professional look for the true business man. It's the perfect day-to-night shirt.Whatever the occasion this shirt will be your go-to. The style you want and the feel you need all rolled into this shirt.\nOther Details: Rich pure cotton full sleeve regular fit shirt for men\nClipinfo: Dark Blue Checkered Men Regular Fit Checkered Mandarin Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 84,
-      "product_name": "Men Regular Fit Checkered Mandarin Collar Casual Shirt",
-      "price": "₹399",
-      "colors": "Dark Blue"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Checkered Mandarin Collar Casual Shirt\nprice: ₹399\ncolors: Dark Blue\npattern: Checkered\ndescription: Rock the fashion world as you adorn this cotton shirt. This men's shirt is fashioned on pure cotton fabric which is lightweight and assures the wearer a perfect fit & comfort.Perfect for your everyday use, you could pair it with a stylish pair of Jeans or Trousers complete the look. This shirt offers a professional look for the true business man. It's the perfect day-to-night shirt.Whatever the occasion this shirt will be your go-to. The style you want and the feel you need all rolled into this shirt.\nOther Details: Rich pure cotton full sleeve regular fit shirt for men\nClipinfo: Dark Blue Checkered Men Regular Fit Checkered Mandarin Collar Casual Shirt\n"
   },
   {
     "id": "doc_85",
-    "text": "Product Information:\nproduct_name: Men Slim Fit Color Block Casual Shirt\nprice: ₹299\ncolors: Dark Blue\npattern: Color Block\nClipinfo: Dark Blue Color Block Men Slim Fit Color Block Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 85,
-      "product_name": "Men Slim Fit Color Block Casual Shirt",
-      "price": "₹299",
-      "colors": "Dark Blue"
-    }
+    "text": "Product Information:\nproduct_name: Men Slim Fit Color Block Casual Shirt\nprice: ₹299\ncolors: Dark Blue\npattern: Color Block\nClipinfo: Dark Blue Color Block Men Slim Fit Color Block Casual Shirt\n"
   },
   {
     "id": "doc_86",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Printed Casual Shirt\nprice: ₹959\ncolors: Black\npattern: Printed\nClipinfo: Black Printed Men Regular Fit Printed Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 86,
-      "product_name": "Men Regular Fit Printed Casual Shirt",
-      "price": "₹959",
-      "colors": "Black"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Printed Casual Shirt\nprice: ₹959\ncolors: Black\npattern: Printed\nClipinfo: Black Printed Men Regular Fit Printed Casual Shirt\n"
   },
   {
     "id": "doc_87",
-    "text": "Product Information:\nproduct_name: Men Slim Fit Checkered Casual Shirt\nprice: ₹849\ncolors: Red\npattern: Checkered\ndescription: Parx Dark Red Shirt\nClipinfo: Red Checkered Men Slim Fit Checkered Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 87,
-      "product_name": "Men Slim Fit Checkered Casual Shirt",
-      "price": "₹849",
-      "colors": "Red"
-    }
+    "text": "Product Information:\nproduct_name: Men Slim Fit Checkered Casual Shirt\nprice: ₹849\ncolors: Red\npattern: Checkered\ndescription: Parx Dark Red Shirt\nClipinfo: Red Checkered Men Slim Fit Checkered Casual Shirt\n"
   },
   {
     "id": "doc_88",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Solid Spread Collar Casual Shirt\nprice: ₹289\ncolors: White\npattern: Solid\nOther Details: Note: product color may slightly vary due to photographic lighting sources or your monitor setting\nClipinfo: White Solid Men Regular Fit Solid Spread Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 88,
-      "product_name": "Men Regular Fit Solid Spread Collar Casual Shirt",
-      "price": "₹289",
-      "colors": "White"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Solid Spread Collar Casual Shirt\nprice: ₹289\ncolors: White\npattern: Solid\nOther Details: Note: product color may slightly vary due to photographic lighting sources or your monitor setting\nClipinfo: White Solid Men Regular Fit Solid Spread Collar Casual Shirt\n"
   },
   {
     "id": "doc_89",
-    "text": "Product Information:\nproduct_name: Men Regular, Slim Fit Solid Spread Collar Casual Shirt\nprice: ₹319\ncolors: Purple\npattern: Solid\ndescription: EVIQE Saree And Shirt ;High Performance. High Quality. (Note: product color may slightly vary due to photographic lighting sources or your monitor setting.)\nClipinfo: Purple Solid Men Regular, Slim Fit Solid Spread Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 89,
-      "product_name": "Men Regular, Slim Fit Solid Spread Collar Casual Shirt",
-      "price": "₹319",
-      "colors": "Purple"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular, Slim Fit Solid Spread Collar Casual Shirt\nprice: ₹319\ncolors: Purple\npattern: Solid\ndescription: EVIQE Saree And Shirt ;High Performance. High Quality. (Note: product color may slightly vary due to photographic lighting sources or your monitor setting.)\nClipinfo: Purple Solid Men Regular, Slim Fit Solid Spread Collar Casual Shirt\n"
   },
   {
     "id": "doc_90",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Printed Spread Collar Casual Shirt\nprice: ₹389\ncolors: White\npattern: Printed\ndescription: Hanumntra is known for Trendy settlement of.Shirt High Quality fabric cotton 94% + 6% mixes other fabric, Slim-fit, Full Sleeve, Directly From manufacturer at affordable Prices. Button Design may be change. Colour may slightly vary due to Photographic Lighting or your system brightness. Order According to your chest size or according to your any branded product to avoid returns. Size Guide :Product is in 1 inches loosing i.e. chest measurements will be M = (37.5 – 38.5)inches , L = (39.5 – 40.5), XL= (41.5– 42.5) inches respectively. It is also suitable for Daily Wear and Rough & Tough use, Light Weight. Please Search above Brand Name HANUMANTRA “Kurta / Shirt / Kurti women/men.kurti and palazzo set” For more productscc\nOther Details: Shirts Quality Very Good\nClipinfo: White Printed Men Regular Fit Printed Spread Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 90,
-      "product_name": "Men Regular Fit Printed Spread Collar Casual Shirt",
-      "price": "₹389",
-      "colors": "White"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Printed Spread Collar Casual Shirt\nprice: ₹389\ncolors: White\npattern: Printed\ndescription: Hanumntra is known for Trendy settlement of.Shirt High Quality fabric cotton 94% + 6% mixes other fabric, Slim-fit, Full Sleeve, Directly From manufacturer at affordable Prices. Button Design may be change. Colour may slightly vary due to Photographic Lighting or your system brightness. Order According to your chest size or according to your any branded product to avoid returns. Size Guide :Product is in 1 inches loosing i.e. chest measurements will be M = (37.5 – 38.5)inches , L = (39.5 – 40.5), XL= (41.5– 42.5) inches respectively. It is also suitable for Daily Wear and Rough & Tough use, Light Weight. Please Search above Brand Name HANUMANTRA “Kurta / Shirt / Kurti women/men.kurti and palazzo set” For more productscc\nOther Details: Shirts Quality Very Good\nClipinfo: White Printed Men Regular Fit Printed Spread Collar Casual Shirt\n"
   },
   {
     "id": "doc_91",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Checkered Casual Shirt\nprice: ₹1,039\ncolors: Blue\npattern: Checkered\nClipinfo: Blue Checkered Men Regular Fit Checkered Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 91,
-      "product_name": "Men Regular Fit Checkered Casual Shirt",
-      "price": "₹1,039",
-      "colors": "Blue"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Checkered Casual Shirt\nprice: ₹1,039\ncolors: Blue\npattern: Checkered\nClipinfo: Blue Checkered Men Regular Fit Checkered Casual Shirt\n"
   },
   {
     "id": "doc_92",
-    "text": "Product Information:\nproduct_name: Men Regular Fit Solid Spread Collar Casual Shirt\nprice: ₹288\ncolors: Black\npattern: Solid\ndescription: V-Tex is known for Stylish attire of Shirts and Kurtas. High Quality fabric cotton 95% + 5% mixes other fabric, Slim-fit, Full Sleeve, Directly From manufacturer at reasonable Prices. Button Design may be change. Color may slightly vary due to Graphics Lighting or your system glow. Order According to your chest size or according to your any branded product to avoid returns. Size Guide: Product is in 1 inches loosing i.e. chest measurements will be S = (35 - 36) Inches, M = (37 - 38) Inches, L= (39- 40) inches, XL= (41- 42) inches, XXL = (43 - 44) Inches, respectively. It is also suitable for Party Wear and Light Weight. Please go for above Brand Name \"V-Tex Kurta / Shirt\" For more products.\nClipinfo: Black Solid Men Regular Fit Solid Spread Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 92,
-      "product_name": "Men Regular Fit Solid Spread Collar Casual Shirt",
-      "price": "₹288",
-      "colors": "Black"
-    }
+    "text": "Product Information:\nproduct_name: Men Regular Fit Solid Spread Collar Casual Shirt\nprice: ₹288\ncolors: Black\npattern: Solid\ndescription: V-Tex is known for Stylish attire of Shirts and Kurtas. High Quality fabric cotton 95% + 5% mixes other fabric, Slim-fit, Full Sleeve, Directly From manufacturer at reasonable Prices. Button Design may be change. Color may slightly vary due to Graphics Lighting or your system glow. Order According to your chest size or according to your any branded product to avoid returns. Size Guide: Product is in 1 inches loosing i.e. chest measurements will be S = (35 - 36) Inches, M = (37 - 38) Inches, L= (39- 40) inches, XL= (41- 42) inches, XXL = (43 - 44) Inches, respectively. It is also suitable for Party Wear and Light Weight. Please go for above Brand Name \"V-Tex Kurta / Shirt\" For more products.\nClipinfo: Black Solid Men Regular Fit Solid Spread Collar Casual Shirt\n"
   },
   {
     "id": "doc_93",
-    "text": "Product Information:\nproduct_name: Men Slim Fit Washed Mandarin Collar Casual Shirt\nprice: ₹398\ncolors: Maroon\npattern: Washed\ndescription: This is a best Casual wear Shirt with Mandarin collar , long sleeves with button cuffs , full buttoned placket on the front, yoke on the back, Curved. Pair this along with a good pair of denim or chinos and loafers for a Sharp and Dapper look.\nClipinfo: Maroon Washed Men Slim Fit Washed Mandarin Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 93,
-      "product_name": "Men Slim Fit Washed Mandarin Collar Casual Shirt",
-      "price": "₹398",
-      "colors": "Maroon"
-    }
+    "text": "Product Information:\nproduct_name: Men Slim Fit Washed Mandarin Collar Casual Shirt\nprice: ₹398\ncolors: Maroon\npattern: Washed\ndescription: This is a best Casual wear Shirt with Mandarin collar , long sleeves with button cuffs , full buttoned placket on the front, yoke on the back, Curved. Pair this along with a good pair of denim or chinos and loafers for a Sharp and Dapper look.\nClipinfo: Maroon Washed Men Slim Fit Washed Mandarin Collar Casual Shirt\n"
   },
   {
     "id": "doc_94",
-    "text": "Product Information:\nproduct_name: Men Slim Fit Graphic Print Ribbed Collar Casual Shirt\nprice: ₹388\ncolors: Red\npattern: Graphic Print\ndescription: Plus91 presents to you a new range of stylish and cool new shirts yet which are affordable for everyone.This fashionable and stylish Plus91 men shirt makes your look cool and attractive. It is perfect for your summer attire.\nOther Details: CHECK YOUR SIZE BEFORE YOU ORDER. ( ALL MEASUREMENT ARE IN INCH. ) PRODUCT COLOUR MAY SLIGHTLY VARY DUE TO PHOTOGRAPHIC LIGHTING SOURCES OR YOUR MONITOR SETTINGS.\nClipinfo: Red Graphic Print Men Slim Fit Graphic Print Ribbed Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 94,
-      "product_name": "Men Slim Fit Graphic Print Ribbed Collar Casual Shirt",
-      "price": "₹388",
-      "colors": "Red"
-    }
+    "text": "Product Information:\nproduct_name: Men Slim Fit Graphic Print Ribbed Collar Casual Shirt\nprice: ₹388\ncolors: Red\npattern: Graphic Print\ndescription: Plus91 presents to you a new range of stylish and cool new shirts yet which are affordable for everyone.This fashionable and stylish Plus91 men shirt makes your look cool and attractive. It is perfect for your summer attire.\nOther Details: CHECK YOUR SIZE BEFORE YOU ORDER. ( ALL MEASUREMENT ARE IN INCH. ) PRODUCT COLOUR MAY SLIGHTLY VARY DUE TO PHOTOGRAPHIC LIGHTING SOURCES OR YOUR MONITOR SETTINGS.\nClipinfo: Red Graphic Print Men Slim Fit Graphic Print Ribbed Collar Casual Shirt\n"
   },
   {
     "id": "doc_95",
-    "text": "Product Information:\nproduct_name: Men Slim Fit Solid Spread Collar Casual Shirt\nprice: ₹438\ncolors: White\npattern: Solid\ndescription: This shirt from Majestic Man will give you the perfect amount of comfort and durability. Wear it with a pair of denims and sneakers for a casual look or with chinos and loafers for the fomal/party look.\nOther Details: The model (height 6') is wearing a size L\nClipinfo: White Solid Men Slim Fit Solid Spread Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 95,
-      "product_name": "Men Slim Fit Solid Spread Collar Casual Shirt",
-      "price": "₹438",
-      "colors": "White"
-    }
+    "text": "Product Information:\nproduct_name: Men Slim Fit Solid Spread Collar Casual Shirt\nprice: ₹438\ncolors: White\npattern: Solid\ndescription: This shirt from Majestic Man will give you the perfect amount of comfort and durability. Wear it with a pair of denims and sneakers for a casual look or with chinos and loafers for the fomal/party look.\nOther Details: The model (height 6') is wearing a size L\nClipinfo: White Solid Men Slim Fit Solid Spread Collar Casual Shirt\n"
   },
   {
     "id": "doc_96",
-    "text": "Product Information:\nproduct_name: Men Slim Fit Checkered Casual Shirt\nprice: ₹799\ncolors: Blue\npattern: Checkered\ndescription: Parx Medium Blue Shirt\nClipinfo: Blue Checkered Men Slim Fit Checkered Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 96,
-      "product_name": "Men Slim Fit Checkered Casual Shirt",
-      "price": "₹799",
-      "colors": "Blue"
-    }
+    "text": "Product Information:\nproduct_name: Men Slim Fit Checkered Casual Shirt\nprice: ₹799\ncolors: Blue\npattern: Checkered\ndescription: Parx Medium Blue Shirt\nClipinfo: Blue Checkered Men Slim Fit Checkered Casual Shirt\n"
   },
   {
     "id": "doc_97",
-    "text": "Product Information:\nproduct_name: Men Slim Fit Floral Print Casual Shirt\nprice: ₹791\ncolors: Dark Green\npattern: Floral Print\nClipinfo: Dark Green Floral Print Men Slim Fit Floral Print Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 97,
-      "product_name": "Men Slim Fit Floral Print Casual Shirt",
-      "price": "₹791",
-      "colors": "Dark Green"
-    }
+    "text": "Product Information:\nproduct_name: Men Slim Fit Floral Print Casual Shirt\nprice: ₹791\ncolors: Dark Green\npattern: Floral Print\nClipinfo: Dark Green Floral Print Men Slim Fit Floral Print Casual Shirt\n"
   },
   {
     "id": "doc_98",
-    "text": "Product Information:\nproduct_name: Men Slim Fit Washed Mandarin Collar Casual Shirt\nprice: ₹398\ncolors: Dark Green\npattern: Washed\ndescription: This is a best Casual wear Shirt with Mandarin collar , long sleeves with button cuffs , full buttoned placket on the front, yoke on the back, Curved. Pair this along with a good pair of denim or chinos and loafers for a Sharp and Dapper look.\nClipinfo: Dark Green Washed Men Slim Fit Washed Mandarin Collar Casual Shirt\n",
-    "metadata": {
-      "source": "data/ecommerce_products_test.csv",
-      "row_number": 98,
-      "product_name": "Men Slim Fit Washed Mandarin Collar Casual Shirt",
-      "price": "₹398",
-      "colors": "Dark Green"
-    }
+    "text": "Product Information:\nproduct_name: Men Slim Fit Washed Mandarin Collar Casual Shirt\nprice: ₹398\ncolors: Dark Green\npattern: Washed\ndescription: This is a best Casual wear Shirt with Mandarin collar , long sleeves with button cuffs , full buttoned placket on the front, yoke on the back, Curved. Pair this along with a good pair of denim or chinos and loafers for a Sharp and Dapper look.\nClipinfo: Dark Green Washed Men Slim Fit Washed Mandarin Collar Casual Shirt\n"
   }
 ]

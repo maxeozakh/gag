@@ -37,13 +37,6 @@ def convert_csv_to_json(csv_file, json_file=None):
         document = {
             "id": f"doc_{i}",
             "text": text,
-            "metadata": {
-                "source": csv_file,
-                "row_number": i,
-                "product_name": row.get("product_name", ""),
-                "price": row.get("price", ""),
-                "colors": row.get("colors", "")
-            }
         }
         documents.append(document)
     
