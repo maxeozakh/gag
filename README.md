@@ -10,5 +10,4 @@ python scripts/openai-based-rag.py --query "What is the price of the Men Slim Fi
 
 python scripts/evaluate_rag.py --qa_file data/generated_qa_pairs.csv --embeddings_file product_embeddings.json --products_file data/ecommerce_products_test.csv --rag_script scripts/openai-based-rag.py --llm_model gpt-4o-mini --sample_size 1
 
-python scripts/evaluate_rag.py --qa_file data/generated_qa_pairs.csv --embeddings_file product_embeddings.json
 ```

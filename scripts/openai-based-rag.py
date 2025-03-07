@@ -24,11 +24,11 @@ load_dotenv()
 try:
     # First try to import directly if the script is in the same directory
     try:
-        from csv_to_json import convert_csv_to_json
+        from specific_csv_to_json import convert_csv_to_json
     except ImportError:
         # Try to import from scripts directory
         sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-        from csv_to_json import convert_csv_to_json
+        from specific_csv_to_json import convert_csv_to_json
 except ImportError:
     # Define a placeholder function if the module is not available
     def convert_csv_to_json(csv_file, json_file=None):
@@ -525,8 +525,6 @@ def main():
         # Determine which file to use (prioritize input_file if both are provided)
         if args.input_file:
             file_to_use = args.input_file
-        elif args.embeddings_file:
-            file_to_use = args.embeddings_file
         else:
             error_msg = "Error: Either --input_file or --embeddings_file must be provided"
             if args.terminal_output:

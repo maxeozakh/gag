@@ -144,7 +144,8 @@ def run_rag_script(
         stdout, stderr = process.communicate()
         
         if process.returncode != 0:
-            print(f"Error running RAG script: {stderr}")
+            print(f"Error running RAG script: {stderr} {stdout} {cmd} {script_path} {query} {embeddings_file} {products_file} {llm_model} {log_level}")
+            
             return f"Error: {stderr}", {"context_text": [], "similarity_scores": []}, time.time() - start_time
         
         if stderr:
@@ -371,6 +372,8 @@ def prepare_ragas_dataset(
         print(f"  - First question: '{data['question'][0][:50]}...'")  
         print(f"  - First answer: '{data['answer'][0][:50]}...'")
         print(f"  - First ground truth: '{data['ground_truths'][0][0][:50]}...'")
+        # raw data
+        print(f"  - Raw data: '{data['answer']}...'")
         
         # Create dataset
         dataset = HFDataset.from_dict(data)
