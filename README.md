@@ -1,3 +1,11 @@
+upd: it was mostly vibecoded
+i learnt few things on the way:
+
+1. naive rag is easy to build
+2. rag which might work irl is hard to build (check Nils Reimers content)
+
+------------
+
 gag is like RAG but we exploring. we want:
 
 1. To learn how to build naive RAG and how to evaluate it performance
